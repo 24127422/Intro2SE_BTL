@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cx84p0lt44rno"]
+
+[ext_resource type="Texture2D" uid="uid://cv3p6foq0d1pl" path="res://pin.svg" id="1_cvemh"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_vha7d"]
+
+[resource]
+script = ExtResource("1_vha7d")
+ItemName = "pin con "
+Icon = ExtResource("1_cvemh")
+Thought = "sạc pin "
+IsConsumable = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

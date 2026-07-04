@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bw75p0l5isml0"]
+
+[ext_resource type="Script" uid="uid://b0o8tgemhx3nk" path="res://scripts/movement.cs" id="1_kne1u"]
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://icon.svg" id="2_e80uo"]
+[ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://InventorySlot.tscn" id="4_cxr5p"]
+[ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="4_e80uo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+size = Vector2(128, 128)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=1383524859]
+script = ExtResource("1_kne1u")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=85541145]
+texture = ExtResource("2_e80uo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1660721938]
+shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1009114966]
+
+[node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=1107897632 node_paths=PackedStringArray("SlotContainer")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -546.5
+offset_top = -40.0
+offset_right = 546.5
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_e80uo")
+SlotScene = ExtResource("4_cxr5p")
+SlotContainer = NodePath("GridContainer")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryUI" unique_id=1834741028]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 10

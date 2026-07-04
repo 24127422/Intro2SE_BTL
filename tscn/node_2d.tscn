@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://ckgvl3oqt3h64"]
+
+[ext_resource type="PackedScene" uid="uid://bw75p0l5isml0" path="res://Player.tscn" id="3_epypp"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://item_pickup.tscn" id="4_0hol4"]
+[ext_resource type="Resource" uid="uid://b70ttwhswrf10" path="res://Items/Key.tres" id="4_q6r6c"]
+[ext_resource type="Resource" uid="uid://cx84p0lt44rno" path="res://Items/pin.tres" id="5_q6r6c"]
+
+[node name="Node2D" type="Node2D" unique_id=879658650]
+position = Vector2(609, 325)
+
+[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("4_0hol4")]
+position = Vector2(-312, 14)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="CharacterBody2D" parent="." unique_id=1383524859 instance=ExtResource("3_epypp")]
+position = Vector2(-375, -102)
+
+[node name="ItemPickup2" parent="." unique_id=408184166 instance=ExtResource("4_0hol4")]
+position = Vector2(155, -21)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="ItemPickup3" parent="." unique_id=1219144662 instance=ExtResource("4_0hol4")]
+position = Vector2(-78, -87)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="ItemPickup4" parent="." unique_id=546002954 instance=ExtResource("4_0hol4")]
+position = Vector2(-364, 88)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="ItemPickup5" parent="." unique_id=513550628 instance=ExtResource("4_0hol4")]
+position = Vector2(-202, 133)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="ItemPickup6" parent="." unique_id=612831534 instance=ExtResource("4_0hol4")]
+position = Vector2(-19, -87)
+ItemData = ExtResource("5_q6r6c")
+
+[node name="ItemPickup7" parent="." unique_id=1499929610 instance=ExtResource("4_0hol4")]
+position = Vector2(-19, 110)
+ItemData = ExtResource("4_q6r6c")

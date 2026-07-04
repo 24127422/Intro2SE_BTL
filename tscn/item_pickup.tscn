@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://btyekbe473mef"]
+
+[ext_resource type="Script" uid="uid://dxd4ytvbq6q28" path="res://scripts/ItemPickup.cs" id="1_im1t2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uajte"]
+size = Vector2(32, 32)
+
+[node name="ItemPickup" type="Area2D" unique_id=347758319]
+collision_layer = 2
+script = ExtResource("1_im1t2")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2043437210]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2045772505]
+texture_filter = 1
+shape = SubResource("RectangleShape2D_uajte")
+
+[node name="Label" type="Label" parent="." unique_id=868277128]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -58.0
+offset_top = -39.0
+offset_right = 59.0
+offset_bottom = -16.0
+grow_horizontal = 2
+text = "Nhấn e để nhặt"
