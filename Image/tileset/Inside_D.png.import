@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cv3p6foq0d1pl"
-path="res://.godot/imported/pin.svg-03830dc15d06fdb101466e7bd93dba23.ctex"
+uid="uid://cn8qem1n5nmnd"
+path="res://.godot/imported/Inside_D.png-1ee53b67f944838b68e01222c8806798.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Image/pin.svg"
-dest_files=["res://.godot/imported/pin.svg-03830dc15d06fdb101466e7bd93dba23.ctex"]
+source_file="res://Image/tileset/Inside_D.png"
+dest_files=["res://.godot/imported/Inside_D.png-1ee53b67f944838b68e01222c8806798.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

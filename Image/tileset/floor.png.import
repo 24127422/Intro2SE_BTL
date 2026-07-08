@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cv3p6foq0d1pl"
-path="res://.godot/imported/pin.svg-03830dc15d06fdb101466e7bd93dba23.ctex"
+uid="uid://onxyq4y1syi6"
+path="res://.godot/imported/floor.png-313c1a1a5de3bbdb99d979accff127a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Image/pin.svg"
-dest_files=["res://.godot/imported/pin.svg-03830dc15d06fdb101466e7bd93dba23.ctex"]
+source_file="res://Image/tileset/floor.png"
+dest_files=["res://.godot/imported/floor.png-313c1a1a5de3bbdb99d979accff127a1.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
