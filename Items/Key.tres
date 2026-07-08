@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://b70ttwhswrf10"]
 
 [ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_skcct"]
-[ext_resource type="Texture2D" uid="uid://b3m7bes072fn5" path="res://Key.png" id="1_vjcho"]
+[ext_resource type="Texture2D" uid="uid://b3m7bes072fn5" path="res://Image/Key.png" id="1_vjcho"]
 
 [resource]
 script = ExtResource("1_skcct")
 ItemName = "chìa khó"
 Icon = ExtResource("1_vjcho")
+MaxStackSize = 1
 metadata/_custom_type_script = "uid://brw8kiqnoijs6"

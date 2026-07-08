@@ -13,7 +13,5 @@ public partial class Item : Resource
 	
 	[Export] public bool IsConsumable {get; set;} = false; 
 
-	// Số lượng tối đa gộp được trong 1 ô. 
-	// = 1 nghĩa là item KHÔNG stack được (mỗi item chiếm 1 ô riêng)
 	[Export] public int MaxStackSize {get; set;} = 5;
 }

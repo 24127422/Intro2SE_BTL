@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bw75p0l5isml0"]
 
 [ext_resource type="Script" uid="uid://b0o8tgemhx3nk" path="res://scripts/movement.cs" id="1_kne1u"]
-[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://icon.svg" id="2_e80uo"]
-[ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://InventorySlot.tscn" id="4_cxr5p"]
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="2_e80uo"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="2_gqu4d"]
+[ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="4_cxr5p"]
 [ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="4_e80uo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
@@ -10,6 +11,7 @@ size = Vector2(128, 128)
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1383524859]
 script = ExtResource("1_kne1u")
+ItemPickupScene = ExtResource("2_gqu4d")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=85541145]
 texture = ExtResource("2_e80uo")

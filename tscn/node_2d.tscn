@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ckgvl3oqt3h64"]
 
-[ext_resource type="PackedScene" uid="uid://bw75p0l5isml0" path="res://Player.tscn" id="3_epypp"]
-[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://item_pickup.tscn" id="4_0hol4"]
+[ext_resource type="PackedScene" uid="uid://bw75p0l5isml0" path="res://tscn/Player.tscn" id="3_epypp"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="4_0hol4"]
 [ext_resource type="Resource" uid="uid://b70ttwhswrf10" path="res://Items/Key.tres" id="4_q6r6c"]
 [ext_resource type="Resource" uid="uid://cx84p0lt44rno" path="res://Items/pin.tres" id="5_q6r6c"]
 
@@ -37,4 +37,8 @@ ItemData = ExtResource("5_q6r6c")
 
 [node name="ItemPickup7" parent="." unique_id=1499929610 instance=ExtResource("4_0hol4")]
 position = Vector2(-19, 110)
+ItemData = ExtResource("4_q6r6c")
+
+[node name="ItemPickup8" parent="." unique_id=1404640758 instance=ExtResource("4_0hol4")]
+position = Vector2(79, -200)
 ItemData = ExtResource("4_q6r6c")

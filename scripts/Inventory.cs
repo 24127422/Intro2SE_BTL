@@ -14,6 +14,7 @@ public partial class Inventory : Node
 	[Signal] public delegate void InventoryChangedEventHandler();
 	[Signal] public delegate void ItemAddedEventHandler(Item item, int amount);
 	[Signal] public delegate void ItemRemovedEventHandler(Item item, int amount);
+	[Signal] public delegate void ItemDroppedEventHandler(Item item, int amount);
 
 	public override void _Ready()
 	{
@@ -122,7 +123,19 @@ public partial class Inventory : Node
 		EmitSignal(SignalName.InventoryChanged);
 	}
 
-	// Dùng item tại 1 ô (click chuột trái trong UI sẽ gọi hàm này)
+	public void DropItem(int index, int amount = 1)
+	{
+		if (index < 0 || index >= Slots.Count) return;
+		var slot = Slots[index];
+		if (slot.IsEmpty) return;
+
+		var item = slot.Item;
+		int dropAmount = Mathf.Min(slot.Quantity, amount);
+
+		RemoveAt(index, dropAmount); // xóa khỏi dữ liệu túi đồ (đã tự EmitSignal ItemRemoved + InventoryChanged)
+		EmitSignal(SignalName.ItemDropped, item, dropAmount);
+	}
+
 	public void UseItem(int index)
 	{
 		if (index < 0 || index >= Slots.Count) return;

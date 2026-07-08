@@ -21,6 +21,7 @@ script = ExtResource("1_4r0iv")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="QuantityLabel" type="Label" parent="." unique_id=538918807]
 layout_mode = 1

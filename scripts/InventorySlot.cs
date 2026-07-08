@@ -1,6 +1,7 @@
 using Godot;
 
-// Cấu trúc scene:
+// Gắn script này vào scene InventorySlot.tscn (gốc là Panel)
+// Cấu trúc scene gợi ý:
 // Panel (InventorySlot.cs)
 //   └─ Icon (TextureRect)          -> tên node phải là "Icon"
 //   └─ QuantityLabel (Label)       -> tên node phải là "QuantityLabel"
@@ -43,18 +44,16 @@ public partial class InventorySlot : Panel
 		{
 			if (mb.ButtonIndex == MouseButton.Left)
 			{
-				// Click trái = dùng item
 				Inventory.Instance.UseItem(SlotIndex);
 			}
 			else if (mb.ButtonIndex == MouseButton.Right)
 			{
-				// Click phải = vứt bớt 1 item
-				Inventory.Instance.RemoveAt(SlotIndex, 1);
+				Inventory.Instance.DropItem(SlotIndex, 1);
 			}
 		}
 	}
 
-// Kéo - thả 
+	// ---------- Kéo - thả để sắp xếp lại túi đồ ----------
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{

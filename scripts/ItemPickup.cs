@@ -51,7 +51,6 @@ public partial class ItemPickup : Area2D
 		{
 			if (ItemData != null)
 			{
-				// GỌI THẲNG TÚI ĐỒ TOÀN CỤC: Không cần thông qua Player nữa!	
 				bool success = Inventory.Instance.AddItem(ItemData);
 				if (success)
 				{
