@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://btdqg1o6sh7w3"]
+
+[ext_resource type="Script" uid="uid://b3j3va01pyra4" path="res://scripts/SanityBar.cs" id="1_irnxh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htemk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_14cdr"]
+bg_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4lci"]
+bg_color = Color(0.019554121, 0.019554144, 0.019554123, 1)
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.27450982)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pj0hq"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="SanityBar" type="ProgressBar" unique_id=1016020083]
+z_index = 1
+offset_right = 240.0
+offset_bottom = 4.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_htemk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_14cdr")
+value = 60.0
+script = ExtResource("1_irnxh")
+
+[node name="DepletionBar" type="ProgressBar" parent="." unique_id=91867727]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_q4lci")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pj0hq")
+value = 80.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="." unique_id=958968497]
+wait_time = 0.4
+one_shot = true

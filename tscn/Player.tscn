@@ -3,8 +3,12 @@
 [ext_resource type="Script" uid="uid://b0o8tgemhx3nk" path="res://scripts/movement.cs" id="1_kne1u"]
 [ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="2_e80uo"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="2_gqu4d"]
+[ext_resource type="Script" uid="uid://dvm12gihyngd8" path="res://scripts/PlayerStats.cs" id="3_7twa1"]
 [ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="4_cxr5p"]
 [ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="4_e80uo"]
+[ext_resource type="PackedScene" uid="uid://tqa31auw3c6q" path="res://tscn/health_bar.tscn" id="4_emu1f"]
+[ext_resource type="PackedScene" uid="uid://duq37bn3ox4d4" path="res://tscn/hunger_bar.tscn" id="5_hdrus"]
+[ext_resource type="PackedScene" uid="uid://btdqg1o6sh7w3" path="res://tscn/sanity_bar.tscn" id="7_knoa1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(128, 128)
@@ -13,6 +17,14 @@ size = Vector2(128, 128)
 script = ExtResource("1_kne1u")
 ItemPickupScene = ExtResource("2_gqu4d")
 
+[node name="PlayerStats" type="Node" parent="." unique_id=1325087257 node_paths=PackedStringArray("MyHealthBar", "MyHungerBar", "MySanityBar")]
+script = ExtResource("3_7twa1")
+MyHealthBar = NodePath("../CanvasLayer/HealthBar")
+MyHungerBar = NodePath("../CanvasLayer/HungerBar")
+MySanityBar = NodePath("../CanvasLayer/SanityBar")
+HungerDecreaseRate = 0.05
+SanityDecreaseRate = 0.02
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=85541145]
 texture = ExtResource("2_e80uo")
 
@@ -20,6 +32,25 @@ texture = ExtResource("2_e80uo")
 shape = SubResource("RectangleShape2D_0e48y")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1009114966]
+
+[node name="HealthBar" parent="CanvasLayer" unique_id=1016020083 instance=ExtResource("4_emu1f")]
+offset_left = 0.2593994
+offset_top = 66.8689
+offset_right = 216.0
+offset_bottom = 89.8689
+show_percentage = true
+
+[node name="HungerBar" parent="CanvasLayer" unique_id=1871655864 instance=ExtResource("5_hdrus")]
+offset_left = -0.44633484
+offset_top = 89.73135
+offset_right = 215.0
+offset_bottom = 112.73135
+
+[node name="SanityBar" parent="CanvasLayer" unique_id=1192288900 instance=ExtResource("7_knoa1")]
+offset_left = -0.23764229
+offset_top = 114.188614
+offset_right = 215.0
+offset_bottom = 137.18861
 
 [node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=1107897632 node_paths=PackedStringArray("SlotContainer")]
 anchors_preset = 7
