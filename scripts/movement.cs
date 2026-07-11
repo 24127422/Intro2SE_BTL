@@ -3,36 +3,138 @@ using System;
 
 public partial class movement : CharacterBody2D
 {
-	public float Speed = 300.0f;
-	public float RunSpeed = 500.0f;
+	public float Speed = 150.0f;
+	public float RunSpeed = 250.0f;
 	private Control _inventoryUI;
+	private AnimatedSprite2D _sprite;
+	private string _lastDirection = "S";
+	private Vector2 _lastInput = Vector2.Zero;
+	private int _leftOrder = -1;
+	private int _rightOrder = -1;
+	private int _upOrder = -1;
+	private int _downOrder = -1;
+
+	private int _inputCounter = 0;
 
 	// Kéo scene ItemPickup.tscn vào đây trong Inspector
 	[Export] public PackedScene ItemPickupScene;
 
 	private Random _rng = new Random();
+	
+	private Vector2 GetDirection()
+	{
+		if (Input.IsActionJustPressed("left"))
+			_leftOrder = ++_inputCounter;
+
+		if (Input.IsActionJustPressed("right"))
+			_rightOrder = ++_inputCounter;
+
+		if (Input.IsActionJustPressed("up"))
+			_upOrder = ++_inputCounter;
+
+		if (Input.IsActionJustPressed("down"))
+			_downOrder = ++_inputCounter;
+
+		if (Input.IsActionJustReleased("left"))
+			_leftOrder = -1;
+
+		if (Input.IsActionJustReleased("right"))
+			_rightOrder = -1;
+
+		if (Input.IsActionJustReleased("up"))
+			_upOrder = -1;
+
+		if (Input.IsActionJustReleased("down"))
+			_downOrder = -1;
+
+		int best = -1;
+		Vector2 dir = Vector2.Zero;
+
+		if (Input.IsActionPressed("left") && _leftOrder > best)
+		{
+			best = _leftOrder;
+			dir = Vector2.Left;
+		}
+
+		if (Input.IsActionPressed("right") && _rightOrder > best)
+		{
+			best = _rightOrder;
+			dir = Vector2.Right;
+		}
+
+		if (Input.IsActionPressed("up") && _upOrder > best)
+		{
+			best = _upOrder;
+			dir = Vector2.Up;
+		}
+
+		if (Input.IsActionPressed("down") && _downOrder > best)
+		{
+			best = _downOrder;
+			dir = Vector2.Down;
+		}
+
+		return dir;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-		Vector2 direction = Input.GetVector("left", "right", "up", "down");
-		
-		if (direction != Vector2.Zero) {
-			float currentSpeed = Speed;
+		Vector2 direction = GetDirection();
 
-			if (Input.IsActionPressed("sprint"))
+		if (direction != Vector2.Zero)
+		{
+			float currentSpeed = Input.IsActionPressed("sprint") ? RunSpeed : Speed;
+			_sprite.SpeedScale = Input.IsActionPressed("sprint") ? 1.5f : 1.0f;
+			
+			bool blocked = TestMove(GlobalTransform, direction);
+
+			if (direction == Vector2.Right)
 			{
-				currentSpeed = RunSpeed;
+				_lastDirection = "E";
+			}
+			else if (direction == Vector2.Left)
+			{
+				_lastDirection = "W";
+			}
+			else if (direction == Vector2.Up)
+			{
+				_lastDirection = "N";
+			}
+			else if (direction == Vector2.Down)
+			{
+				_lastDirection = "S";
 			}
 
-			velocity = direction * currentSpeed;
-		} else {
-			velocity = Vector2.Zero;
+			if (blocked)
+			{
+				Velocity = Vector2.Zero;
+
+				string idleAnim = "Idle_" + _lastDirection;
+				if (_sprite.Animation != idleAnim)
+					_sprite.Play(idleAnim);
+			}
+			else
+			{
+				Velocity = direction * currentSpeed;
+
+				string walkAnim = "Walk_" + _lastDirection;
+				if (_sprite.Animation != walkAnim)
+					_sprite.Play(walkAnim);
+			}
+		}
+		else
+		{
+			Velocity = Vector2.Zero;
+			_sprite.SpeedScale = 1.0f;
+
+			string idleAnim = "Idle_" + _lastDirection;
+			if (_sprite.Animation != idleAnim)
+				_sprite.Play(idleAnim);
 		}
 
-		Velocity = velocity;
 		MoveAndSlide();
 	}
+	
 	public override void _Ready()
 	{
 		// Đường dẫn tìm đến cái bảng UI nằm trong CanvasLayer
@@ -40,6 +142,9 @@ public partial class movement : CharacterBody2D
 
 		// Lắng nghe sự kiện "item bị drop" từ túi đồ để spawn lại ItemPickup ngoài thế giới
 		Inventory.Instance.ItemDropped += OnItemDropped;
+		
+		// get sprite component
+		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	public override void _Process(double delta)

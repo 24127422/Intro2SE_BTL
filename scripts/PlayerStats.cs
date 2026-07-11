@@ -33,8 +33,9 @@ public partial class PlayerStats : Node
 	public override void _Process(double delta)
 	{
 		if (currHunger > 0)
-		{
-			currHunger = Mathf.Max(0, currHunger - (float)delta * HungerDecreaseRate);
+		{	
+			float hungerRate = HungerDecreaseRate * (Input.IsActionPressed("sprint") ? 5f : 1f);
+			currHunger = Mathf.Max(0, currHunger - (float)delta * hungerRate);
 
 			if (MyHungerBar != null)
 			{
