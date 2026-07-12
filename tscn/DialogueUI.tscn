@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://d3oklpu6n2bib"]
+
+[ext_resource type="Script" uid="uid://din1t5gwywmhc" path="res://scripts/DialogueUI.cs" id="1_xox75"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dlg1"]
+bg_color = Color(0.1, 0.1, 0.12, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=673239510 node_paths=PackedStringArray("Panel", "NameLabel", "TextLabel", "ChoiceContainer")]
+script = ExtResource("1_xox75")
+Panel = NodePath("Panel")
+NameLabel = NodePath("Panel/NameLabel")
+TextLabel = NodePath("Panel/TextLabel")
+ChoiceContainer = NodePath("Panel/ChoiceContainer")
+
+[node name="Panel" type="Panel" parent="." unique_id=334817089]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = -220.0
+offset_right = -60.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_dlg1")
+
+[node name="NameLabel" type="Label" parent="Panel" unique_id=359097177]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 606.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+text = "Tên NPC"
+
+[node name="TextLabel" type="Label" parent="Panel" unique_id=1901760357]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 46.0
+offset_right = 1012.0
+offset_bottom = 172.0
+theme_override_font_sizes/font_size = 18
+text = "Nội dung thoại..."
+autowrap_mode = 3
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="Panel" unique_id=1402351313]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 634.0
+offset_top = -322.0
+offset_right = 1.0
+offset_bottom = -218.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 4

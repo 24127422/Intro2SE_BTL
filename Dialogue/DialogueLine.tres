@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DialogueLine" format=3 uid="uid://c7rgap1y3q3p"]
+
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="1_j7482"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_ji75g"]
+
+[resource]
+script = ExtResource("2_ji75g")
+SpeakerName = "thầy "
+Text = "alo"
+NextLineIndex = 1
+metadata/_custom_type_script = "uid://c6p2ebdpxdk06"

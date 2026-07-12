@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="The last of us-ers"
-run/main_scene="uid://ckgvl3oqt3h64"
-config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
+run/main_scene="uid://6cchto4352iv"
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Inventory="*uid://d241yisromx47"
+DialogueUi="*uid://d3oklpu6n2bib"
 
 [dotnet]
 

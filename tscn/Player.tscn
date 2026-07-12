@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bw75p0l5isml0"]
 
 [ext_resource type="Script" uid="uid://b0o8tgemhx3nk" path="res://scripts/movement.cs" id="1_kne1u"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="2_q1haa"]
 [ext_resource type="Script" uid="uid://dvm12gihyngd8" path="res://scripts/PlayerStats.cs" id="3_7twa1"]
 [ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="4_cxr5p"]
 [ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="4_e80uo"]
@@ -118,7 +119,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34em8")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -129,7 +130,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_exuc5")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -140,7 +141,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jfsi")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -151,7 +152,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nvvsh")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -168,7 +169,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yit3w")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -185,7 +186,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t3scq")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -202,7 +203,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kh7nt")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -219,13 +220,14 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lroks")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_W",
 "speed": 8.0
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=1383524859]
 script = ExtResource("1_kne1u")
+ItemPickupScene = ExtResource("2_q1haa")
 
 [node name="PlayerStats" type="Node" parent="." unique_id=1325087257 node_paths=PackedStringArray("MyHealthBar", "MyHungerBar", "MySanityBar")]
 script = ExtResource("3_7twa1")

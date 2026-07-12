@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dxd4ytvbq6q28" path="res://scripts/ItemPickup.cs" id="1_im1t2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uajte"]
-size = Vector2(32, 32)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ghomu"]
+radius = 36.38
 
 [node name="ItemPickup" type="Area2D" unique_id=347758319]
+scale = Vector2(0.5, 0.5)
 collision_layer = 2
 script = ExtResource("1_im1t2")
 metadata/_edit_group_ = true
@@ -14,7 +15,8 @@ metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2045772505]
 texture_filter = 1
-shape = SubResource("RectangleShape2D_uajte")
+scale = Vector2(3, 3)
+shape = SubResource("CircleShape2D_ghomu")
 
 [node name="Label" type="Label" parent="." unique_id=868277128]
 anchors_preset = 5

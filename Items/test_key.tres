@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bfqoais5gs5de"]
+
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://b3m7bes072fn5" path="res://Image/Key.png" id="1_oysvb"]
+
+[resource]
+script = ExtResource("1_item")
+ItemName = "Chìa khóa thử nghiệm"
+Icon = ExtResource("1_oysvb")
+Description = "Item dùng để test hệ thống điều kiện + phần thưởng trong hội thoại"
+MaxStackSize = 1

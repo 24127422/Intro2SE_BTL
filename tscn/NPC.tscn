@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d214fgwnotgub"]
+
+[ext_resource type="Script" uid="uid://d1ns73t7ka7sk" path="res://scripts/NPC.cs" id="1_u040o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u040o"]
+size = Vector2(32, 32)
+
+[node name="Area2D" type="Area2D" unique_id=270466724]
+collision_layer = 2
+script = ExtResource("1_u040o")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1803507568]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1018117614]
+shape = SubResource("RectangleShape2D_u040o")
+
+[node name="Label" type="Label" parent="." unique_id=1298488305]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -31.0
+offset_top = -35.0
+offset_right = 32.0
+offset_bottom = -12.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 11
+text = "Chat kh bes"

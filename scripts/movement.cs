@@ -79,7 +79,15 @@ public partial class movement : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 direction = GetDirection();
+		Vector2 velocity = Velocity;
+		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		
+		if (DialogueUI.Instance != null && DialogueUI.Instance.IsTalking)
+		{
+			Velocity = Vector2.Zero;
+			MoveAndSlide();
+			return;
+		}
 
 		if (direction != Vector2.Zero)
 		{
@@ -137,10 +145,7 @@ public partial class movement : CharacterBody2D
 	
 	public override void _Ready()
 	{
-		// Đường dẫn tìm đến cái bảng UI nằm trong CanvasLayer
 		_inventoryUI = GetNode<Control>("CanvasLayer/InventoryUI");
-
-		// Lắng nghe sự kiện "item bị drop" từ túi đồ để spawn lại ItemPickup ngoài thế giới
 		Inventory.Instance.ItemDropped += OnItemDropped;
 		
 		// get sprite component
@@ -169,8 +174,6 @@ public partial class movement : CharacterBody2D
 		{
 			var pickup = ItemPickupScene.Instantiate<ItemPickup>();
 
-			// Phải gán ItemData TRƯỚC khi AddChild, vì ItemPickup._Ready() 
-			// dùng ItemData để set texture ngay khi vào scene tree
 			pickup.ItemData = item;
 
 			// Rải nhẹ ngẫu nhiên quanh chân nhân vật để nhiều item không đè lên nhau

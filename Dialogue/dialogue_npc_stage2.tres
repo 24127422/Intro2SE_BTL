@@ -1,0 +1,43 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://dhm7athdked3d"]
+
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="1_data"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_line"]
+[ext_resource type="Resource" uid="uid://bfqoais5gs5de" path="res://Items/test_key.tres" id="3_23v36"]
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="3_choice"]
+
+[sub_resource type="Resource" id="Resource_h56v2"]
+metadata/__load_path__ = "res://Items/test_key.tres"
+
+[sub_resource type="Resource" id="Choice_give"]
+script = ExtResource("3_choice")
+ChoiceText = "Đưa chìa khóa"
+NextLineIndex = 1
+RequiredItem = SubResource("Resource_h56v2")
+ConsumeRequiredItem = true
+
+[sub_resource type="Resource" id="Choice_keep"]
+script = ExtResource("3_choice")
+ChoiceText = "Không, tôi giữ lại"
+NextLineIndex = 2
+
+[sub_resource type="Resource" id="Line0"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Ồ bạn đã có chìa khóa rồi! Đưa nó cho tôi để mở kho báu chứ?"
+Choices = Array[ExtResource("3_choice")]([SubResource("Choice_give"), SubResource("Choice_keep")])
+
+[sub_resource type="Resource" id="Line1"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Tuyệt vời! Kho báu đã mở! Cảm ơn bạn rất nhiều."
+
+[sub_resource type="Resource" id="Line2"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Được thôi, khi nào đổi ý thì quay lại nhé."
+
+[resource]
+script = ExtResource("1_data")
+DialogueName = "NPC - Sau khi co chia khoa"
+Lines = Array[ExtResource("2_line")]([SubResource("Line0"), SubResource("Line1"), SubResource("Line2")])
+RequiredItem = ExtResource("3_23v36")

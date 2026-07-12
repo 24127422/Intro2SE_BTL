@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://drbm60236avms"]
+
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="1_data"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_line"]
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="3_choice"]
+
+[sub_resource type="Resource" id="Choice_yes"]
+script = ExtResource("3_choice")
+ChoiceText = "Có, tôi sẽ giúp"
+NextLineIndex = 1
+
+[sub_resource type="Resource" id="Choice_no"]
+script = ExtResource("3_choice")
+ChoiceText = "Không, để sau"
+NextLineIndex = 3
+
+[sub_resource type="Resource" id="Line0"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Chào bạn! Bạn có muốn giúp tôi tìm chìa khóa không?"
+Choices = Array[ExtResource("3_choice")]([SubResource("Choice_yes"), SubResource("Choice_no")])
+
+[sub_resource type="Resource" id="Resource_ucq0c"]
+metadata/__load_path__ = "res://Items/test_key.tres"
+
+[sub_resource type="Resource" id="Line1"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Cảm ơn bạn nhiều! Đây, cầm lấy phần thưởng."
+NextLineIndex = 2
+RewardItem = SubResource("Resource_ucq0c")
+
+[sub_resource type="Resource" id="Line2"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Giờ bạn đã có chìa khóa rồi đó, quay lại nói chuyện với tôi lần nữa xem sao."
+
+[sub_resource type="Resource" id="Line3"]
+script = ExtResource("2_line")
+SpeakerName = "Thầy"
+Text = "Không sao, khi nào rảnh ghé lại nhé."
+
+[resource]
+script = ExtResource("1_data")
+DialogueName = "NPC - Mac dinh"
+Lines = Array[ExtResource("2_line")]([SubResource("Line0"), SubResource("Line1"), SubResource("Line2"), SubResource("Line3")])

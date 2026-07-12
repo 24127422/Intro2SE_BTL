@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DialogueChoice" format=3 uid="uid://7fd36el8isk3"]
+
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="1_kyxts"]
+
+[resource]
+script = ExtResource("1_kyxts")
+metadata/_custom_type_script = "uid://cbn1ph0pfpkcp"
