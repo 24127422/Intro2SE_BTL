@@ -18,7 +18,7 @@ NextLineIndex = 3
 script = ExtResource("2_line")
 SpeakerName = "Thầy"
 Text = "Chào bạn! Bạn có muốn giúp tôi tìm chìa khóa không?"
-Choices = Array[ExtResource("3_choice")]([SubResource("Choice_yes"), SubResource("Choice_no")])
+Choices = [SubResource("Choice_yes"), SubResource("Choice_no")]
 
 [sub_resource type="Resource" id="Resource_ucq0c"]
 metadata/__load_path__ = "res://Items/test_key.tres"
@@ -43,4 +43,4 @@ Text = "Không sao, khi nào rảnh ghé lại nhé."
 [resource]
 script = ExtResource("1_data")
 DialogueName = "NPC - Mac dinh"
-Lines = Array[ExtResource("2_line")]([SubResource("Line0"), SubResource("Line1"), SubResource("Line2"), SubResource("Line3")])
+Lines = [SubResource("Line0"), SubResource("Line1"), SubResource("Line2"), SubResource("Line3")]

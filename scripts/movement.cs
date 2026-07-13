@@ -80,7 +80,7 @@ public partial class movement : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 velocity = Velocity;
-		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		Vector2 direction = GetDirection();
 		
 		if (DialogueUI.Instance != null && DialogueUI.Instance.IsTalking)
 		{
