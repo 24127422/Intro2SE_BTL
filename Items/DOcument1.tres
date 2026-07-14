@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_yed5l")
+ItemName = "tài lịu"
 Icon = ExtResource("1_nau5k")
 Description = "wow"
 Thought = "uoww"
