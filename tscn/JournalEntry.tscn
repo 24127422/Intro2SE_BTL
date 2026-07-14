@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cc53so3yk8uex"]
+
+[ext_resource type="Script" uid="uid://bnkypp7qa7edk" path="res://scripts/JournalEntry.cs" id="1_je001"]
+
+[node name="JournalEntry" type="Button" unique_id=1186811154]
+custom_minimum_size = Vector2(240, 36)
+size_flags_horizontal = 3
+text = "???"
+script = ExtResource("1_je001")

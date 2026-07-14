@@ -8,81 +8,35 @@ public partial class movement : CharacterBody2D
 	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
-	private Vector2 _lastInput = Vector2.Zero;
-	private int _leftOrder = -1;
-	private int _rightOrder = -1;
-	private int _upOrder = -1;
-	private int _downOrder = -1;
 
-	private int _inputCounter = 0;
-
-	// Kéo scene ItemPickup.tscn vào đây trong Inspector
 	[Export] public PackedScene ItemPickupScene;
 
 	private Random _rng = new Random();
-	
+
 	private Vector2 GetDirection()
 	{
-		if (Input.IsActionJustPressed("left"))
-			_leftOrder = ++_inputCounter;
+		if (Input.IsActionPressed("left"))
+			return Vector2.Left;
 
-		if (Input.IsActionJustPressed("right"))
-			_rightOrder = ++_inputCounter;
+		if (Input.IsActionPressed("right"))
+			return Vector2.Right;
 
-		if (Input.IsActionJustPressed("up"))
-			_upOrder = ++_inputCounter;
+		if (Input.IsActionPressed("up"))
+			return Vector2.Up;
 
-		if (Input.IsActionJustPressed("down"))
-			_downOrder = ++_inputCounter;
+		if (Input.IsActionPressed("down"))
+			return Vector2.Down;
 
-		if (Input.IsActionJustReleased("left"))
-			_leftOrder = -1;
-
-		if (Input.IsActionJustReleased("right"))
-			_rightOrder = -1;
-
-		if (Input.IsActionJustReleased("up"))
-			_upOrder = -1;
-
-		if (Input.IsActionJustReleased("down"))
-			_downOrder = -1;
-
-		int best = -1;
-		Vector2 dir = Vector2.Zero;
-
-		if (Input.IsActionPressed("left") && _leftOrder > best)
-		{
-			best = _leftOrder;
-			dir = Vector2.Left;
-		}
-
-		if (Input.IsActionPressed("right") && _rightOrder > best)
-		{
-			best = _rightOrder;
-			dir = Vector2.Right;
-		}
-
-		if (Input.IsActionPressed("up") && _upOrder > best)
-		{
-			best = _upOrder;
-			dir = Vector2.Up;
-		}
-
-		if (Input.IsActionPressed("down") && _downOrder > best)
-		{
-			best = _downOrder;
-			dir = Vector2.Down;
-		}
-
-		return dir;
+		return Vector2.Zero;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-		Vector2 direction = Input.GetVector("left", "right", "up", "down");
-		
-		if (DialogueUI.Instance != null && DialogueUI.Instance.IsTalking)
+		Vector2 direction = GetDirection();
+
+		bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
+
+		if (isBlocked)
 		{
 			Velocity = Vector2.Zero;
 			MoveAndSlide();
@@ -93,7 +47,7 @@ public partial class movement : CharacterBody2D
 		{
 			float currentSpeed = Input.IsActionPressed("sprint") ? RunSpeed : Speed;
 			_sprite.SpeedScale = Input.IsActionPressed("sprint") ? 1.5f : 1.0f;
-			
+
 			bool blocked = TestMove(GlobalTransform, direction);
 
 			if (direction == Vector2.Right)
@@ -142,41 +96,39 @@ public partial class movement : CharacterBody2D
 
 		MoveAndSlide();
 	}
-	
+
 	public override void _Ready()
 	{
 		_inventoryUI = GetNode<Control>("CanvasLayer/InventoryUI");
+
 		Inventory.Instance.ItemDropped += OnItemDropped;
-		
 		// get sprite component
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	public override void _Process(double delta)
 	{
-		// Logic bấm nút I để bật/tắt túi đồ
+		// bật/tắt túi đồ
 		if (Input.IsActionJustPressed("toggle_inventory"))
 		{
-			// Toogle
 			_inventoryUI.Visible = !_inventoryUI.Visible;
+		}
+
+		// bật/tắt journal
+		if (Input.IsActionJustPressed("toggle_journal"))
+		{
+			JournalUI.Instance.Visible = !JournalUI.Instance.Visible;
 		}
 	}
 
 	private void OnItemDropped(Item item, int amount)
 	{
-		if (ItemPickupScene == null)
-		{
-			GD.PrintErr("movement.cs: Chưa gán ItemPickupScene trong Inspector!");
-			return;
-		}
-
 		for (int i = 0; i < amount; i++)
 		{
 			var pickup = ItemPickupScene.Instantiate<ItemPickup>();
 
 			pickup.ItemData = item;
 
-			// Rải nhẹ ngẫu nhiên quanh chân nhân vật để nhiều item không đè lên nhau
 			float offsetX = (float)(_rng.NextDouble() * 20 - 10);
 			float offsetY = (float)(_rng.NextDouble() * 20 - 10);
 			Vector2 dropPosition = GlobalPosition + new Vector2(offsetX, offsetY);

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d0u3f5whafet"]
+
+[ext_resource type="Script" uid="uid://ljmu377icm2d" path="res://scripts/DocumentJournal.cs" id="1_dj001"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_o7cdt"]
+[ext_resource type="Resource" uid="uid://dxomigl24w6ng" path="res://Items/DOcument1.tres" id="3_p3ymu"]
+[ext_resource type="Resource" uid="uid://5il7wgm4u4a3" path="res://Items/document2.tres" id="4_wdkr8"]
+
+[node name="DocumentJournal" type="Node" unique_id=1559591226]
+script = ExtResource("1_dj001")
+AllDocuments = Array[ExtResource("2_o7cdt")]([ExtResource("3_p3ymu"), ExtResource("4_wdkr8")])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://5il7wgm4u4a3"]
+
+[ext_resource type="Texture2D" uid="uid://c88ip27ab8uai" path="res://Image/VES_HOS.png" id="1_yorsr"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_yspiu"]
+
+[resource]
+script = ExtResource("1_yspiu")
+ItemName = "doc2"
+Icon = ExtResource("1_yorsr")
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

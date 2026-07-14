@@ -8,14 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_rba67"]
 [ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="9_lco2r"]
 [ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="10_pu6gk"]
-[ext_resource type="Resource" uid="uid://c7rgap1y3q3p" path="res://Dialogue/DialogueLine.tres" id="11_p0oyg"]
 [ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="11_v8vuo"]
-[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="12_p0oyg"]
 [ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_fu8xo"]
-[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="13_p0oyg"]
+[ext_resource type="Resource" uid="uid://dxomigl24w6ng" path="res://Items/DOcument1.tres" id="13_p0oyg"]
 [ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="15_1jpnp"]
-[ext_resource type="Resource" uid="uid://bfqoais5gs5de" path="res://Items/test_key.tres" id="16_qachy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1146,40 +1143,6 @@ sources/2 = SubResource("TileSetAtlasSource_0le7i")
 sources/3 = SubResource("TileSetAtlasSource_q0d4n")
 sources/4 = SubResource("TileSetAtlasSource_f4wch")
 
-[sub_resource type="Resource" id="Resource_v8vuo"]
-script = ExtResource("13_p0oyg")
-ChoiceText = "Cái j v "
-NextLineIndex = 2
-metadata/_custom_type_script = "uid://cbn1ph0pfpkcp"
-
-[sub_resource type="Resource" id="Resource_p0oyg"]
-script = ExtResource("13_p0oyg")
-NextLineIndex = 1
-metadata/_custom_type_script = "uid://cbn1ph0pfpkcp"
-
-[sub_resource type="Resource" id="Resource_mb8al"]
-script = ExtResource("12_p0oyg")
-SpeakerName = "thầy "
-Text = "skibidi"
-Choices = Array[ExtResource("13_p0oyg")]([SubResource("Resource_v8vuo"), SubResource("Resource_p0oyg")])
-metadata/_custom_type_script = "uid://c6p2ebdpxdk06"
-
-[sub_resource type="Resource" id="Resource_fu8xo"]
-script = ExtResource("12_p0oyg")
-SpeakerName = "thầy "
-Text = "skibidiiiiiiiiiiii yeeeee"
-metadata/_custom_type_script = "uid://c6p2ebdpxdk06"
-
-[sub_resource type="Resource" id="Resource_tah4c"]
-script = ExtResource("12_p0oyg")
-Text = "thằng này no fun"
-metadata/_custom_type_script = "uid://c6p2ebdpxdk06"
-
-[sub_resource type="Resource" id="Resource_l67pg"]
-script = ExtResource("11_v8vuo")
-Lines = Array[ExtResource("12_p0oyg")]([ExtResource("11_p0oyg"), SubResource("Resource_mb8al"), SubResource("Resource_fu8xo"), SubResource("Resource_tah4c")])
-metadata/_custom_type_script = "uid://crmwjvqh2qdb8"
-
 [node name="test" type="Node2D" unique_id=879658650]
 
 [node name="test floor" type="TileMap" parent="." unique_id=359848708]
@@ -1206,16 +1169,13 @@ zoom = Vector2(2.51, 2.51)
 position = Vector2(-51, -41)
 color = Color(0.50980395, 0.50980395, 0.50980395, 1)
 
-[node name="Area2D" parent="." unique_id=270466724 instance=ExtResource("9_lco2r")]
-position = Vector2(-1, -96)
-NpcIcon = ExtResource("10_pu6gk")
-DialogueStages = Array[ExtResource("11_v8vuo")]([SubResource("Resource_l67pg")])
-
 [node name="Area2D2" parent="." unique_id=1836191731 instance=ExtResource("9_lco2r")]
-position = Vector2(-28, 18)
+position = Vector2(-1, -83)
+disable_mode = 1
+collision_layer = 3
 NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
 
 [node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("15_1jpnp")]
 position = Vector2(73, -34)
-ItemData = ExtResource("16_qachy")
+ItemData = ExtResource("13_p0oyg")

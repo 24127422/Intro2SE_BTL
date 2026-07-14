@@ -30,7 +30,7 @@ public partial class ItemPickup : Area2D
 		if (body is CharacterBody2D)
 		{
 			_isPlayerInRange = true;
-			_promptLabel.Visible = true; // Hiện chữ "Nhấn E để nhặt"
+			_promptLabel.Visible = true;
 		}
 	}
 
@@ -51,10 +51,18 @@ public partial class ItemPickup : Area2D
 		{
 			if (ItemData != null)
 			{
-				bool success = Inventory.Instance.AddItem(ItemData);
-				if (success)
+				if (ItemData.IsDocument)
 				{
+					DocumentJournal.Instance.UnlockDocument(ItemData);
 					QueueFree();
+				}
+				else
+				{
+					bool success = Inventory.Instance.AddItem(ItemData);
+					if (success)
+					{
+						QueueFree();
+					}
 				}
 			}
 		}

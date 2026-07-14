@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://ct65lkcadci5h"]
+
+[ext_resource type="Script" uid="uid://csmslgob30nk4" path="res://scripts/JournalUI.cs" id="1_ju001"]
+[ext_resource type="PackedScene" uid="uid://cc53so3yk8uex" path="res://tscn/JournalEntry.tscn" id="2_ju002"]
+
+[node name="JournalUI" type="CanvasLayer" unique_id=2142516144 node_paths=PackedStringArray("EntryContainer", "ContentTitleLabel", "ContentTextLabel", "ContentThoughtLabel")]
+layer = 20
+script = ExtResource("1_ju001")
+EntryScene = ExtResource("2_ju002")
+EntryContainer = NodePath("Root/HBoxContainer/LeftPanel/ScrollContainer/EntryContainer")
+ContentTitleLabel = NodePath("Root/HBoxContainer/ContentPanel/ContentTitleLabel")
+ContentTextLabel = NodePath("Root/HBoxContainer/ContentPanel/ContentTextLabel")
+ContentThoughtLabel = NodePath("Root/HBoxContainer/ContentPanel/ContentThoughtLabel")
+
+[node name="Root" type="Control" parent="." unique_id=1611269845]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="Root" unique_id=1683853222]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root" unique_id=581796782]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="LeftPanel" type="Panel" parent="Root/HBoxContainer" unique_id=1324588907]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Root/HBoxContainer/LeftPanel" unique_id=48742883]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="EntryContainer" type="VBoxContainer" parent="Root/HBoxContainer/LeftPanel/ScrollContainer" unique_id=891953836]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="ContentPanel" type="Panel" parent="Root/HBoxContainer" unique_id=1748873174]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ContentTitleLabel" type="Label" parent="Root/HBoxContainer/ContentPanel" unique_id=378468479]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 880.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 22
+text = "..."
+
+[node name="ContentTextLabel" type="RichTextLabel" parent="Root/HBoxContainer/ContentPanel" unique_id=104902388]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 52.0
+offset_right = -16.0
+offset_bottom = -147.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+fit_content = true
+
+[node name="ContentThoughtLabel" type="RichTextLabel" parent="Root/HBoxContainer/ContentPanel" unique_id=1631134829]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -147.0
+offset_right = -16.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+fit_content = true
