@@ -32,11 +32,10 @@ public partial class movement : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 direction = GetDirection();
-
-		bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
-
-		if (isBlocked)
+		Vector2 velocity = Velocity;
+		Vector2 direction = Input.GetVector("left", "right", "up", "down");
+		
+		if (DialogueUI.Instance != null && DialogueUI.Instance.IsTalking)
 		{
 			Velocity = Vector2.Zero;
 			MoveAndSlide();
