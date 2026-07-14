@@ -24,7 +24,7 @@ NextLineIndex = 2
 script = ExtResource("2_line")
 SpeakerName = "Thầy"
 Text = "Ồ bạn đã có chìa khóa rồi! Đưa nó cho tôi để mở kho báu chứ?"
-Choices = [SubResource("Choice_give"), SubResource("Choice_keep")]
+Choices = Array[ExtResource("3_choice")]([SubResource("Choice_give"), SubResource("Choice_keep")])
 
 [sub_resource type="Resource" id="Line1"]
 script = ExtResource("2_line")
@@ -39,5 +39,5 @@ Text = "Được thôi, khi nào đổi ý thì quay lại nhé."
 [resource]
 script = ExtResource("1_data")
 DialogueName = "NPC - Sau khi co chia khoa"
-Lines = [SubResource("Line0"), SubResource("Line1"), SubResource("Line2")]
+Lines = Array[ExtResource("2_line")]([SubResource("Line0"), SubResource("Line1"), SubResource("Line2")])
 RequiredItem = ExtResource("3_23v36")
