@@ -24,6 +24,7 @@ public partial class Inventory : Node
 			return;
 		}
 		Instance = this;
+		Slots.Clear();
 
 		for (int i = 0; i < MaxSlots; i++)
 			Slots.Add(new InventorySlotData());

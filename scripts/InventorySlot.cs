@@ -15,68 +15,79 @@ public partial class InventorySlot : Panel
 
 	public override void _Ready()
 	{
-		_icon = GetNode<TextureRect>("Icon");
-		_quantityLabel = GetNode<Label>("QuantityLabel");
+		_icon ??= GetNodeOrNull<TextureRect>("Icon");
+		_quantityLabel ??= GetNodeOrNull<Label>("QuantityLabel"); //Tự động tiềm kiếm 
+		if(_icon == null) GD.PrintErr($"[LỖI] Node 'Icon' không tồn tại trong ô '{Name}'!");
+		if(_quantityLabel == null) GD.PrintErr($"[LỖI] Node 'QuantityLabel' không tồn tại trong ô '{Name}'!");
 		GuiInput += OnGuiInput;
 	}
 
 	public void UpdateSlot(InventorySlotData data)
-	{
-		_data = data;
-		if (data.IsEmpty)
-		{
-			_icon.Texture = null;
-			_icon.Visible = false;
-			_quantityLabel.Visible = false;
-		}
-		else
-		{
-			_icon.Texture = data.Item.Icon;
-			_icon.Visible = true;
-			_quantityLabel.Visible = data.Quantity > 1;
-			_quantityLabel.Text = data.Quantity.ToString();
-		}
-	}
+    {
+        _data = data;
+        
+        if (_icon == null) return;
 
-	private void OnGuiInput(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton mb && mb.Pressed)
-		{
-			if (mb.ButtonIndex == MouseButton.Left)
-			{
-				Inventory.Instance.UseItem(SlotIndex);
-			}
-			else if (mb.ButtonIndex == MouseButton.Right)
-			{
-				Inventory.Instance.DropItem(SlotIndex, 1);
-			}
-		}
-	}
+        if (data == null || data.IsEmpty)
+        {
+            _icon.Texture = null;
+            _icon.Visible = false;
+            if (_quantityLabel != null) _quantityLabel.Visible = false;
+        }
+        else
+        {
+            _icon.Texture = data.Item.Icon;
+            _icon.Visible = _icon.Texture != null;
+            
+            if (_quantityLabel != null)
+            {
+                _quantityLabel.Visible = data.Quantity > 1;
+                _quantityLabel.Text = data.Quantity.ToString();
+            }
+        }
+    }
+
+    private void OnGuiInput(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mb && mb.Pressed)
+        {
+            if (mb.ButtonIndex == MouseButton.Left)
+            {
+                Inventory.Instance.UseItem(SlotIndex);
+            }
+            else if (mb.ButtonIndex == MouseButton.Right)
+            {
+                Inventory.Instance.DropItem(SlotIndex, 1);
+            }
+        }
+    }
 
 	// ---------- Kéo - thả để sắp xếp lại túi đồ ----------
 
 	public override Variant _GetDragData(Vector2 atPosition)
-	{
-		if (_data == null || _data.IsEmpty) return default;
+    {
+        if (_data == null || _data.IsEmpty || _data.Item.Icon == null) return default;
 
-		var preview = new TextureRect
-		{
-			Texture = _data.Item.Icon,
-			CustomMinimumSize = new Vector2(48, 48)
-		};
-		SetDragPreview(preview);
+        var preview = new TextureRect
+        {
+            Texture = _data.Item.Icon,
+            CustomMinimumSize = new Vector2(48, 48),
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered
+        };
+        SetDragPreview(preview);
 
-		return SlotIndex; // dữ liệu kéo đi chính là chỉ số ô nguồn
-	}
+        return SlotIndex; 
+    }
 
-	public override bool _CanDropData(Vector2 atPosition, Variant data)
-	{
-		return data.VariantType == Variant.Type.Int;
-	}
+    public override bool _CanDropData(Vector2 atPosition, Variant data)
+    {
+        return data.VariantType == Variant.Type.Int;
+    }
 
-	public override void _DropData(Vector2 atPosition, Variant data)
-	{
-		int fromIndex = data.AsInt32();
-		Inventory.Instance.SwapSlots(fromIndex, SlotIndex);
-	}
+    public override void _DropData(Vector2 atPosition, Variant data)
+    {
+        int fromIndex = data.AsInt32();
+        Inventory.Instance.SwapSlots(fromIndex, SlotIndex);
+    }
 }

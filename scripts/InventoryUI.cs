@@ -1,45 +1,72 @@
 using Godot;
 using System.Collections.Generic;
 
-// Gắn script này vào node Panel "InventoryUI"
-// GetNode<Panel>("CanvasLayer/InventoryUI"))
 public partial class InventoryUI : Control
 {
-	// Kéo scene InventorySlot.tscn vào ô này trong Inspector
-	[Export] public PackedScene SlotScene;
+    [Export] public PackedScene SlotScene;
+    [Export] public GridContainer SlotContainer;
 
-	// Kéo node GridContainer (nơi chứa các ô) vào đây trong Inspector
-	[Export] public GridContainer SlotContainer;
+    private List<InventorySlot> _slotNodes = new();
 
-	private List<InventorySlot> _slotNodes = new();
+    public override void _Ready()
+    {
+        if (Inventory.Instance == null)
+        {
+            GD.PrintErr("[LỖI] Autoload 'Inventory' không tồn tại! Không thể kết nối UI.");
+            return;
+        }
 
-	public override void _Ready()
-	{
-		Inventory.Instance.InventoryChanged += RefreshUI;
-		BuildSlots();
-		RefreshUI();
-	}
+        // Đăng ký sự kiện cập nhật UI
+        Inventory.Instance.InventoryChanged += RefreshUI;
+        
+        BuildSlots();
+        RefreshUI();
+    }
 
-	private void BuildSlots()
-	{
-		foreach (Node child in SlotContainer.GetChildren())
-			child.QueueFree();
-		_slotNodes.Clear();
+    // QUAN TRỌNG: Phải hủy đăng ký sự kiện khi Node này bị xóa khỏi Scene Tree để tránh rò rỉ bộ nhớ và crash game
+    public override void _ExitTree()
+    {
+        if (Inventory.Instance != null)
+        {
+            Inventory.Instance.InventoryChanged -= RefreshUI;
+        }
+    }
 
-		for (int i = 0; i < Inventory.Instance.Slots.Count; i++)
-		{
-			var slotNode = SlotScene.Instantiate<InventorySlot>();
-			SlotContainer.AddChild(slotNode);
-			slotNode.SlotIndex = i;
-			_slotNodes.Add(slotNode);
-		}
-	}
+    private void BuildSlots()
+    {
+        if (SlotContainer == null)
+        {
+            GD.PrintErr($"[LỖI] Chưa kéo thả 'SlotContainer' (GridContainer) vào UI '{Name}'!");
+            return;
+        }
+        if (SlotScene == null)
+        {
+            GD.PrintErr($"[LỖI] Chưa kéo thả 'SlotScene' (InventorySlot.tscn) vào UI '{Name}'!");
+            return;
+        }
 
-	private void RefreshUI()
-	{
-		for (int i = 0; i < _slotNodes.Count; i++)
-		{
-			_slotNodes[i].UpdateSlot(Inventory.Instance.Slots[i]);
-		}
-	}
+        foreach (Node child in SlotContainer.GetChildren())
+            child.QueueFree();
+            
+        _slotNodes.Clear();
+
+        for (int i = 0; i < Inventory.Instance.Slots.Count; i++)
+        {
+            var slotNode = SlotScene.Instantiate<InventorySlot>();
+            SlotContainer.AddChild(slotNode);
+            slotNode.SlotIndex = i;
+            _slotNodes.Add(slotNode);
+        }
+    }
+
+    private void RefreshUI()
+    {
+        for (int i = 0; i < _slotNodes.Count; i++)
+        {
+            if (i < Inventory.Instance.Slots.Count)
+            {
+                _slotNodes[i].UpdateSlot(Inventory.Instance.Slots[i]);
+            }
+        }
+    }
 }

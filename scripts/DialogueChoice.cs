@@ -4,6 +4,7 @@ using Godot;
 [GlobalClass]
 public partial class DialogueChoice : Resource
 {
+	
 	[Export] public string ChoiceText { get; set; } = "";
 
 	// Chỉ số dòng thoại tiếp theo trong DialogueData.Lines. -1 = kết thúc hội thoại

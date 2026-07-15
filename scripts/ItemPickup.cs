@@ -12,16 +12,28 @@ public partial class ItemPickup : Area2D
 	{
 		// Lấy Node Label ra và ẩn nó đi lúc đầu
 		_promptLabel = GetNode<Label>("Label");
-		_promptLabel.Visible = false;
+		if(_promptLabel != null)
+		{
+			_promptLabel.Visible = false;
+		}
 
 		// Kết nối sự kiện va chạm
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
+		if(ItemData == null)
+		{
+			GD.PrintErr($"[Cảnh báo] '{Name}' chưa được gán ItemData.");
+		}
 
 		if (ItemData != null && ItemData.Icon != null)
 		{
 			GetNode<Sprite2D>("Sprite2D").Texture = ItemData.Icon;
 		}
+		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+        if (sprite != null && ItemData.Icon != null)
+        {
+            sprite.Texture = ItemData.Icon;
+        }
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -40,31 +52,44 @@ public partial class ItemPickup : Area2D
 		if (body is CharacterBody2D)
 		{
 			_isPlayerInRange = false;
-			_promptLabel.Visible = false; // Ẩn chữ đi
-			_playerInventory = null;
+			if (_promptLabel != null) _promptLabel.Visible = false;
 		}
 	}
 
 	public override void _Process(double delta)
 	{
 		if (_isPlayerInRange && Input.IsActionJustPressed("interact"))
-		{
-			if (ItemData != null)
-			{
-				if (ItemData.IsDocument)
-				{
-					DocumentJournal.Instance.UnlockDocument(ItemData);
-					QueueFree();
-				}
-				else
-				{
-					bool success = Inventory.Instance.AddItem(ItemData);
-					if (success)
-					{
-						QueueFree();
-					}
-				}
-			}
-		}
+        {
+            if (ItemData == null) return;
+
+           
+            if (ItemData.IsDocument)
+            {
+                var documentJournal = GetNodeOrNull("/root/DocumentJournal"); 
+                if (documentJournal != null)
+                {
+                    documentJournal.Call("UnlockDocument", ItemData);
+                }
+                else
+                {
+                    GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
+                }
+                QueueFree();
+            }
+            else
+            {
+                if (Inventory.Instance == null)
+                {
+                    GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
+                    return;
+                }
+
+                bool success = Inventory.Instance.AddItem(ItemData);
+                if (success)
+                {
+                    QueueFree(); 
+                }
+            }
+        }
 	}
 }
