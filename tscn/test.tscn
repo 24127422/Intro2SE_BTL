@@ -1582,7 +1582,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2844s")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_E",
 "speed": 8.0
 }, {
@@ -1611,7 +1611,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qqblo")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_N",
 "speed": 8.0
 }, {
@@ -1640,7 +1640,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_to3hp")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_S",
 "speed": 8.0
 }, {
@@ -1669,7 +1669,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oskjw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_W",
 "speed": 8.0
 }, {
@@ -1689,7 +1689,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5ulf2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -1709,7 +1709,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yum6w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -1729,7 +1729,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pv3y1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -1749,7 +1749,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h47xj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -1784,7 +1784,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0wljr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -1819,7 +1819,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jypwg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -1854,7 +1854,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8qpbr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -1889,7 +1889,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rixd3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -1933,7 +1933,7 @@ NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([SubResource("Resource_l67pg")])
 
 [node name="Area2D2" parent="." unique_id=1836191731 instance=ExtResource("9_lco2r")]
-position = Vector2(-28, 18)
+position = Vector2(-27, 18)
 NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
 

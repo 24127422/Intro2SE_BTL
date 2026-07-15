@@ -35,10 +35,12 @@ script = ExtResource("2_line")
 SpeakerName = "Thầy"
 Text = "Giờ bạn đã có chìa khóa rồi đó, quay lại nói chuyện với tôi lần nữa xem sao."
 
+
 [sub_resource type="Resource" id="Line3"]
 script = ExtResource("2_line")
 SpeakerName = "Thầy"
 Text = "Không sao, khi nào rảnh ghé lại nhé."
+
 
 [resource]
 script = ExtResource("1_data")
