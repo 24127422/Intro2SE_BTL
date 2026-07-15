@@ -6,10 +6,12 @@ public partial class ItemPickup : Area2D
 	
 	private Label _promptLabel;
 	private bool _isPlayerInRange = false;
-	private Inventory _playerInventory;
+	private Inventory _inventory;
 
 	public override void _Ready()
 	{
+		_inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+
 		// Lấy Node Label ra và ẩn nó đi lúc đầu
 		_promptLabel = GetNode<Label>("Label");
 		if(_promptLabel != null)
@@ -78,13 +80,13 @@ public partial class ItemPickup : Area2D
             }
             else
             {
-                if (Inventory.Instance == null)
+                if (_inventory == null)
                 {
                     GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
                     return;
                 }
 
-                bool success = Inventory.Instance.AddItem(ItemData);
+                bool success = _inventory.AddItem(ItemData);
                 if (success)
                 {
                     QueueFree(); 

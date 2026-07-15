@@ -5,6 +5,7 @@ public partial class movement : CharacterBody2D
 {
 	public float Speed = 150.0f;
 	public float RunSpeed = 250.0f;
+	private const int HotbarSize = 9;
 	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
@@ -106,6 +107,33 @@ public partial class movement : CharacterBody2D
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+		{
+			if (keyEvent.Keycode >= Key.Key1 && keyEvent.Keycode <= Key.Key9)
+			{
+				int targetSlot = (int)keyEvent.Keycode - (int)Key.Key1;
+				SetActiveInventorySlot(targetSlot);
+				GetViewport().SetInputAsHandled();
+			}
+		}
+
+		if (@event is InputEventMouseButton mb && mb.Pressed)
+		{
+			if (mb.ButtonIndex == MouseButton.WheelUp)
+			{
+				ChangeActiveInventorySlot(-1);
+				GetViewport().SetInputAsHandled();
+			}
+			else if (mb.ButtonIndex == MouseButton.WheelDown)
+			{
+				ChangeActiveInventorySlot(1);
+				GetViewport().SetInputAsHandled();
+			}
+		}
+	}
+
 	public override void _Process(double delta)
 	{
 		// bật/tắt túi đồ
@@ -119,6 +147,30 @@ public partial class movement : CharacterBody2D
 		{
 			JournalUI.Instance.Visible = !JournalUI.Instance.Visible;
 		}
+	}
+
+	private void SetActiveInventorySlot(int slotIndex)
+	{
+		var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+		if (inventory == null) return;
+
+		int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
+		inventory.ActiveSlotIndex = Mathf.Clamp(slotIndex, 0, maxSlot);
+	}
+
+	private void ChangeActiveInventorySlot(int delta)
+	{
+		var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+		if (inventory == null) return;
+
+		int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
+		int currentSlot = Mathf.Clamp(inventory.ActiveSlotIndex, 0, maxSlot);
+		int nextSlot = (currentSlot + delta + HotbarSize) % HotbarSize;
+		if (nextSlot > maxSlot)
+		{
+			nextSlot = maxSlot;
+		}
+		inventory.ActiveSlotIndex = nextSlot;
 	}
 
 	private void OnItemDropped(Item item, int amount)

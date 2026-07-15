@@ -36,7 +36,6 @@ script = ExtResource("2_line")
 SpeakerName = "Thầy"
 Text = "Được thôi, khi nào đổi ý thì quay lại nhé."
 
-
 [resource]
 script = ExtResource("1_data")
 DialogueName = "NPC - Sau khi co chia khoa"

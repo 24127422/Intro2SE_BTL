@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dxcjbasggjvn5" path="res://Image/tileset/Inside_C.png" id="3_g4xt8"]
 [ext_resource type="Texture2D" uid="uid://cn8qem1n5nmnd" path="res://Image/tileset/Inside_D.png" id="4_751um"]
 [ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_rba67"]
+[ext_resource type="Script" uid="uid://cxmp0ekep7reg" path="res://scripts/PlayerHand.cs" id="7_0yjcn"]
 [ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="9_lco2r"]
 [ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="10_pu6gk"]
 [ext_resource type="Resource" uid="uid://c7rgap1y3q3p" path="res://Dialogue/DialogueLine.tres" id="11_p0oyg"]
@@ -1916,12 +1917,17 @@ layer_2/name = "Object"
 layer_2/tile_data = PackedInt32Array(-262151, 524292, 13, -262150, 589828, 13, -196615, 524292, 14, -196614, 589828, 14, -262138, 327683, 2, -327680, 917506, 10, -262148, 917506, 11, -262142, 524292, 14, -327678, 524292, 13, -327677, 589828, 13, -262135, 655363, 6, -262130, 131075, 3, -262133, 3, 5, -262132, 3, 5, -196610, 458755, 12, -262143, 589827, 2, -196613, 589827, 2, -262141, 589828, 14)
 
 [node name="Player" parent="." unique_id=1383524859 instance=ExtResource("3_epypp")]
-position = Vector2(-220, -60)
+position = Vector2(-218, -56)
 scale = Vector2(0.25, 0.25)
 collision_layer = 2
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1823728835]
 zoom = Vector2(2.51, 2.51)
+
+[node name="HandPos" type="Marker2D" parent="Player" unique_id=1375030565 node_paths=PackedStringArray("HandMarker")]
+position = Vector2(0, 36)
+script = ExtResource("7_0yjcn")
+HandMarker = NodePath(".")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)

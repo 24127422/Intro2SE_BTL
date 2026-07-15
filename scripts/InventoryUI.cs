@@ -7,18 +7,20 @@ public partial class InventoryUI : Control
     [Export] public GridContainer SlotContainer;
 
     private List<InventorySlot> _slotNodes = new();
+    private Inventory _inventory;
 
     public override void _Ready()
     {
-        if (Inventory.Instance == null)
+        _inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+        if (_inventory == null)
         {
             GD.PrintErr("[LỖI] Autoload 'Inventory' không tồn tại! Không thể kết nối UI.");
             return;
         }
 
         // Đăng ký sự kiện cập nhật UI
-        Inventory.Instance.InventoryChanged += RefreshUI;
-        
+        _inventory.InventoryChanged += RefreshUI;
+        _inventory.ActiveSlotChanged += OnActiveSlotChanged;
         BuildSlots();
         RefreshUI();
     }
@@ -26,9 +28,10 @@ public partial class InventoryUI : Control
     // QUAN TRỌNG: Phải hủy đăng ký sự kiện khi Node này bị xóa khỏi Scene Tree để tránh rò rỉ bộ nhớ và crash game
     public override void _ExitTree()
     {
-        if (Inventory.Instance != null)
+        if (_inventory != null)
         {
-            Inventory.Instance.InventoryChanged -= RefreshUI;
+            _inventory.InventoryChanged -= RefreshUI;
+            _inventory.ActiveSlotChanged -= OnActiveSlotChanged;
         }
     }
 
@@ -50,7 +53,7 @@ public partial class InventoryUI : Control
             
         _slotNodes.Clear();
 
-        for (int i = 0; i < Inventory.Instance.Slots.Count; i++)
+        for (int i = 0; i < _inventory.Slots.Count; i++)
         {
             var slotNode = SlotScene.Instantiate<InventorySlot>();
             SlotContainer.AddChild(slotNode);
@@ -61,12 +64,22 @@ public partial class InventoryUI : Control
 
     private void RefreshUI()
     {
+        if (_inventory == null) return;
+
         for (int i = 0; i < _slotNodes.Count; i++)
         {
-            if (i < Inventory.Instance.Slots.Count)
+            if (i < _inventory.Slots.Count)
             {
-                _slotNodes[i].UpdateSlot(Inventory.Instance.Slots[i]);
+                _slotNodes[i].UpdateSlot(_inventory.Slots[i]);
+                _slotNodes[i].SetHighlight(i == _inventory.ActiveSlotIndex);
             }
+        }
+    }
+    private void OnActiveSlotChanged(int newIndex)
+    {
+        for (int i = 0; i < _slotNodes.Count; i++)
+        {
+            _slotNodes[i].SetHighlight(i == newIndex);
         }
     }
 }

@@ -15,6 +15,22 @@ public partial class Inventory : Node
 	[Signal] public delegate void ItemAddedEventHandler(Item item, int amount);
 	[Signal] public delegate void ItemRemovedEventHandler(Item item, int amount);
 	[Signal] public delegate void ItemDroppedEventHandler(Item item, int amount);
+	[Signal] public delegate void ActiveSlotChangedEventHandler(int newIndex);
+
+	private int _activeSlotIndex = 0;
+	public int ActiveSlotIndex
+	{
+		get => _activeSlotIndex;
+		set
+		{
+			int ClampedValue = Mathf.Clamp(value, 0, MaxSlots - 1);
+			if(_activeSlotIndex != ClampedValue)
+			{
+				_activeSlotIndex = ClampedValue;
+				EmitSignal(SignalName.ActiveSlotChanged, _activeSlotIndex);
+			}
+		}
+	}
 
 	public override void _Ready()
 	{

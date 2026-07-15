@@ -13,7 +13,8 @@ public partial class Item : Resource
 	
 	[Export] public bool IsConsumable {get; set;} = false; 
 
-	[Export] public bool IsDocument {get; set;} = false; 
+	[Export] public bool IsDocument {get; set;} = false;
 
-	[Export] public int MaxStackSize {get; set;} = 5;
+	[Export] public int MaxStackSize { get; set; } = 5;
+	[Export] public PackedScene HandModel { get; set; }
 }
