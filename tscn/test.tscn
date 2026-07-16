@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://dxcjbasggjvn5" path="res://Image/tileset/Inside_C.png" id="3_g4xt8"]
 [ext_resource type="Texture2D" uid="uid://cn8qem1n5nmnd" path="res://Image/tileset/Inside_D.png" id="4_751um"]
 [ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_rba67"]
-[ext_resource type="Script" uid="uid://cxmp0ekep7reg" path="res://scripts/PlayerHand.cs" id="7_0yjcn"]
 [ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="9_lco2r"]
 [ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="10_pu6gk"]
 [ext_resource type="Resource" uid="uid://c7rgap1y3q3p" path="res://Dialogue/DialogueLine.tres" id="11_p0oyg"]
@@ -1186,7 +1185,7 @@ Lines = Array[ExtResource("12_p0oyg")]([ExtResource("11_p0oyg"), SubResource("Re
 metadata/_custom_type_script = "uid://crmwjvqh2qdb8"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tqw65"]
-size = Vector2(12.000002, 8.799997)
+size = Vector2(14.000001, 8.799997)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h2dlj"]
 atlas = ExtResource("17_qachy")
@@ -1924,11 +1923,6 @@ collision_layer = 2
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1823728835]
 zoom = Vector2(2.51, 2.51)
 
-[node name="HandPos" type="Marker2D" parent="Player" unique_id=1375030565 node_paths=PackedStringArray("HandMarker")]
-position = Vector2(0, 36)
-script = ExtResource("7_0yjcn")
-HandMarker = NodePath(".")
-
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)
 color = Color(0.50980395, 0.50980395, 0.50980395, 1)
@@ -1948,6 +1942,7 @@ position = Vector2(128, -33)
 ItemData = ExtResource("16_5kcdt")
 
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=1245199622]
+position = Vector2(50.999996, 13.999999)
 scale = Vector2(1.25, 1.25)
 collision_layer = 4
 script = ExtResource("17_5kcdt")
@@ -1956,12 +1951,12 @@ ChaseSpeed = 150.0
 PatrolDistance = 400.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=166513836]
-position = Vector2(-0.39999983, 11.599997)
+position = Vector2(3.0517585e-06, 7.629394e-07)
 scale = Vector2(0.99999976, 0.99999976)
 shape = SubResource("RectangleShape2D_tqw65")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Enemy" unique_id=1999733048]
-position = Vector2(401.59998, -26.399998)
+position = Vector2(325.60004, 39.2)
 sprite_frames = SubResource("SpriteFrames_tqw65")
 animation = &"Attack_W"
 

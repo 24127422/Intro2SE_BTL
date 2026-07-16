@@ -9,6 +9,8 @@ public partial class movement : CharacterBody2D
 	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
+	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
+	public string FacingDirection => _lastDirection;
 
 	[Export] public PackedScene ItemPickupScene;
 
@@ -51,21 +53,28 @@ public partial class movement : CharacterBody2D
 
 			bool blocked = TestMove(GlobalTransform, direction);
 
+			string newDirection = _lastDirection;
 			if (direction == Vector2.Right)
 			{
-				_lastDirection = "E";
+				newDirection = "E";
 			}
 			else if (direction == Vector2.Left)
 			{
-				_lastDirection = "W";
+				newDirection = "W";
 			}
 			else if (direction == Vector2.Up)
 			{
-				_lastDirection = "N";
+				newDirection = "N";
 			}
 			else if (direction == Vector2.Down)
 			{
-				_lastDirection = "S";
+				newDirection = "S";
+			}
+
+			if (newDirection != _lastDirection)
+			{
+				_lastDirection = newDirection;
+				EmitSignal(SignalName.FacingDirectionChanged, _lastDirection); 
 			}
 
 			if (blocked)

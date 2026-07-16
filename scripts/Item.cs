@@ -17,4 +17,11 @@ public partial class Item : Resource
 
 	[Export] public int MaxStackSize { get; set; } = 5;
 	[Export] public PackedScene HandModel { get; set; }
+
+	// === TÍCH HỢP THÊM VÀO ĐÂY ===
+	[ExportGroup("Directional Textures (Optional)")]
+	[Export] public Texture2D TextureNorth { get; set; }
+	[Export] public Texture2D TextureSouth { get; set; }
+	[Export] public Texture2D TextureEast { get; set; }
+	[Export] public Texture2D TextureWest { get; set; }
 }

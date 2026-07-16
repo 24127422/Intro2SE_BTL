@@ -65,9 +65,15 @@ public partial class ItemPickup : Area2D
             if (ItemData == null) return;
 
            
+            if (_inventory == null)
+            {
+                GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
+                return;
+            }
+
             if (ItemData.IsDocument)
             {
-                var documentJournal = GetNodeOrNull("/root/DocumentJournal"); 
+                var documentJournal = GetNodeOrNull("/root/DocumentJournal");
                 if (documentJournal != null)
                 {
                     documentJournal.Call("UnlockDocument", ItemData);
@@ -76,21 +82,12 @@ public partial class ItemPickup : Area2D
                 {
                     GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
                 }
-                QueueFree();
             }
-            else
-            {
-                if (_inventory == null)
-                {
-                    GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
-                    return;
-                }
 
-                bool success = _inventory.AddItem(ItemData);
-                if (success)
-                {
-                    QueueFree(); 
-                }
+            bool success = _inventory.AddItem(ItemData);
+            if (success)
+            {
+                QueueFree();
             }
         }
 	}
