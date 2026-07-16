@@ -29,14 +29,11 @@ public partial class SanityBar : ProgressBar
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (damageBar != null && damageBar.Value > Value)
-		{
-			if (timer != null && timer.IsStopped())
-			{
-				damageBar.Value = Mathf.MoveToward(damageBar.Value, Value, (float)delta * catchUpSpeed * 20f);
-			}
-		}
-	}
+        if (damageBar != null && damageBar.Value > Value && timer?.IsStopped() is true)
+        {
+            damageBar.Value = Mathf.MoveToward(damageBar.Value, Value, (float)delta * catchUpSpeed * 20f);
+        }
+    }
 
 	public void UpdateSanity(float currSanity)
 	{
@@ -47,10 +44,7 @@ public partial class SanityBar : ProgressBar
 
 		if (targetSanity < prevSanity)
 		{
-			if (timer != null)
-			{
-				timer.Start();
-			}
+			timer?.Start();
 		}
 		else
 		{
@@ -62,7 +56,7 @@ public partial class SanityBar : ProgressBar
 	}
 
 	private void OnTimerTimeout()
-	{
-		
-	}
+    {
+
+    }
 }

@@ -15,7 +15,7 @@ public partial class Enemy : CharacterBody2D
 	private Area2D _detectRange;
 	private Area2D _attackRange;
 
-	private movement _player;
+	private Movement _player;
 
 	private Vector2 _spawnPos;
 	private Vector2 _patrolTarget;
@@ -236,7 +236,7 @@ public partial class Enemy : CharacterBody2D
 
 	private void OnDetectBodyEntered(Node2D body)
 	{
-		if (body is movement player)
+		if (body is Movement player)
 		{
 			_player = player;
 

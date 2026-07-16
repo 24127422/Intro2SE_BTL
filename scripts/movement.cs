@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class movement : CharacterBody2D
+public partial class Movement : CharacterBody2D
 {
 	public float Speed = 150.0f;
 	public float RunSpeed = 250.0f;
