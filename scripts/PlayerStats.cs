@@ -24,20 +24,23 @@ public partial class PlayerStats : Node
 		currHunger = maxHunger;
 		currSanity = maxSanity;
 
-		MyHealthBar?.UpdateHealth(currHealth);
-		MyHungerBar?.UpdateHunger(currHunger);
-		MySanityBar?.UpdateSanity(currSanity);
+		if (MyHealthBar != null) MyHealthBar.UpdateHealth(currHealth);
+		if (MyHungerBar != null) MyHungerBar.UpdateHunger(currHunger);
+		if (MySanityBar != null) MySanityBar.UpdateSanity(currSanity);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		if (currHunger > 0)
-		{
+		{	
 			float hungerRate = HungerDecreaseRate * (Input.IsActionPressed("sprint") ? 5f : 1f);
-			currHunger = Mathf.Max(0, currHunger - ((float)delta * hungerRate));
+			currHunger = Mathf.Max(0, currHunger - (float)delta * hungerRate);
 
-			MyHungerBar?.UpdateHunger(currHunger);
+			if (MyHungerBar != null)
+			{
+				MyHungerBar.UpdateHunger(currHunger);
+			}
 		}
 		else
 		{
@@ -46,9 +49,12 @@ public partial class PlayerStats : Node
 
 		if (currSanity > 0)
 		{
-			currSanity = Mathf.Max(0, currSanity - ((float)delta * SanityDecreaseRate));
+			currSanity = Mathf.Max(0, currSanity - (float)delta * SanityDecreaseRate);
 
-			MySanityBar?.UpdateSanity(currSanity);
+			if (MySanityBar != null)
+			{
+				MySanityBar.UpdateSanity(currSanity);
+			}
 		}
 		else
 		{
@@ -60,7 +66,10 @@ public partial class PlayerStats : Node
 	{
 		currHealth = Mathf.Max(0, currHealth - amount);
 
-		MyHealthBar?.UpdateHealth(currHealth);
+		if (MyHealthBar != null)
+		{
+			MyHealthBar.UpdateHealth(currHealth);
+		}
 
 		if (currHealth <= 0)
 		{
@@ -74,18 +83,27 @@ public partial class PlayerStats : Node
 	{
 		currHunger = Mathf.Min(maxHunger, currHunger + hungerAmount);
 
-		MyHungerBar?.UpdateHunger(currHunger);
+		if (MyHungerBar != null)
+		{
+			MyHungerBar.UpdateHunger(currHunger);
+		}
 
 		if (sanityAmount != 0f)
 		{
 			currSanity = Mathf.Clamp(currSanity + sanityAmount, 0f, maxSanity);
-			MySanityBar?.UpdateSanity(currSanity);
+			if (MySanityBar != null)
+			{
+				MySanityBar.UpdateSanity(currSanity);
+			}
 		}
 
 		if (healthAmount != 0f)
 		{
 			currHealth = Mathf.Clamp(currHealth + healthAmount, 0f, maxHealth);
-			MyHealthBar?.UpdateHealth(currHealth);
+			if (MyHealthBar != null)
+			{
+				MyHealthBar.UpdateHealth(currHealth);
+			}
 		}
 		GD.Print($"Consumed. Current Health is: {currHealth} | Hunger: {currHunger} | Sanity: {currSanity}");
 	}

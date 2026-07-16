@@ -4,48 +4,39 @@ public partial class PlayerHand : Node2D
 {
     [Export] public Node2D HandMarker { get; set; }
     private Node2D _currentHeldNode = null;
-    private Item _currentActiveItem = null;
-
+    private Item _currentActiveItem = null; 
     private const int HotbarSize = 9;
-    private Movement _playerMovement;
+    private movement _playerMovement;
 
-
-
+    
     [ExportGroup("Tọa độ tay (Offsets)")]
-    [Export] public Vector2 OffsetNorth { get; set; } = new Vector2(0, -14);
+    [Export] public Vector2 OffsetNorth { get; set; } = new Vector2(0, -14); 
+    [Export] public Vector2 OffsetSouth { get; set; } = new Vector2(0, 12);   
+    [Export] public Vector2 OffsetEast { get; set; } = new Vector2(14, 4);   
+    [Export] public Vector2 OffsetWest { get; set; } = new Vector2(-14, 4);  
 
-    [Export] public Vector2 OffsetSouth { get; set; } = new Vector2(0, 12);
-
-    [Export] public Vector2 OffsetEast { get; set; } = new Vector2(14, 4);
-
-    [Export] public Vector2 OffsetWest { get; set; } = new Vector2(-14, 4);
-
-
-
+    
     [ExportGroup("Góc xoay tay (Rotations trong độ)")]
-    [Export] public float RotationNorth { get; set; } = -45f;
+    [Export] public float RotationNorth { get; set; } = -45f; 
+    [Export] public float RotationSouth { get; set; } = 45f;  
+    [Export] public float RotationEast { get; set; } = 0f;    
+    [Export] public float RotationWest { get; set; } = 0f;    
 
-    [Export] public float RotationSouth { get; set; } = 45f;
-
-    [Export] public float RotationEast { get; set; } = 0f;
-
-    [Export] public float RotationWest { get; set; } = 0f;
-
-
-
+    
     [ExportGroup("Thứ tự đè (Z Index)")]
-    [Export] public int ZIndexNorth { get; set; } = -1;
-
-    [Export] public int ZIndexSouth { get; set; } = 1;
-
-    [Export] public int ZIndexEast { get; set; } = 1;
-
-    [Export] public int ZIndexWest { get; set; } = 1;
-
+    [Export] public int ZIndexNorth { get; set; } = -1; 
+    [Export] public int ZIndexSouth { get; set; } = 1;  
+    [Export] public int ZIndexEast { get; set; } = 1;   
+    [Export] public int ZIndexWest { get; set; } = 1;   
 
     public override void _Ready()
     {
-        HandMarker ??= this;
+        if (HandMarker == null)
+        {
+            HandMarker = this;
+        }
+
+        
         _playerMovement = FindPlayerMovement();
 
         if (_playerMovement != null)
@@ -66,14 +57,13 @@ public partial class PlayerHand : Node2D
         UpdateHeldItem();
     }
 
-
-
-    private Movement FindPlayerMovement()
+    
+    private movement FindPlayerMovement()
     {
         Node current = this;
         while (current != null)
         {
-            if (current is Movement playerMove)
+            if (current is movement playerMove)
             {
                 return playerMove;
             }
@@ -84,7 +74,10 @@ public partial class PlayerHand : Node2D
 
     public override void _ExitTree()
     {
-        _playerMovement?.Disconnect("FacingDirectionChanged", new Callable(this, nameof(OnFacingDirectionChanged)));
+        if (_playerMovement != null)
+        {
+            _playerMovement.Disconnect("FacingDirectionChanged", new Callable(this, nameof(OnFacingDirectionChanged)));
+        }
 
         if (Inventory.Instance != null)
         {
@@ -121,8 +114,7 @@ public partial class PlayerHand : Node2D
 
     private void UpdateHeldItem()
     {
-
-
+        
         if (_currentHeldNode != null && GodotObject.IsInstanceValid(_currentHeldNode))
         {
             _currentHeldNode.QueueFree();
@@ -137,7 +129,7 @@ public partial class PlayerHand : Node2D
 
         var activeSlot = Inventory.Instance.Slots[activeIndex];
 
-        if (activeSlot?.IsEmpty is not false || activeSlot.Item == null)
+        if (activeSlot == null || activeSlot.IsEmpty || activeSlot.Item == null)
         {
             return;
         }
@@ -145,8 +137,7 @@ public partial class PlayerHand : Node2D
         Item item = activeSlot.Item;
         _currentActiveItem = item;
 
-
-
+        
         if (item.HandModel != null)
         {
             Node2D modelInstance = item.HandModel.Instantiate<Node2D>();
@@ -157,10 +148,8 @@ public partial class PlayerHand : Node2D
         }
         else if (item.Icon != null)
         {
-            Sprite2D fallbackSprite = new()
-            {
-                Texture = item.Icon
-            };
+            Sprite2D fallbackSprite = new Sprite2D();
+            fallbackSprite.Texture = item.Icon;
             HandMarker.AddChild(fallbackSprite);
             fallbackSprite.Position = Vector2.Zero;
             fallbackSprite.Rotation = 0f;
@@ -177,8 +166,7 @@ public partial class PlayerHand : Node2D
 
     private void ApplyFacingDirection(string direction)
     {
-
-
+        
         Vector2 targetOffset = OffsetSouth;
         float targetRotationDegrees = RotationSouth;
         int targetZIndex = ZIndexSouth;
@@ -211,23 +199,18 @@ public partial class PlayerHand : Node2D
         targetNode.Position = targetOffset;
         targetNode.Rotation = Mathf.DegToRad(targetRotationDegrees);
         targetNode.ZIndex = targetZIndex;
-        targetNode.Scale = Vector2.One;
-
+        targetNode.Scale = Vector2.One; 
 
         if (_currentHeldNode == null || _currentActiveItem == null) return;
 
-        bool hasDirectionalTextures = _currentActiveItem.TextureNorth != null ||
-
-                                     _currentActiveItem.TextureSouth != null ||
-
-                                     _currentActiveItem.TextureEast != null ||
-
+        bool hasDirectionalTextures = _currentActiveItem.TextureNorth != null || 
+                                     _currentActiveItem.TextureSouth != null || 
+                                     _currentActiveItem.TextureEast != null || 
                                      _currentActiveItem.TextureWest != null;
 
         if (_currentHeldNode is Sprite2D sprite)
         {
-            sprite.Scale = Vector2.One;
-
+            sprite.Scale = Vector2.One; 
 
             if (hasDirectionalTextures)
             {
@@ -249,19 +232,16 @@ public partial class PlayerHand : Node2D
                         }
                         else if (_currentActiveItem.TextureEast != null)
                         {
-
-
+                            
                             sprite.Texture = _currentActiveItem.TextureEast;
-                            sprite.Scale = new Vector2(-1f, 1f);
-
+                            sprite.Scale = new Vector2(-1f, 1f); 
                         }
                         break;
                 }
             }
             else
             {
-
-
+                
                 sprite.Texture = _currentActiveItem.Icon;
                 bool facingLeft = direction == "W";
                 sprite.Scale = new Vector2(facingLeft ? -1f : 1f, 1f);
