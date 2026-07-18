@@ -32,10 +32,10 @@ public partial class ItemPickup : Area2D
 			GetNode<Sprite2D>("Sprite2D").Texture = ItemData.Icon;
 		}
 		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-        if (sprite != null && ItemData.Icon != null)
-        {
-            sprite.Texture = ItemData.Icon;
-        }
+		if (sprite != null && ItemData.Icon != null)
+		{
+			sprite.Texture = ItemData.Icon;
+		}
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -61,34 +61,34 @@ public partial class ItemPickup : Area2D
 	public override void _Process(double delta)
 	{
 		if (_isPlayerInRange && Input.IsActionJustPressed("interact"))
-        {
-            if (ItemData == null) return;
+		{
+			if (ItemData == null) return;
 
-           
-            if (_inventory == null)
-            {
-                GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
-                return;
-            }
+		   
+			if (_inventory == null)
+			{
+				GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
+				return;
+			}
 
-            if (ItemData.IsDocument)
-            {
-                var documentJournal = GetNodeOrNull("/root/DocumentJournal");
-                if (documentJournal != null)
-                {
-                    documentJournal.Call("UnlockDocument", ItemData);
-                }
-                else
-                {
-                    GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
-                }
-            }
+			if (ItemData.IsDocument)
+			{
+				var documentJournal = GetNodeOrNull("/root/DocumentJournal");
+				if (documentJournal != null)
+				{
+					documentJournal.Call("UnlockDocument", ItemData);
+				}
+				else
+				{
+					GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
+				}
+			}
 
-            bool success = _inventory.AddItem(ItemData);
-            if (success)
-            {
-                QueueFree();
-            }
-        }
+			bool success = _inventory.AddItem(ItemData);
+			if (success)
+			{
+				QueueFree();
+			}
+		}
 	}
 }

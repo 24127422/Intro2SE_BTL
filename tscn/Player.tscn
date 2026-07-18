@@ -120,7 +120,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34em8")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -131,7 +131,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_exuc5")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -142,7 +142,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jfsi")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -153,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nvvsh")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -170,7 +170,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yit3w")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -187,7 +187,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t3scq")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -204,7 +204,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kh7nt")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -221,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lroks")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -270,9 +270,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -546.5
+offset_left = -133.875
 offset_top = -40.0
-offset_right = 546.5
+offset_right = 133.875
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_e80uo")
@@ -285,7 +285,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/h_separation = 6
 theme_override_constants/v_separation = 6
-columns = 10
+columns = 5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=600797861]
 scale = Vector2(5, 5)
