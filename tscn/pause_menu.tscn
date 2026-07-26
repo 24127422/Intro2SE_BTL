@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://c0fu2ut5t8ek8"]
+
+[ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://image/GUI - Tileset (By Polyshade).png" id="1_gui"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_Panel"]
+atlas = ExtResource("1_gui")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnNormal"]
+texture = ExtResource("1_gui")
+texture_margin_left = 10.0
+texture_margin_top = 2.0
+texture_margin_right = 8.0
+texture_margin_bottom = 2.0
+region_rect = Rect2(287.17535, 146.15924, 48.31357, 17.156479)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnPressed"]
+texture = ExtResource("1_gui")
+texture_margin_left = 12.0
+texture_margin_top = 6.0
+texture_margin_right = 12.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(144, 96, 48, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnHover"]
+texture = ExtResource("1_gui")
+texture_margin_left = 12.0
+texture_margin_top = 4.0
+texture_margin_right = 12.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(144, 80, 48, 16)
+modulate_color = Color(0.85, 0.85, 0.85, 1)
+
+[node name="Pause Menu" type="CanvasLayer" unique_id=1006550077]
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=371238197]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="MenuPanel" type="NinePatchRect" parent="." unique_id=2054817460]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -140.0
+offset_right = 110.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_Panel")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuPanel" unique_id=1735613307]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="MenuPanel/VBoxContainer" unique_id=1347905951]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.941176, 0.823529, 0.631373, 1)
+theme_override_colors/font_outline_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="MenuPanel/VBoxContainer" unique_id=2128049023]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="ResumeBtn" type="Button" parent="MenuPanel/VBoxContainer" unique_id=1180503733]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
+theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
+text = "Resume"
+
+[node name="SaveBtn" type="Button" parent="MenuPanel/VBoxContainer" unique_id=1455526240]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
+theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
+text = "Save Game"
+
+[node name="QuitBtn" type="Button" parent="MenuPanel/VBoxContainer" unique_id=270960252]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
+theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
+theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
+theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
+text = "Quit to Menu"

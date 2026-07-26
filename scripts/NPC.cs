@@ -61,7 +61,7 @@ public partial class NPC : Area2D
 	{
 		for (int i = DialogueStages.Count - 1; i >= 0; i--)
 		{
-			if (DialogueStages[i] != null && DialogueStages[i].MeetsCondition())
+			if (DialogueStages[i]?.MeetsCondition() == true)
 				return DialogueStages[i];
 		}
 		return null;
