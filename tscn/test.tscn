@@ -1206,9 +1206,8 @@ collision_layer = 2
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1823728835]
 zoom = Vector2(2.51, 2.51)
 
-[node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl")]
+[node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518]
 script = ExtResource("7_qachy")
-MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)
