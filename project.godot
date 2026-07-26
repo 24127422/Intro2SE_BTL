@@ -19,7 +19,7 @@ config/icon="res://icon.svg"
 
 Inventory="*uid://d241yisromx47"
 DialogueUi="*uid://d3oklpu6n2bib"
-DocumentJournal="*res://tscn/DocumentJournal.tscn"
+GameManager="*res://scripts/GameManager.cs"
 JournalUi="*uid://ct65lkcadci5h"
 SaveUtils="*uid://p4qi6rixffr"
 

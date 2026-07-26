@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c0fu2ut5t8ek8"]
 
-[ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://image/GUI - Tileset (By Polyshade).png" id="1_gui"]
+[ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://Image/GUI - Tileset (By Polyshade).png" id="1_gui"]
+[ext_resource type="Script" uid="uid://cne0l5mo2csxf" path="res://scripts/pause_menu.cs" id="1_rfhe0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_Panel"]
 atlas = ExtResource("1_gui")
@@ -31,7 +32,10 @@ texture_margin_bottom = 6.0
 region_rect = Rect2(144, 80, 48, 16)
 modulate_color = Color(0.85, 0.85, 0.85, 1)
 
-[node name="Pause Menu" type="CanvasLayer" unique_id=1006550077]
+[node name="Pause Menu" type="CanvasLayer" unique_id=1006550077 node_paths=PackedStringArray("save_load_menu")]
+process_mode = 2
+script = ExtResource("1_rfhe0")
+save_load_menu = NodePath(".")
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=371238197]
 anchors_preset = 15

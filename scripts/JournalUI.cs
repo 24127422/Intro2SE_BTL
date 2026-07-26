@@ -24,7 +24,11 @@ public partial class JournalUI : CanvasLayer
 
 		Visible = false;
 
-		DocumentJournal.Instance.JournalChanged += RefreshUI;
+		if (GameManager.Instance != null)
+		{
+			GameManager.Instance.JournalChanged += RefreshUI;
+		}
+
 		BuildEntries();
 		RefreshUI();
 	}
@@ -35,7 +39,10 @@ public partial class JournalUI : CanvasLayer
 			child.QueueFree();
 		_entryNodes.Clear();
 
-		foreach (var item in DocumentJournal.Instance.AllDocuments)
+		var journal = GameManager.Instance;
+		if (journal == null) return;
+
+		foreach (var item in journal.AllDocuments)
 		{
 			var entryNode = EntryScene.Instantiate<JournalEntry>();
 			EntryContainer.AddChild(entryNode);
@@ -53,7 +60,8 @@ public partial class JournalUI : CanvasLayer
 
 	private void OnEntrySelected(Item item)
 	{
-		if (item == null || !DocumentJournal.Instance.IsUnlocked(item)) return;
+		var journal = GameManager.Instance;
+		if (item == null || journal == null || !journal.IsUnlocked(item)) return;
 
 		ContentTitleLabel.Text = item.ItemName;
 		ContentTextLabel.Text = item.Description;

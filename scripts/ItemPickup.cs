@@ -73,14 +73,13 @@ public partial class ItemPickup : Area2D
 
 			if (ItemData.IsDocument)
 			{
-				var documentJournal = GetNodeOrNull("/root/DocumentJournal");
-				if (documentJournal != null)
+				if (GameManager.Instance != null)
 				{
-					documentJournal.Call("UnlockDocument", ItemData);
+					GameManager.Instance.UnlockDocument(ItemData);
 				}
 				else
 				{
-					GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
+					GD.PrintErr("[LỖI] GameManager chưa được khởi tạo, không thể mở khóa tài liệu!");
 				}
 			}
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dnvwl2fpw74fk"]
 
 [ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://Image/GUI - Tileset (By Polyshade).png" id="1_gui"]
-[ext_resource type="Script" uid="uid://c1vmwtx3h5gy5" path="res://scripts/save_load_menu.gd" id="1_script"]
+[ext_resource type="Script" path="res://scripts/Save_load_menu.gd" id="1_script"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_MainPanel"]
 atlas = ExtResource("1_gui")

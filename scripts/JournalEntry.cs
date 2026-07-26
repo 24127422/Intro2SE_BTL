@@ -19,7 +19,8 @@ public partial class JournalEntry : Button
 
 	public void Refresh()
 	{ 	
-		bool unlocked = DocumentJournal.Instance.IsUnlocked(DocumentItem);
+		var journal = GameManager.Instance;
+		bool unlocked = DocumentItem != null && journal != null && journal.IsUnlocked(DocumentItem);
 
 		Text = unlocked ? DocumentItem.ItemName : "???";
 		Disabled = !unlocked; // mục chưa mở khóa thì không bấm được

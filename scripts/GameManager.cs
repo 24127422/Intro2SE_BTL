@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class GameManager : Node
 {
@@ -24,6 +25,8 @@ public partial class GameManager : Node
 	[Signal] public delegate void GameVictoryEventHandler();
 	[Signal] public delegate void GameDefeatEventHandler(string reason);
 	[Signal] public delegate void SettingsAppliedEventHandler();
+	[Signal] public delegate void JournalChangedEventHandler();
+	[Signal] public delegate void DocumentUnlockedEventHandler(Item item);
 
 	// === ĐIỀU KIỆN THẮNG / THUA ===
 	[ExportGroup("Win / Loss Conditions")]
@@ -34,6 +37,9 @@ public partial class GameManager : Node
 	public int CurrentCollectedDocuments { get; private set; } = 0;
 	public float ElapsedTime { get; private set; } = 0.0f;
 	private bool _isTimerRunning = false;
+
+	public List<Item> AllDocuments { get; private set; } = new();
+	private readonly HashSet<string> _unlockedDocumentKeys = new();
 
 	// === DỮ LIỆU SETTINGS ===
 	private const string SettingsFilePath = "user://settings.cfg";
@@ -59,11 +65,6 @@ public partial class GameManager : Node
 		LoadSettings();
 		ApplySettings();
 
-		// Kết nối với DocumentJournal nếu đã tồn tại
-		if (DocumentJournal.Instance != null)
-		{
-			DocumentJournal.Instance.DocumentUnlocked += OnDocumentUnlockedFromJournal;
-		}
 	}
 
 	#region Game State Management
@@ -128,18 +129,43 @@ public partial class GameManager : Node
 
 	#region Objective Tracking
 
-	private void OnDocumentUnlockedFromJournal(Item item)
+	public void UnlockDocument(Item item)
 	{
+		if (item == null || !item.IsDocument) return;
+
+		if (!AllDocuments.Contains(item))
+		{
+			AllDocuments.Add(item);
+		}
+
+		string key = GetDocumentKey(item);
+		if (_unlockedDocumentKeys.Contains(key)) return;
+
+		_unlockedDocumentKeys.Add(key);
+		EmitSignal(SignalName.DocumentUnlocked, item);
+		EmitSignal(SignalName.JournalChanged);
+
 		if (!CheckWinByDocuments || CurrentState != GameState.Playing) return;
 
 		CurrentCollectedDocuments++;
 		EmitSignal(SignalName.ObjectiveProgressUpdated, CurrentCollectedDocuments, RequiredDocumentCount);
 
-		// Kiểm tra điều kiện thắng
 		if (CurrentCollectedDocuments >= RequiredDocumentCount)
 		{
 			TriggerVictory();
 		}
+	}
+
+	public bool IsUnlocked(Item item)
+	{
+		if (item == null) return false;
+		return _unlockedDocumentKeys.Contains(GetDocumentKey(item));
+	}
+
+	private static string GetDocumentKey(Item item)
+	{
+		if (item == null) return string.Empty;
+		return string.IsNullOrEmpty(item.ResourcePath) ? item.GetInstanceId().ToString() : item.ResourcePath;
 	}
 
 	#endregion

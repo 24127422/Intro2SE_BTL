@@ -74,7 +74,7 @@ public partial class movement : CharacterBody2D
 			if (newDirection != _lastDirection)
 			{
 				_lastDirection = newDirection;
-				EmitSignal(SignalName.FacingDirectionChanged, _lastDirection); 
+				EmitSignal("FacingDirectionChanged", _lastDirection);
 			}
 
 			if (blocked)
