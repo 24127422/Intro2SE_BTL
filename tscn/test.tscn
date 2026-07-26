@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dxcjbasggjvn5" path="res://Image/tileset/Inside_C.png" id="3_g4xt8"]
 [ext_resource type="Texture2D" uid="uid://cn8qem1n5nmnd" path="res://Image/tileset/Inside_D.png" id="4_751um"]
 [ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_rba67"]
+[ext_resource type="Script" uid="uid://dvm12gihyngd8" path="res://scripts/PlayerStats.cs" id="7_qachy"]
 [ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="9_lco2r"]
 [ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="10_pu6gk"]
 [ext_resource type="Resource" uid="uid://c7rgap1y3q3p" path="res://Dialogue/DialogueLine.tres" id="11_p0oyg"]
@@ -17,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="15_1jpnp"]
 [ext_resource type="Resource" uid="uid://dxomigl24w6ng" path="res://Items/DOcument1.tres" id="16_5kcdt"]
 [ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
+[ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1204,6 +1206,10 @@ collision_layer = 2
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1823728835]
 zoom = Vector2(2.51, 2.51)
 
+[node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl")]
+script = ExtResource("7_qachy")
+MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
+
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)
 color = Color(0.50980395, 0.50980395, 0.50980395, 1)
@@ -1224,3 +1230,7 @@ ItemData = ExtResource("16_5kcdt")
 
 [node name="Enemy" parent="." unique_id=378890957 instance=ExtResource("17_tah4c")]
 position = Vector2(235.99998, -34.999996)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1193340879]
+
+[node name="StatsControl" parent="CanvasLayer" unique_id=1526490129 instance=ExtResource("18_1jpnp")]
