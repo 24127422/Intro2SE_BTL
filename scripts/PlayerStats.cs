@@ -21,6 +21,7 @@ public partial class PlayerStats : Node
 	[Export] public float HungerZeroDamageRate = 2f;
 	[Export] public float ThirstZeroDamageRate = 2f;
 	[Export] public float SanityZeroDamageRate = 1f;
+    private movement _player;
 
 	public override void _Ready()
 	{
@@ -28,6 +29,8 @@ public partial class PlayerStats : Node
 		currHunger = maxHunger;
 		currThirst = maxThirst;
 		currSanity = maxSanity;
+
+        _player = GetParentOrNull<movement>();
 
 		if (MyStatsControl != null)
 		{
@@ -40,6 +43,11 @@ public partial class PlayerStats : Node
 
 	public override void _Process(double delta)
 	{
+        if (_player != null && _player.IsDead)
+        {
+            return;
+        }
+
 		if (currHunger > 0)
 		{
 			float hungerRate = HungerDecreaseRate * (Input.IsActionPressed("sprint") ? 5f : 1f);
@@ -73,20 +81,22 @@ public partial class PlayerStats : Node
 		}
 	}
 
-	public void TakeDamage(float amount)
-	{
-		var player = GetParent<movement>();
-		player?.FlashDamage();
+        public void TakeDamage(float amount)
+        {
+            if (_player != null && _player.IsDead)
+                return; // already dead, stop processing further damage
 
-		currHealth = Mathf.Max(0, currHealth - amount);
-		MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
+            _player?.FlashDamage();
 
-		if (currHealth <= 0)
-		{
-			player?.Die();
-			GD.Print("Player died. Game over!");
-		}
-	}
+            currHealth = Mathf.Max(0, currHealth - amount);
+            MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
+
+            if (currHealth <= 0)
+        {   
+            _player?.Die();
+            GD.Print("Player died. Game over!");
+        }
+}
 
 	public void Consume(float hungerAmount, float thirstAmount = 0f, float sanityAmount = 0f, float healthAmount = 0f)
 	{
