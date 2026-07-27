@@ -11,7 +11,10 @@ public partial class movement : CharacterBody2D
 	private string _lastDirection = "S";
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
 	public string FacingDirection => _lastDirection;
-
+	private bool _isFlashing = false;
+	
+	public bool IsDead { get; private set; } = false;
+	
 	[Export] public PackedScene ItemPickupScene;
 
 	private Random _rng = new Random();
@@ -36,6 +39,13 @@ public partial class movement : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 direction = GetDirection();
+		
+		if (IsDead)
+		{
+			Velocity = Vector2.Zero;
+			MoveAndSlide();
+			return;
+		}
 
 		bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
 
@@ -197,5 +207,46 @@ public partial class movement : CharacterBody2D
 			GetTree().CurrentScene.AddChild(pickup);
 			pickup.GlobalPosition = dropPosition;
 		}
+	}
+	
+	public void Die()
+	{
+		if (IsDead)
+			return;
+
+		IsDead = true;
+
+		Velocity = Vector2.Zero;
+
+		SetPhysicsProcess(false);
+		SetProcessInput(false);
+		SetProcessUnhandledInput(false);
+
+		_sprite.Play("Death_" + _lastDirection);
+	}
+	
+	public async void FlashDamage()
+	{
+		if (_isFlashing)
+			return;
+
+		_isFlashing = true;
+
+		Color damageColor = new Color(1.0f, 0.5f, 0.5f);
+		float duration = 0.25f;
+		int steps = 30;
+
+		for (int i = 0; i <= steps; i++)
+		{
+			float t = (float)i / steps;
+
+			_sprite.Modulate = damageColor.Lerp(Colors.White, t);
+
+			await ToSignal(GetTree().CreateTimer(duration / steps),
+				SceneTreeTimer.SignalName.Timeout);
+		}
+
+		_sprite.Modulate = Colors.White;
+		_isFlashing = false;
 	}
 }

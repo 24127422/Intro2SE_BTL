@@ -403,7 +403,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2844s")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_E",
 "speed": 8.0
 }, {
@@ -432,7 +432,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qqblo")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_N",
 "speed": 8.0
 }, {
@@ -461,7 +461,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_to3hp")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_S",
 "speed": 8.0
 }, {
@@ -490,7 +490,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oskjw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_W",
 "speed": 8.0
 }, {
@@ -510,7 +510,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5ulf2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -530,7 +530,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yum6w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -550,7 +550,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pv3y1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -570,7 +570,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h47xj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -605,7 +605,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0wljr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -640,7 +640,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jypwg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -675,7 +675,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8qpbr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -710,7 +710,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rixd3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -723,7 +723,6 @@ size = Vector2(28.200005, 30.400005)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=378890957]
 scale = Vector2(1.25, 1.25)
-collision_layer = 4
 script = ExtResource("1_883pt")
 WalkSpeed = 50.0
 ChaseSpeed = 150.0
@@ -735,6 +734,7 @@ scale = Vector2(0.99999976, 0.99999976)
 shape = SubResource("RectangleShape2D_tqw65")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1834324844]
+position = Vector2(0.79999995, -10.4)
 sprite_frames = SubResource("SpriteFrames_tqw65")
 animation = &"Attack_W"
 

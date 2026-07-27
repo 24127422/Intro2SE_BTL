@@ -1,3 +1,43 @@
-# Godot 4+ specific ignores
+# Godot
 .godot/
-/android/
+.import/
+.export/
+
+# Mono / C#
+.mono/
+bin/
+obj/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+
+# Rider
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# User-specific
+*.user
+*.suo
+*.userprefs
+
+# Build artifacts
+*.pdb
+*.cache
+*.log
+
+# Backup project files
+*.csproj.old*
+*.tmp
+*.bak
+
+# Exported builds
+*.apk
+*.ipa
+*.exe
+*.x86_64
+*.app
+*.zip

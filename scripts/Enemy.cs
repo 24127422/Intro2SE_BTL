@@ -6,6 +6,7 @@ public partial class Enemy : CharacterBody2D
 	[Export] public float WalkSpeed = 60f;
 	[Export] public float ChaseSpeed = 120f;
 	[Export] public float PatrolDistance = 96f;
+	[Export] public float AttackDmg = 33f;
 	[Export] public float AttackCooldown = 1.0f;
 	
 	private bool _attacking = false;
@@ -35,7 +36,9 @@ public partial class Enemy : CharacterBody2D
 	}
 
 	private State _state = State.Patrol;
-
+	
+	private PlayerStats _playerStats;
+	
 	//----------------------------------------------------------
 
 	public override void _Ready()
@@ -54,7 +57,7 @@ public partial class Enemy : CharacterBody2D
 		_sprite.AnimationFinished += OnAnimationFinished;
 
 		_spawnPos = GlobalPosition;
-
+		
 		PickPatrolPoint();
 	}
 
@@ -62,6 +65,19 @@ public partial class Enemy : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{	
+		if (_player != null && _player.IsDead)
+		{
+			_player = null;
+			_playerStats = null;
+			_playerInAttackRange = false;
+
+			if (_state != State.Dead)
+			{
+				_state = State.Patrol;
+				PickPatrolPoint();
+			}
+		}
+		
 		if (_player != null)
 			UpdateLookAtPlayer();
 		
@@ -126,7 +142,7 @@ public partial class Enemy : CharacterBody2D
 
 	private void Chase()
 	{
-		if (_player == null)
+		if (_player == null || _player.IsDead)
 		{
 			_state = State.Patrol;
 			PickPatrolPoint();
@@ -162,7 +178,14 @@ public partial class Enemy : CharacterBody2D
 	//----------------------------------------------------------
 
 	private async void StartAttack()
-	{
+	{	
+		if (_player == null || _player.IsDead)
+		{
+			_attacking = false;
+			_canAttack = true;
+			_state = State.Patrol;
+			return;
+		}
 		if (_attacking || !_canAttack)
 			return;
 
@@ -173,9 +196,15 @@ public partial class Enemy : CharacterBody2D
 		_state = State.Attack;
 
 		_sprite.Play("Attack_" + _lastDirection);
+		
+		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+		DamagePlayer();
+			
+		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+		DamagePlayer();
 
 		await ToSignal(_sprite, AnimatedSprite2D.SignalName.AnimationFinished);
-
+		
 		PlayIdle();
 
 		await ToSignal(GetTree().CreateTimer(AttackCooldown),
@@ -184,7 +213,7 @@ public partial class Enemy : CharacterBody2D
 		_attacking = false;
 		_canAttack = true;
 
-		if (_player == null)
+		if (_player == null || _player.IsDead)
 			_state = State.Patrol;
 		else if (_playerInAttackRange)
 			StartAttack();
@@ -239,6 +268,7 @@ public partial class Enemy : CharacterBody2D
 		if (body is movement player)
 		{
 			_player = player;
+			_playerStats = player.GetNode<PlayerStats>("PlayerStats2");
 
 			if (_state != State.Attack)
 				_state = State.Chase;
@@ -317,5 +347,17 @@ public partial class Enemy : CharacterBody2D
 		Vector2 dir = (_player.GlobalPosition - GlobalPosition).Normalized();
 
 		UpdateDirection(dir);
+	}
+	
+	private void DamagePlayer()
+	{	
+		if (_player == null || _player.IsDead)
+			return;
+			
+		if (!_playerInAttackRange)
+			return;
+		
+		if (_playerStats != null)
+			_playerStats.TakeDamage(AttackDmg);
 	}
 }
