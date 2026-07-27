@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://ba5hbk6iuenrp"]
+
+[ext_resource type="FontFile" uid="uid://dblv4h11wiov3" path="res://Theme/RobotoMono-Regular.ttf" id="1_jpedm"]
+
+[resource]
+default_font = ExtResource("1_jpedm")
