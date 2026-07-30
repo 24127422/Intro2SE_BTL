@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
 public partial class GameManager : Node
 {
@@ -11,9 +10,7 @@ public partial class GameManager : Node
 	{
 		MainMenu,
 		Playing,
-		Paused,
-		Victory,
-		Defeat
+		Paused
 	}
 
 	[ExportGroup("Game State")]
@@ -21,25 +18,8 @@ public partial class GameManager : Node
 
 	// === TÍN HIỆU (SIGNALS) ===
 	[Signal] public delegate void GameStateChangedEventHandler(int newState);
-	[Signal] public delegate void ObjectiveProgressUpdatedEventHandler(int current, int total);
-	[Signal] public delegate void GameVictoryEventHandler();
-	[Signal] public delegate void GameDefeatEventHandler(string reason);
 	[Signal] public delegate void SettingsAppliedEventHandler();
 	[Signal] public delegate void JournalChangedEventHandler();
-	[Signal] public delegate void DocumentUnlockedEventHandler(Item item);
-
-	// === ĐIỀU KIỆN THẮNG / THUA ===
-	[ExportGroup("Win / Loss Conditions")]
-	[Export] public bool CheckWinByDocuments { get; set; } = true;
-	[Export] public int RequiredDocumentCount { get; set; } = 5;
-	[Export] public float TimeLimitSeconds { get; set; } = 0.0f; // 0 = Không giới hạn thời gian
-
-	public int CurrentCollectedDocuments { get; private set; } = 0;
-	public float ElapsedTime { get; private set; } = 0.0f;
-	private bool _isTimerRunning = false;
-
-	public List<Item> AllDocuments { get; private set; } = new();
-	private readonly HashSet<string> _unlockedDocumentKeys = new();
 
 	// === DỮ LIỆU SETTINGS ===
 	private const string SettingsFilePath = "user://settings.cfg";
@@ -61,7 +41,6 @@ public partial class GameManager : Node
 		}
 		Instance = this;
 
-		// Tải và áp dụng cài đặt ngay khi game khởi chạy
 		LoadSettings();
 		ApplySettings();
 
@@ -72,13 +51,8 @@ public partial class GameManager : Node
 	public void StartGame()
 	{
 		CurrentState = GameState.Playing;
-		ElapsedTime = 0.0f;
-		CurrentCollectedDocuments = 0;
-		_isTimerRunning = true;
-
 		GetTree().Paused = false;
 		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
-		EmitSignal(SignalName.ObjectiveProgressUpdated, CurrentCollectedDocuments, RequiredDocumentCount);
 	}
 
 	public void TogglePause()
@@ -87,85 +61,14 @@ public partial class GameManager : Node
 		{
 			CurrentState = GameState.Paused;
 			GetTree().Paused = true;
-			_isTimerRunning = false;
 		}
 		else if (CurrentState == GameState.Paused)
 		{
 			CurrentState = GameState.Playing;
 			GetTree().Paused = false;
-			_isTimerRunning = true;
 		}
 
 		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
-	}
-
-	public void TriggerVictory()
-	{
-		if (CurrentState == GameState.Victory || CurrentState == GameState.Defeat) return;
-
-		CurrentState = GameState.Victory;
-		_isTimerRunning = false;
-		GetTree().Paused = true;
-
-		GD.Print("[GameManager] VICTORY! Bạn đã hoàn thành trò chơi.");
-		EmitSignal(SignalName.GameVictory);
-		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
-	}
-
-	public void TriggerDefeat(string reason = "Bạn đã thất bại!")
-	{
-		if (CurrentState == GameState.Victory || CurrentState == GameState.Defeat) return;
-
-		CurrentState = GameState.Defeat;
-		_isTimerRunning = false;
-		GetTree().Paused = true;
-
-		GD.Print($"[GameManager] GAME OVER! Lý do: {reason}");
-		EmitSignal(SignalName.GameDefeat, reason);
-		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
-	}
-
-	#endregion
-
-	#region Objective Tracking
-
-	public void UnlockDocument(Item item)
-	{
-		if (item == null || !item.IsDocument) return;
-
-		if (!AllDocuments.Contains(item))
-		{
-			AllDocuments.Add(item);
-		}
-
-		string key = GetDocumentKey(item);
-		if (_unlockedDocumentKeys.Contains(key)) return;
-
-		_unlockedDocumentKeys.Add(key);
-		EmitSignal(SignalName.DocumentUnlocked, item);
-		EmitSignal(SignalName.JournalChanged);
-
-		if (!CheckWinByDocuments || CurrentState != GameState.Playing) return;
-
-		CurrentCollectedDocuments++;
-		EmitSignal(SignalName.ObjectiveProgressUpdated, CurrentCollectedDocuments, RequiredDocumentCount);
-
-		if (CurrentCollectedDocuments >= RequiredDocumentCount)
-		{
-			TriggerVictory();
-		}
-	}
-
-	public bool IsUnlocked(Item item)
-	{
-		if (item == null) return false;
-		return _unlockedDocumentKeys.Contains(GetDocumentKey(item));
-	}
-
-	private static string GetDocumentKey(Item item)
-	{
-		if (item == null) return string.Empty;
-		return string.IsNullOrEmpty(item.ResourcePath) ? item.GetInstanceId().ToString() : item.ResourcePath;
 	}
 
 	#endregion

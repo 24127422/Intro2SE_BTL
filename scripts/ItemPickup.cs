@@ -72,10 +72,9 @@ public partial class ItemPickup : Area2D
 
             if (ItemData.IsDocument)
             {
-                var documentJournal = GetNodeOrNull("/root/DocumentJournal");
-                if (documentJournal != null)
+                if (DocumentJournal.Instance != null)
                 {
-                    documentJournal.Call("UnlockDocument", ItemData);
+                    DocumentJournal.Instance.UnlockDocument(ItemData);
                 }
                 else
                 {

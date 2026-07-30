@@ -21,7 +21,7 @@ Inventory="*uid://d241yisromx47"
 DialogueUi="*uid://d3oklpu6n2bib"
 GameManager="*res://scripts/GameManager.cs"
 JournalUi="*uid://ct65lkcadci5h"
-SaveUtils="*uid://p4qi6rixffr"
+DocumentJournal="*uid://ljmu377icm2d"
 
 [dotnet]
 

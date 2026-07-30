@@ -1,5 +1,5 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class movement : CharacterBody2D
 {
@@ -10,12 +10,12 @@ public partial class movement : CharacterBody2D
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
-	public string FacingDirection => _lastDirection;
-	private bool _isFlashing = false;
+    public string FacingDirection => _lastDirection;
+    private bool _isFlashing = false;
 	
 	public bool IsDead { get; private set; } = false;
-	
-	[Export] public PackedScene ItemPickupScene;
+
+    [Export] public PackedScene ItemPickupScene;
 
 	private Random _rng = new Random();
 
@@ -38,16 +38,15 @@ public partial class movement : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 direction = GetDirection();
-		
-		if (IsDead)
+        Vector2 direction = GetDirection();
+        if (IsDead)
 		{
 			Velocity = Vector2.Zero;
 			MoveAndSlide();
 			return;
 		}
 
-		bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
+        bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
 
 		if (isBlocked)
 		{
@@ -207,9 +206,8 @@ public partial class movement : CharacterBody2D
 			GetTree().CurrentScene.AddChild(pickup);
 			pickup.GlobalPosition = dropPosition;
 		}
-	}
-	
-	public void Die()
+    }
+    public void Die()
 	{
 		if (IsDead)
 			return;
