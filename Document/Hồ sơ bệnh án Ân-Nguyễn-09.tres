@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cenjnybpafnur"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_315it"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_n5pw1"]
+
+[resource]
+script = ExtResource("2_n5pw1")
+ItemName = "Hồ sơ bệnh án Ân-Nguyễn-09"
+Icon = ExtResource("1_315it")
+Description = "Báo cáo chẩn đoán, khoa Sản-Nhi (năm 2015). Bệnh nhân Nguyễn Phạm Thiên Ân bị suy tủy cấp do phơi nhiễm chất phóng xạ/hoá chất không xác định. Nguồn lây nhiễm chưa được làm rõ.
+Ghi chú lề (viết tay, mực đã phai): \"...xảy ra ngay sau khi bố cháu hoàn tất ca trực tại phòng lab tầng 11...\""
+Thought = "Thiên Ân là con gái thầy Nguyễn. Tại sao em ấy lại nhiễm hoá chất độc hại ngay tại trường?
+Có phải có ai đó đã cố tình làm chuyện này?"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

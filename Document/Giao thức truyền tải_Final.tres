@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cav1yxgyga408"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_b5qaq"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_2alo6"]
+
+[resource]
+script = ExtResource("2_2alo6")
+ItemName = "Nhật ký thử nghiệm"
+Icon = ExtResource("1_b5qaq")
+Description = "Thử nghiệm số 13. Sau khi cấy nhật (*sic*), bản thân như được khai phá tiềm năng, việc học
+thuộc trở nên dễ dàng hơn, tốc độ xử lý thông tin được tăng mức đáng kể. Tuy nhiên nếu hoạt động quá mức, cơ thể sẽ cảm thấy nóng lên và tê liệt đôi chút. Có đôi khi tay cũng mất cảm giác tạm thời."
+Thought = "Bố... cái gì đây? \"Ký chủ\"... chẳng lẽ mình chính là"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

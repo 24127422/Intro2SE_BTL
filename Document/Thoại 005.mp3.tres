@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://on6ahhihd82m"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_qnwnw"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_ptu5h"]
+
+[resource]
+script = ExtResource("2_ptu5h")
+ItemName = "Bài đăng ẩn danh - HCMUS Confessions"
+Icon = ExtResource("1_qnwnw")
+Description = "\"Có ai để ý là mấy anh chị nhận học bổng Vesper những năm trước, sau khi 'đi du học' thì không ai còn liên lạc được nữa không? 
+Kể cả confession cũ cũng bị xoá sạch. Search tên trên Google 0 có kết quả luôn. 
+Ai học Thánh địa tầng 11 xong đều bảo trong đó lạnh toát dù full điều hoà, kiểu... không phải lạnh do máy.\""
+Thought = "Không phải chỉ mình mình thấy điều đó bất thường."
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

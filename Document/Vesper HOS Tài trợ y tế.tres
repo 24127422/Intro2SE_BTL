@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bxr54u4l3tgdc"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_f18ey"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_xqmq4"]
+
+[resource]
+script = ExtResource("2_xqmq4")
+ItemName = "Nhật ký thử nghiệm"
+Icon = ExtResource("1_f18ey")
+Description = "Vesper HOS chấp thuận chi trả 100% chi phí duy trì sự sống cho bệnh nhân Nguyễn Phạm
+Thiên Ân. Điều kiện kèm theo: Giáo sư Nguyễn phải hoàn thành \"Giao thức trích xuất thực
+địa\" đối với tài sản trí tuệ mã số H-2016N, trước khi mọi dấu vết sinh học của chủ thể bị tiêu huỷ hoàn toàn"
+Thought = "Đây là ai? Sao lại có tên trong ngăn tài liệu của thầy Nguyễn? Người này có thể là con gái đã mất của thầy... còn nội dung phía dưới, \"tiêu huỷ hoàn toàn\"... là sao?"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

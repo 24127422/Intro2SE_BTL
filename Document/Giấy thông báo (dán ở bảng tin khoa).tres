@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://biccqb80smxvo"]
+
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_f32ma"]
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_troeh"]
+
+[resource]
+script = ExtResource("1_f32ma")
+ItemName = "Giấy thông báo (dán ở bảng tin khoa)"
+Icon = ExtResource("1_troeh")
+Description = "Chương trình học bổng toàn phần dành cho sinh viên xuất sắc, không yêu cầu kinh nghiệm.
+Ứng viên cần vượt qua 3 vòng: học lực, phỏng vấn, kiểm tra tư duy thuật toán trong môi trường giả lập (đeo thiết bị VR độc quyền của Vesper). 
+Lưu ý: sinh viên tham gia cần trải qua 1 đợt kiểm tra danh tính thông qua thiết bị đo sinh học nhằm đảm bảo an toàn cho mọi người."
+Thought = "Thật may vì mình đã đăng ký sớm và được chọn vào vòng nghiên cứu. Không biết trong đó sẽ như thế nào"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

@@ -15,8 +15,6 @@
 [ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_fu8xo"]
 [ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="13_p0oyg"]
 [ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
-[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="15_1jpnp"]
-[ext_resource type="Resource" uid="uid://dxomigl24w6ng" path="res://Items/DOcument1.tres" id="16_5kcdt"]
 [ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
 [ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
 
@@ -1206,9 +1204,8 @@ collision_layer = 2
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1823728835]
 zoom = Vector2(2.51, 2.51)
 
-[node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl")]
+[node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518]
 script = ExtResource("7_qachy")
-MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)
@@ -1223,10 +1220,6 @@ DialogueStages = Array[ExtResource("11_v8vuo")]([SubResource("Resource_l67pg")])
 position = Vector2(-27, 18)
 NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
-
-[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("15_1jpnp")]
-position = Vector2(128, -33)
-ItemData = ExtResource("16_5kcdt")
 
 [node name="Enemy" parent="." unique_id=378890957 instance=ExtResource("17_tah4c")]
 position = Vector2(235.99998, -34.999996)

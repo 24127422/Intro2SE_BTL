@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://coqj1c0as6d40"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_386vn"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_mxst8"]
+
+[resource]
+script = ExtResource("2_mxst8")
+ItemName = "Lệnh điều động nội bộ Vesper"
+Icon = ExtResource("1_386vn")
+Description = "Gửi Đặc vụ V-01
+\"Tiến sĩ Hoàng từ chối bàn giao Bio-ROM. Triển khai phương án B: kích hoạt phơi nhiễm lên mục tiêu Thiên Ân (con gái Nguyễn). Dùng chi phí điều trị làm đòn bẩy độc quyền để buộc Nguyễn tự tay thực hiện quy trình giải phẫu bẻ khoá trên người Hoàng.\""
+Thought = "Đây là... tại sao mình lại đọc hiểu được thứ này? Nó không nằm trong file nào cả, nó như thể đang phát trực tiếp từ trong đầu mình."
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://jjao1x7hrnw"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_8bf7y"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_dg7hm"]
+
+[resource]
+script = ExtResource("2_dg7hm")
+ItemName = "Đơn xin thôi việc"
+Icon = ExtResource("1_8bf7y")
+Description = "Đơn xin nghỉ việc gửi Vesper, lý do: \"Tôi cảm thấy cơ thể ngày càng suy nhược từ khi bắt đầu sử dụng thiết bị công ty cấp...\" - con dấu \"ĐÃ XỬ LÝ\" đóng chồng lên, không có chữ ký phản hồi nào từ phía công ty."
+Thought = "Đã xử lý\" bằng cách nào? Người này bây giờ ở đâu?"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

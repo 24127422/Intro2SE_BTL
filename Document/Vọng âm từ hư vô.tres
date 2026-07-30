@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://0qdvqnh6uhme"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_0py51"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_kcikp"]
+
+[resource]
+script = ExtResource("2_kcikp")
+ItemName = "Nhật ký thử nghiệm"
+Icon = ExtResource("1_0py51")
+Description = "..một vị giáo sư đã được cứu ra rồi. Khi nãy mình còn nghe 1 giọng nói nữa, phải tiếp tục tìm
+AAAAAAAAAAAAAAAA"
+Thought = "Tiếng thét cuối cùng đó... có lẽ người này đã bị đè bẹp trong vụ cháy. Nhưng khoan, ở trường mình chưa từng nghe ai kể có người chết trong vụ cháy đó cả"
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

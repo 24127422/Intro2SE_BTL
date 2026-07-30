@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://ctijmfqlpg5vh"]
+
+[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_awiax"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_ucbt5"]
+
+[resource]
+script = ExtResource("2_ucbt5")
+ItemName = "Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn"
+Icon = ExtResource("1_awiax")
+Description = "12/2016 - Con bé đã yếu đi nhiều. Bác sĩ nói nếu không có thuốc đặc trị, chỉ còn vài tháng.
+3/2017 - Tôi đã làm. Tôi không xứng được gọi là bạn của anh nữa, Hoàng à.
+3/2017 - Con bé vẫn không qua khỏi. Vesper nói \"chi phí vượt ngân sách phê duyệt\". Tôi đã đánh đổi tất cả để đổi lấy một lời hứa suông.
+9/2026 - Thằng bé vào được vòng học bổng rồi. Trời ơi, tôi đang làm gì với cuộc đời nó vậy..."
+IsDocument = true
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"
