@@ -17,6 +17,8 @@
 [ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
 [ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
 [ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
+[ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="19_5kcdt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1227,3 +1229,7 @@ position = Vector2(235.99998, -34.999996)
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1193340879]
 
 [node name="StatsControl" parent="CanvasLayer" unique_id=1526490129 instance=ExtResource("18_1jpnp")]
+
+[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("18_qachy")]
+position = Vector2(-141, -35)
+ItemData = ExtResource("19_5kcdt")

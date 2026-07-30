@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://c1bllgfkm7omd" path="res://Image/sprites/characters/player/Idle.png" id="9_q1haa"]
 [ext_resource type="Texture2D" uid="uid://b008672yiqnqh" path="res://Image/sprites/characters/player/Walk.png" id="10_qpm1p"]
 [ext_resource type="Script" uid="uid://cxmp0ekep7reg" path="res://scripts/PlayerHand.cs" id="11_qpm1p"]
+[ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="20_invui"]
+[ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="21_islot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(74, 64)
@@ -185,7 +187,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q1haa")
 }],
-"loop": 0,
+"loop": false,
 "name": &"Death_E",
 "speed": 8.0
 }, {
@@ -202,7 +204,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1tfkq")
 }],
-"loop": 0,
+"loop": false,
 "name": &"Death_N",
 "speed": 8.0
 }, {
@@ -219,7 +221,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pm2vd")
 }],
-"loop": 0,
+"loop": false,
 "name": &"Death_S",
 "speed": 8.0
 }, {
@@ -236,7 +238,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rti4s")
 }],
-"loop": 0,
+"loop": false,
 "name": &"Death_W",
 "speed": 8.0
 }, {
@@ -247,7 +249,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34em8")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -258,7 +260,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_exuc5")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -269,7 +271,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jfsi")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -280,7 +282,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nvvsh")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -297,7 +299,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yit3w")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -314,7 +316,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t3scq")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -331,7 +333,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kh7nt")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -348,7 +350,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lroks")
 }],
-"loop": 1,
+"loop": true,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -376,3 +378,33 @@ OffsetNorth = Vector2(6, 6)
 OffsetSouth = Vector2(-6, 12)
 OffsetEast = Vector2(15, 11)
 OffsetWest = Vector2(-15, 11)
+
+[node name="InventoryLayer" type="CanvasLayer" parent="." unique_id=900000001]
+
+[node name="InventoryUI" type="Control" parent="InventoryLayer" unique_id=900000002 node_paths=PackedStringArray("SlotContainer")]
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -68.0
+offset_right = -40.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 1
+script = ExtResource("20_invui")
+SlotScene = ExtResource("21_islot")
+SlotContainer = NodePath("SlotContainer")
+
+[node name="SlotContainer" type="GridContainer" parent="InventoryLayer/InventoryUI" unique_id=900000003]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 5

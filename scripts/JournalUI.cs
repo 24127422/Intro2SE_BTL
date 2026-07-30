@@ -13,21 +13,31 @@ public partial class JournalUI : CanvasLayer
 
 	private List<JournalEntry> _entryNodes = new();
 
-	public override void _Ready()
+public override void _Ready()
+{
+	if (Instance != null && Instance != this)
 	{
-		if (Instance != null && Instance != this)
-		{
-			QueueFree();
-			return;
-		}
-		Instance = this;
-
-		Visible = false;
-
-		DocumentJournal.Instance.JournalChanged += RefreshUI;
-		BuildEntries();
-		RefreshUI();
+		QueueFree();
+		return;
 	}
+	Instance = this;
+	Visible = false;
+
+	CallDeferred(nameof(InitializeJournal));
+}
+
+private void InitializeJournal()
+{
+	if (DocumentJournal.Instance == null)
+	{
+		GD.PrintErr("[JournalUI] DocumentJournal chưa sẵn sàng! Kiểm tra thứ tự Autoload trong Project Settings (DocumentJournal phải nằm TRƯỚC JournalUI).");
+		return;
+	}
+
+	DocumentJournal.Instance.JournalChanged += RefreshUI;
+	BuildEntries();
+	RefreshUI();
+}
 
 	private void BuildEntries()
 	{

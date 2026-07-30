@@ -19,7 +19,6 @@ public partial class GameManager : Node
 	// === TÍN HIỆU (SIGNALS) ===
 	[Signal] public delegate void GameStateChangedEventHandler(int newState);
 	[Signal] public delegate void SettingsAppliedEventHandler();
-	[Signal] public delegate void JournalChangedEventHandler();
 
 	// === DỮ LIỆU SETTINGS ===
 	private const string SettingsFilePath = "user://settings.cfg";

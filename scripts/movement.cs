@@ -6,7 +6,6 @@ public partial class movement : CharacterBody2D
 	public float Speed = 150.0f;
 	public float RunSpeed = 250.0f;
 	private const int HotbarSize = 9;
-	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
@@ -118,8 +117,6 @@ public partial class movement : CharacterBody2D
 
 	public override void _Ready()
 	{
-		_inventoryUI = GetNode<Control>("CanvasLayer/InventoryUI");
-
 		Inventory.Instance.ItemDropped += OnItemDropped;
 		// get sprite component
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -154,12 +151,6 @@ public partial class movement : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
-		// bật/tắt túi đồ
-		if (Input.IsActionJustPressed("toggle_inventory"))
-		{
-			_inventoryUI.Visible = !_inventoryUI.Visible;
-		}
-
 		// bật/tắt journal
 		if (Input.IsActionJustPressed("toggle_journal"))
 		{

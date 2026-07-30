@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://fmwvkesjp1f2"]
+
+[ext_resource type="Script" uid="uid://ljmu377icm2d" path="res://scripts/DocumentJournal.cs" id="1_evjsw"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_6ufua"]
+[ext_resource type="Resource" uid="uid://b283hfp47ue1" path="res://Document/Bài đăng ẩn danh - HCMUS Confessions.tres" id="3_e61h7"]
+[ext_resource type="Resource" uid="uid://cav1yxgyga408" path="res://Document/Giao thức truyền tải_Final.tres" id="4_2k101"]
+[ext_resource type="Resource" uid="uid://biccqb80smxvo" path="res://Document/Giấy thông báo (dán ở bảng tin khoa).tres" id="5_pd6kn"]
+[ext_resource type="Resource" uid="uid://cenjnybpafnur" path="res://Document/Hồ sơ bệnh án Ân-Nguyễn-09.tres" id="6_11u6s"]
+[ext_resource type="Resource" uid="uid://coqj1c0as6d40" path="res://Document/Lệnh điều động nội bộ Vesper.tres" id="7_3pmm8"]
+[ext_resource type="Resource" uid="uid://ctijmfqlpg5vh" path="res://Document/Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn.tres" id="8_s4ha1"]
+[ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="9_ot6w6"]
+[ext_resource type="Resource" uid="uid://on6ahhihd82m" path="res://Document/Thoại 005.mp3.tres" id="10_xrlsx"]
+[ext_resource type="Resource" uid="uid://bxr54u4l3tgdc" path="res://Document/Vesper HOS Tài trợ y tế.tres" id="11_4p4q3"]
+[ext_resource type="Resource" uid="uid://0qdvqnh6uhme" path="res://Document/Vọng âm từ hư vô.tres" id="12_t1xjt"]
+[ext_resource type="Resource" uid="uid://jjao1x7hrnw" path="res://Document/Đơn xin thôi việc.tres" id="13_ssg3j"]
+
+[node name="Node" type="Node" unique_id=297414731]
+script = ExtResource("1_evjsw")
+AllDocuments = Array[ExtResource("2_6ufua")]([ExtResource("3_e61h7"), ExtResource("4_2k101"), ExtResource("5_pd6kn"), ExtResource("6_11u6s"), ExtResource("7_3pmm8"), ExtResource("8_s4ha1"), ExtResource("9_ot6w6"), ExtResource("10_xrlsx"), ExtResource("11_4p4q3"), ExtResource("12_t1xjt"), ExtResource("13_ssg3j")])

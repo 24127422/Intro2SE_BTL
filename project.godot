@@ -19,9 +19,10 @@ config/icon="res://icon.svg"
 
 Inventory="*uid://d241yisromx47"
 DialogueUi="*uid://d3oklpu6n2bib"
-GameManager="*res://scripts/GameManager.cs"
+DocumentJournal="*uid://fmwvkesjp1f2"
 JournalUi="*uid://ct65lkcadci5h"
-DocumentJournal="*uid://ljmu377icm2d"
+GameManager="*res://scripts/GameManager.cs"
+SaveUtils="*uid://p4qi6rixffr"
 
 [dotnet]
 
