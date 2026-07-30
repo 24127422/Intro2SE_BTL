@@ -3,7 +3,6 @@ using Godot;
 public partial class ItemPickup : Area2D
 {
 	[Export] public Item ItemData { get; set; }
-	
 	private Label _promptLabel;
 	private bool _isPlayerInRange = false;
 	private Inventory _inventory;
@@ -27,15 +26,15 @@ public partial class ItemPickup : Area2D
 			GD.PrintErr($"[Cảnh báo] '{Name}' chưa được gán ItemData.");
 		}
 
-		if (ItemData != null && ItemData.Icon != null)
+		if (ItemData?.Icon != null)
 		{
 			GetNode<Sprite2D>("Sprite2D").Texture = ItemData.Icon;
 		}
 		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-		if (sprite != null && ItemData.Icon != null)
-		{
-			sprite.Texture = ItemData.Icon;
-		}
+        if (sprite != null && ItemData.Icon != null)
+        {
+            sprite.Texture = ItemData.Icon;
+        }
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -61,33 +60,34 @@ public partial class ItemPickup : Area2D
 	public override void _Process(double delta)
 	{
 		if (_isPlayerInRange && Input.IsActionJustPressed("interact"))
-		{
-			if (ItemData == null) return;
+        {
+            if (ItemData == null) return;
 
-		   
-			if (_inventory == null)
-			{
-				GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
-				return;
-			}
+           
+            if (_inventory == null)
+            {
+                GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
+                return;
+            }
 
-			if (ItemData.IsDocument)
-			{
-				if (GameManager.Instance != null)
-				{
-					GameManager.Instance.UnlockDocument(ItemData);
-				}
-				else
-				{
-					GD.PrintErr("[LỖI] GameManager chưa được khởi tạo, không thể mở khóa tài liệu!");
-				}
-			}
+            if (ItemData.IsDocument)
+            {
+                var documentJournal = GetNodeOrNull("/root/DocumentJournal");
+                if (documentJournal != null)
+                {
+                    documentJournal.Call("UnlockDocument", ItemData);
+                }
+                else
+                {
+                    GD.PrintErr("[LỖI] Tìm thấy item dạng Document nhưng Autoload 'DocumentJournal' chưa được thiết lập!");
+                }
+            }
 
-			bool success = _inventory.AddItem(ItemData);
-			if (success)
-			{
-				QueueFree();
-			}
-		}
+            bool success = _inventory.AddItem(ItemData);
+            if (success)
+            {
+                QueueFree();
+            }
+        }
 	}
 }

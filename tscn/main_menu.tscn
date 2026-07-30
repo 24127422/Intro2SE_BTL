@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bni83xa6jd571"]
+
+[ext_resource type="Texture2D" uid="uid://lcw0htkaachl" path="res://Image/new_atlas_texture.tres" id="1_hpdlp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vinbt"]
+texture = ExtResource("1_hpdlp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vd1p2"]
+texture = ExtResource("1_hpdlp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05yqr"]
+texture = ExtResource("1_hpdlp")
+
+[node name="MainMenu" type="CanvasLayer" unique_id=1000000000]
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=1000000001]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Panel" type="NinePatchRect" parent="." unique_id=1000000002]
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1000000003]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 164.0
+offset_top = 34.399994
+offset_right = -111.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="Panel/VBox" unique_id=1000000004]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 36
+text = "BURN TO LIVE"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="Panel/VBox" unique_id=1000000005]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_vinbt")
+text = "Start Game"
+
+[node name="OptionsButton" type="Button" parent="Panel/VBox" unique_id=1000000006]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_vd1p2")
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="Panel/VBox" unique_id=1000000007]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxTexture_05yqr")
+text = "Quit"
