@@ -5,7 +5,6 @@ public partial class PlayerHand : Node2D
     [Export] public Node2D HandMarker { get; set; }
     private Node2D _currentHeldNode = null;
     private Item _currentActiveItem = null; 
-    private const int HotbarSize = 9;
     private movement _playerMovement;
 
     
@@ -86,31 +85,11 @@ public partial class PlayerHand : Node2D
         }
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
-        {
-            if (keyEvent.Keycode >= Key.Key1 && keyEvent.Keycode <= Key.Key9)
-            {
-                int targetSlot = (int)keyEvent.Keycode - (int)Key.Key1;
-                Inventory.Instance.ActiveSlotIndex = targetSlot;
-            }
-        }
-
-        if (@event is InputEventMouseButton mb && mb.Pressed)
-        {
-            if (mb.ButtonIndex == MouseButton.WheelUp)
-            {
-                int prevSlot = (Inventory.Instance.ActiveSlotIndex - 1 + HotbarSize) % HotbarSize;
-                Inventory.Instance.ActiveSlotIndex = prevSlot;
-            }
-            else if (mb.ButtonIndex == MouseButton.WheelDown)
-            {
-                int nextSlot = (Inventory.Instance.ActiveSlotIndex + 1) % HotbarSize;
-                Inventory.Instance.ActiveSlotIndex = nextSlot;
-            }
-        }
-    }
+    // GHI CHÚ: KHÔNG xử lý phím số / cuộn chuột ở đây nữa.
+    // Việc chuyển ô active (ActiveSlotIndex) đã được xử lý DUY NHẤT trong movement.cs.
+    // PlayerHand chỉ lắng nghe signal ActiveSlotChanged/InventoryChanged để cập nhật hình ảnh trên tay.
+    // (Lý do bug "cuộn 1 lần nhảy 2 ô": trước đây cả 2 script cùng cộng dồn ActiveSlotIndex
+    // cho cùng 1 sự kiện chuột/phím, nên bị tăng gấp đôi.)
 
     private void UpdateHeldItem()
     {

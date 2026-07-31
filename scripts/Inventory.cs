@@ -7,7 +7,7 @@ public partial class Inventory : Node
 {
 	public static Inventory Instance { get; private set; }
 
-	[Export] public int MaxSlots { get; set; } = 20;
+	[Export] public int MaxSlots { get; set; } = 5;
 
 	public List<InventorySlotData> Slots { get; private set; } = new();
 
@@ -51,7 +51,11 @@ public partial class Inventory : Node
 	public bool AddItem(Item item, int amount = 1)
 	{
 		if (item == null || amount <= 0) return false;
-
+		if (item.IsDocument)
+			{
+				DocumentJournal.Instance?.UnlockDocument(item);
+				return true; 
+			}
 		int remaining = amount;
 
 		// Bước 1: dồn vào các stack đã có sẵn item này (nếu stack được)
@@ -149,7 +153,7 @@ public partial class Inventory : Node
 		var item = slot.Item;
 		int dropAmount = Mathf.Min(slot.Quantity, amount);
 
-		RemoveAt(index, dropAmount); // xóa khỏi dữ liệu túi đồ (đã tự EmitSignal ItemRemoved + InventoryChanged)
+		RemoveAt(index, dropAmount); 
 		EmitSignal(SignalName.ItemDropped, item, dropAmount);
 	}
 

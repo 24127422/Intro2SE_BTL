@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bw75p0l5isml0"]
+[gd_scene format=3 uid="uid://dntm7np5abesg"]
 
 [ext_resource type="Script" uid="uid://b0o8tgemhx3nk" path="res://scripts/movement.cs" id="1_kne1u"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="2_q1haa"]
@@ -379,32 +379,37 @@ OffsetSouth = Vector2(-6, 12)
 OffsetEast = Vector2(15, 11)
 OffsetWest = Vector2(-15, 11)
 
-[node name="InventoryLayer" type="CanvasLayer" parent="." unique_id=900000001]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2001000001]
 
-[node name="InventoryUI" type="Control" parent="InventoryLayer" unique_id=900000002 node_paths=PackedStringArray("SlotContainer")]
+[node name="InventoryUI" type="Control" parent="CanvasLayer" unique_id=2001000002 node_paths=PackedStringArray("SlotContainer")]
 layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -68.0
-offset_right = -40.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 1
-script = ExtResource("20_invui")
-SlotScene = ExtResource("21_islot")
-SlotContainer = NodePath("SlotContainer")
-
-[node name="SlotContainer" type="GridContainer" parent="InventoryLayer/InventoryUI" unique_id=900000003]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 6
-columns = 5
+mouse_filter = 2
+script = ExtResource("20_invui")
+SlotScene = ExtResource("21_islot")
+SlotContainer = NodePath("HotbarScroll/HBoxContainer")
+
+[node name="HotbarScroll" type="ScrollContainer" parent="CanvasLayer/InventoryUI" unique_id=2001000004]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -66.0
+offset_right = 300.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/InventoryUI/HotbarScroll" unique_id=2001000003]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 6

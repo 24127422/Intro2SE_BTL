@@ -6,6 +6,7 @@ public partial class movement : CharacterBody2D
 	public float Speed = 150.0f;
 	public float RunSpeed = 250.0f;
 	private const int HotbarSize = 9;
+	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;
 	private string _lastDirection = "S";
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
@@ -117,6 +118,12 @@ public partial class movement : CharacterBody2D
 
 	public override void _Ready()
 	{
+		_inventoryUI = GetNodeOrNull<Control>("CanvasLayer/InventoryUI");
+		if (_inventoryUI == null)
+			GD.PrintErr("[movement] Không tìm thấy 'CanvasLayer/InventoryUI' dưới Player! Kiểm tra lại Player.tscn.");
+		else
+			_inventoryUI.Visible = true;
+
 		Inventory.Instance.ItemDropped += OnItemDropped;
 		// get sprite component
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -149,14 +156,9 @@ public partial class movement : CharacterBody2D
 		}
 	}
 
-	public override void _Process(double delta)
-	{
-		// bật/tắt journal
-		if (Input.IsActionJustPressed("toggle_journal"))
-		{
-			JournalUI.Instance.Visible = !JournalUI.Instance.Visible;
-		}
-	}
+	// GHI CHÚ: Đây là NƠI DUY NHẤT xử lý chuyển ô active (phím số + cuộn chuột).
+	// KHÔNG thêm lại logic tương tự ở PlayerHand.cs hay bất kỳ script nào khác,
+	// nếu không sẽ bị lỗi cộng dồn 2 lần / 1 lần cuộn như trước.
 
 	private void SetActiveInventorySlot(int slotIndex)
 	{
@@ -237,5 +239,12 @@ public partial class movement : CharacterBody2D
 
 		_sprite.Modulate = Colors.White;
 		_isFlashing = false;
+	}
+	public override void _Process(double delta)
+	{
+		if (Input.IsActionJustPressed("toggle_journal"))
+		{
+			JournalUI.Instance.Visible = !JournalUI.Instance.Visible;
+		}
 	}
 }
