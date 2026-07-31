@@ -46,7 +46,6 @@ public partial class ItemPickup : Area2D
 
 	private void OnBodyExited(Node2D body)
 	{
-		// Khi nhân vật đi ra xa khỏi vật phẩm
 		if (body is CharacterBody2D)
 		{
 			_isPlayerInRange = false;

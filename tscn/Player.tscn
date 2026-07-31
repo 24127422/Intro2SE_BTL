@@ -379,37 +379,31 @@ OffsetSouth = Vector2(-6, 12)
 OffsetEast = Vector2(15, 11)
 OffsetWest = Vector2(-15, 11)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2001000001]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1485953008]
 
-[node name="InventoryUI" type="Control" parent="CanvasLayer" unique_id=2001000002 node_paths=PackedStringArray("SlotContainer")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("20_invui")
-SlotScene = ExtResource("21_islot")
-SlotContainer = NodePath("HotbarScroll/HBoxContainer")
-
-[node name="HotbarScroll" type="ScrollContainer" parent="CanvasLayer/InventoryUI" unique_id=2001000004]
-layout_mode = 1
+[node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=838437235 node_paths=PackedStringArray("SlotContainer")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -300.0
-offset_top = -66.0
-offset_right = 300.0
-offset_bottom = -12.0
+offset_left = -156.375
+offset_top = -40.0
+offset_right = 156.375
 grow_horizontal = 2
 grow_vertical = 0
-horizontal_scroll_mode = 2
-vertical_scroll_mode = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/InventoryUI/HotbarScroll" unique_id=2001000003]
-layout_mode = 2
 size_flags_horizontal = 4
-theme_override_constants/separation = 6
+size_flags_vertical = 8
+script = ExtResource("20_invui")
+SlotScene = ExtResource("21_islot")
+SlotContainer = NodePath("GridContainer")
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryUI" unique_id=1892816384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 4
+columns = 5

@@ -169,20 +169,21 @@ public partial class movement : CharacterBody2D
 		inventory.ActiveSlotIndex = Mathf.Clamp(slotIndex, 0, maxSlot);
 	}
 
-	private void ChangeActiveInventorySlot(int delta)
-	{
-		var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
-		if (inventory == null) return;
+private void ChangeActiveInventorySlot(int delta)
+{
+	var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+	if (inventory == null) return;
 
-		int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
-		int currentSlot = Mathf.Clamp(inventory.ActiveSlotIndex, 0, maxSlot);
-		int nextSlot = (currentSlot + delta + HotbarSize) % HotbarSize;
-		if (nextSlot > maxSlot)
-		{
-			nextSlot = maxSlot;
-		}
-		inventory.ActiveSlotIndex = nextSlot;
-	}
+	int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
+	if (maxSlot < 0) return;
+
+	int slotCount = maxSlot + 1;
+	int currentSlot = Mathf.Clamp(inventory.ActiveSlotIndex, 0, maxSlot);
+
+	int nextSlot = ((currentSlot + delta) % slotCount + slotCount) % slotCount;
+
+	inventory.ActiveSlotIndex = nextSlot;
+}
 
 	private void OnItemDropped(Item item, int amount)
 	{
