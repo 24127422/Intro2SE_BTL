@@ -94,6 +94,7 @@ public partial class PlayerStats : Node
             if (currHealth <= 0)
         {   
             _player?.Die();
+			GameManager.Instance?.TriggerGameOver();
             GD.Print("Player died. Game over!");
         }
 }

@@ -46,6 +46,13 @@ public partial class movement : CharacterBody2D
 			return;
 		}
 
+		if (GameManager.Instance != null && GameManager.Instance.IsPlayerInputBlocked)
+		{
+			Velocity = Vector2.Zero;
+			MoveAndSlide();
+			return;
+		}
+
 		bool isBlocked = (DialogueUI.Instance.IsTalking) || (JournalUI.Instance.Visible);
 
 		if (isBlocked)
@@ -243,9 +250,18 @@ private void ChangeActiveInventorySlot(int delta)
 	}
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustPressed("toggle_inventory"))
+		{
+			bool newState = !_inventoryUI.Visible;
+			GameManager.Instance?.SetInventoryOpen(newState);
+			_inventoryUI.Visible = GameManager.Instance?.IsInventoryOpen ?? newState;
+		}
+
 		if (Input.IsActionJustPressed("toggle_journal"))
 		{
-			JournalUI.Instance.Visible = !JournalUI.Instance.Visible;
+			bool newState = !JournalUI.Instance.Visible;
+			GameManager.Instance?.SetJournalOpen(newState);
+			JournalUI.Instance.Visible = GameManager.Instance?.IsJournalOpen ?? newState;
 		}
 	}
 }

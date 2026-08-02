@@ -10,12 +10,20 @@ public partial class GameManager : Node
 	{
 		MainMenu,
 		Playing,
-		Paused
+		Paused,
+		Dialogue,
+		GameOver
 	}
 
 	[ExportGroup("Game State")]
 	[Export] public GameState CurrentState { get; private set; } = GameState.MainMenu;
 
+	[ExportGroup("Overlay Flags")]
+	public bool IsJournalOpen {get; private set; } = false;
+	public bool IsInventoryOpen {get; private set; } = false;
+	public bool IsPlayerInputBlocked => CurrentState != GameState.Playing || IsJournalOpen || IsInventoryOpen;
+
+	private Label _debugLabel;
 	// === TÍN HIỆU (SIGNALS) ===
 	[Signal] public delegate void GameStateChangedEventHandler(int newState);
 	[Signal] public delegate void SettingsAppliedEventHandler();
@@ -43,30 +51,118 @@ public partial class GameManager : Node
 		LoadSettings();
 		ApplySettings();
 
+		StartGame();
+
+		// dưới là hàm dùng để debug, tắt comment để vào mode debug.
+		/* if (OS.IsDebugBuild())
+		{
+			_debugLabel = new Label();
+			_debugLabel.Position = new Vector2(10, 10);
+			GetTree().Root.CallDeferred("add_child", _debugLabel);
+		}
+		*/ 
 	}
+// dưới là hàm debug
+/*  
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (!OS.IsDebugBuild()) return;
+		if (@event is not InputEventKey key || !key.Pressed) return;
+		if (!key.CtrlPressed) return; // require Ctrl held, so single letters can't accidentally fire during normal typing/gameplay
+
+		switch (key.Keycode)
+		{
+			case Key.F: // Ctrl+F
+				Mock_SetState(GameState.Dialogue);
+				GD.Print($"[DEBUG] State -> Dialogue. Blocked={IsPlayerInputBlocked}");
+				break;
+
+			case Key.G: // Ctrl+G
+				Mock_SetState(GameState.Playing);
+				GD.Print($"[DEBUG] State -> Playing. Blocked={IsPlayerInputBlocked}");
+				break;
+
+			case Key.H: // Ctrl+H
+				Mock_OpenJournal();
+				GD.Print($"[DEBUG] Journal open attempt. IsJournalOpen={IsJournalOpen}");
+				break;
+
+			case Key.J: // Ctrl+H
+				Mock_CloseJournal();
+				GD.Print($"[DEBUG] Journal closed. IsJournalOpen={IsJournalOpen}");
+				break;
+
+			case Key.K: // Ctrl+K
+				Mock_SetState(GameState.GameOver);
+				GD.Print($"[DEBUG] State -> GameOver. Blocked={IsPlayerInputBlocked}");
+				break;
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+		if (_debugLabel != null)
+		{
+			_debugLabel.Text = $"State: {CurrentState} | Journal: {IsJournalOpen} | Inventory: {IsInventoryOpen} | Blocked: {IsPlayerInputBlocked}";
+		}
+	}
+*/
 
 	#region Game State Management
 
 	public void StartGame()
 	{
-		CurrentState = GameState.Playing;
-		GetTree().Paused = false;
-		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
+		SetState(GameState.Playing);
 	}
 
 	public void TogglePause()
 	{
 		if (CurrentState == GameState.Playing)
 		{
-			CurrentState = GameState.Paused;
-			GetTree().Paused = true;
+			SetState(GameState.Paused);
 		}
 		else if (CurrentState == GameState.Paused)
 		{
-			CurrentState = GameState.Playing;
-			GetTree().Paused = false;
+			SetState(GameState.Playing);
 		}
+	}
 
+	public void StartDialogue()
+	{
+		if (CurrentState == GameState.Playing)
+		{
+			SetState(GameState.Dialogue);
+		}
+	}
+
+	public void EndDialogue()
+	{
+		if (CurrentState == GameState.Dialogue)
+		{
+			SetState(GameState.Playing);
+		}
+	}
+
+	public void TriggerGameOver()
+	{
+		SetState(GameState.GameOver);
+	}
+
+	public void SetJournalOpen(bool open)
+	{
+		if (open && CurrentState != GameState.Playing) return;
+		IsJournalOpen = open;
+	}
+
+	public void SetInventoryOpen(bool open)
+	{
+		if (open && CurrentState != GameState.Playing) return;
+		IsInventoryOpen = open;
+	}
+	public void SetState(GameState newState)
+	{
+		CurrentState = newState;
+		GetTree().Paused = (newState == GameState.Paused);
 		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
 	}
 
@@ -160,6 +256,16 @@ public partial class GameManager : Node
 		CurrentResolution = new Vector2I(resX, resY);
 		VSyncEnabled = (bool)config.GetValue("Video", "VSync", true);
 	}
+
+	#endregion
+
+	#region Testing/ Mocking
+
+	public void Mock_SetState(GameState state) => SetState(state);
+	public void Mock_OpenJournal() => IsJournalOpen = true;
+	public void Mock_CloseJournal() => IsJournalOpen = false;
+	public void Mock_OpenInventory() => IsInventoryOpen = true;
+	public void Mock_CloseInventory() => IsInventoryOpen = false;
 
 	#endregion
 }

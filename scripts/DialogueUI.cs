@@ -40,6 +40,7 @@ public partial class DialogueUI : CanvasLayer
 		_currentNpc = npc;
 		IsTalking = true;
 		Panel.Visible = true;
+		GameManager.Instance?.StartDialogue();
 		ShowLine(dialogue.StartLineIndex);
 	}
 
@@ -184,6 +185,7 @@ public partial class DialogueUI : CanvasLayer
 	{
 		IsTalking = false;
 		Panel.Visible = false;
+		GameManager.Instance?.EndDialogue();
 		
 		ClearChoices(); // DỌN SẠCH các nút lựa chọn cũ tránh rác và lỗi hiển thị lần sau
 		
