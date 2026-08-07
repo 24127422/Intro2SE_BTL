@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://cxmp0ekep7reg" path="res://scripts/PlayerHand.cs" id="11_qpm1p"]
 [ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="20_invui"]
 [ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="21_islot"]
+[ext_resource type="Script" uid="uid://dbyx0u7xkejx5" path="res://scripts/PrimaryItemController.cs" id="22_pic"]
+[ext_resource type="Script" uid="uid://lwip6jwirg3m" path="res://scripts/PrimaryItemBar.cs" id="23_pib"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
 size = Vector2(74, 64)
@@ -379,7 +381,7 @@ OffsetSouth = Vector2(-6, 12)
 OffsetEast = Vector2(15, 11)
 OffsetWest = Vector2(-15, 11)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1485953008]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2001000001]
 
 [node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=838437235 node_paths=PackedStringArray("SlotContainer")]
 anchors_preset = 7
@@ -407,3 +409,44 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 4
 columns = 5
+
+[node name="PrimaryItemBarUI" type="Control" parent="CanvasLayer" unique_id=2001000006 node_paths=PackedStringArray("Bar", "NameLabel")]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -110.0
+offset_top = -98.0
+offset_right = 110.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("23_pib")
+Bar = NodePath("Bar")
+NameLabel = NodePath("NameLabel")
+
+[node name="NameLabel" type="Label" parent="CanvasLayer/PrimaryItemBarUI" unique_id=2001000007]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+
+[node name="Bar" type="ProgressBar" parent="CanvasLayer/PrimaryItemBarUI" unique_id=2001000008]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
+
+[node name="PrimaryItemController" type="Node" parent="." unique_id=2001000005 node_paths=PackedStringArray("EffectAttachPoint")]
+script = ExtResource("22_pic")
+EffectAttachPoint = NodePath("../HandPos")

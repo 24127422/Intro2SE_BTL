@@ -129,10 +129,10 @@ public partial class movement : CharacterBody2D
 		if (_inventoryUI == null)
 			GD.PrintErr("[movement] Không tìm thấy 'CanvasLayer/InventoryUI' dưới Player! Kiểm tra lại Player.tscn.");
 		else
-			_inventoryUI.Visible = true;
+			_inventoryUI.Visible = true; 
 
 		Inventory.Instance.ItemDropped += OnItemDropped;
-		// get sprite component
+
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
@@ -161,11 +161,13 @@ public partial class movement : CharacterBody2D
 				GetViewport().SetInputAsHandled();
 			}
 		}
-	}
 
-	// GHI CHÚ: Đây là NƠI DUY NHẤT xử lý chuyển ô active (phím số + cuộn chuột).
-	// KHÔNG thêm lại logic tương tự ở PlayerHand.cs hay bất kỳ script nào khác,
-	// nếu không sẽ bị lỗi cộng dồn 2 lần / 1 lần cuộn như trước.
+		if (@event.IsActionPressed("toggle_useitem"))
+		{
+			UseActiveItem();
+			GetViewport().SetInputAsHandled();
+		}
+	}
 
 	private void SetActiveInventorySlot(int slotIndex)
 	{
@@ -176,21 +178,33 @@ public partial class movement : CharacterBody2D
 		inventory.ActiveSlotIndex = Mathf.Clamp(slotIndex, 0, maxSlot);
 	}
 
-private void ChangeActiveInventorySlot(int delta)
-{
-	var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
-	if (inventory == null) return;
+	private void ChangeActiveInventorySlot(int delta)
+	{
+		var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+		if (inventory == null) return;
 
-	int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
-	if (maxSlot < 0) return;
+		int maxSlot = Mathf.Min(HotbarSize, inventory.Slots.Count) - 1;
+		if (maxSlot < 0) return;
 
-	int slotCount = maxSlot + 1;
-	int currentSlot = Mathf.Clamp(inventory.ActiveSlotIndex, 0, maxSlot);
+		int slotCount = maxSlot + 1;
+		int currentSlot = Mathf.Clamp(inventory.ActiveSlotIndex, 0, maxSlot);
 
-	int nextSlot = ((currentSlot + delta) % slotCount + slotCount) % slotCount;
+		int nextSlot = ((currentSlot + delta) % slotCount + slotCount) % slotCount;
 
-	inventory.ActiveSlotIndex = nextSlot;
-}
+		inventory.ActiveSlotIndex = nextSlot;
+	}
+
+	private void UseActiveItem()
+	{
+		if (IsDead) return;
+		if (DialogueUI.Instance != null && DialogueUI.Instance.IsTalking) return;
+		if (JournalUI.Instance != null && JournalUI.Instance.Visible) return;
+
+		var inventory = GetNodeOrNull<Inventory>("/root/Inventory");
+		if (inventory == null) return;
+
+		inventory.UseItem(inventory.ActiveSlotIndex);
+	}
 
 	private void OnItemDropped(Item item, int amount)
 	{

@@ -48,14 +48,12 @@ public partial class Inventory : Node
 
 	// Thêm item vào túi. Tự động gộp stack trước, rồi mới chiếm ô trống.
 	// Trả về true nếu thêm được TOÀN BỘ số lượng yêu cầu.
+	// LƯU Ý: item dạng Document (IsDocument = true) không nên đi qua hàm này —
+	// ItemPickup.cs đã tự chặn và gọi thẳng DocumentJournal.UnlockDocument() thay vào đó.
 	public bool AddItem(Item item, int amount = 1)
 	{
 		if (item == null || amount <= 0) return false;
-		if (item.IsDocument)
-			{
-				DocumentJournal.Instance?.UnlockDocument(item);
-				return true; 
-			}
+
 		int remaining = amount;
 
 		// Bước 1: dồn vào các stack đã có sẵn item này (nếu stack được)
@@ -153,7 +151,7 @@ public partial class Inventory : Node
 		var item = slot.Item;
 		int dropAmount = Mathf.Min(slot.Quantity, amount);
 
-		RemoveAt(index, dropAmount); 
+		RemoveAt(index, dropAmount); // xóa khỏi dữ liệu túi đồ (đã tự EmitSignal ItemRemoved + InventoryChanged)
 		EmitSignal(SignalName.ItemDropped, item, dropAmount);
 	}
 
@@ -163,13 +161,46 @@ public partial class Inventory : Node
 		var slot = Slots[index];
 		if (slot.IsEmpty) return;
 
+		// DỤNG CỤ CHÍNH (đèn pin, bình cứu hỏa...): bật/tắt thay vì tiêu hao.
+		// Dùng CHUNG 1 nhánh cho MỌI loại PrimaryItem, không if/else riêng từng item.
+		if (slot.Item is PrimaryItem primary)
+		{
+			float current = slot.CurrentDurability ?? primary.MaxDurability;
+			if (!slot.IsActive && primary.MaxDurability > 0f && current <= 0f)
+			{
+				GD.Print($"{primary.ItemName} đã hết năng lượng!");
+				return;
+			}
+
+			bool nextActive = primary.IsToggleable ? !slot.IsActive : true;
+			SetSlotActive(index, nextActive);
+			return; // dụng cụ chính không bị xóa khỏi túi khi dùng
+		}
+
 		GD.Print($"Sử dụng: {slot.Item.ItemName}");
-		// TODO: gọi logic riêng của từng item ở đây (hồi máu, buff, mở khóa...)
+		// TODO: gọi logic riêng của từng item tiêu hao ở đây (hồi máu, buff, mở khóa...)
 
 		if (slot.Item.IsConsumable)
 		{
 			RemoveAt(index, 1);
 		}
+	}
+
+	// Bật/tắt trạng thái Active của 1 ô — dùng cho PrimaryItem (đèn pin, bình cứu hỏa...).
+	// Cũng được PrimaryItemController gọi khi tự động tắt lúc hết năng lượng.
+	// Trả về false nếu ô rỗng hoặc item ở ô đó không phải PrimaryItem.
+	public bool SetSlotActive(int index, bool active)
+	{
+		if (index < 0 || index >= Slots.Count) return false;
+		var slot = Slots[index];
+		if (slot.IsEmpty || slot.Item is not PrimaryItem primary) return false;
+		if (slot.IsActive == active) return true;
+
+		slot.IsActive = active;
+		slot.CurrentDurability ??= primary.MaxDurability;
+
+		EmitSignal(SignalName.InventoryChanged);
+		return true;
 	}
 
 	// Hoán đổi 2 ô cho nhau (dùng khi kéo-thả sắp xếp lại túi đồ)

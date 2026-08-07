@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PrimaryItem" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/PrimaryItem.cs" id="1_binhchuahoa"]
+
+[resource]
+script = ExtResource("1_binhchuahoa")
+ItemName = "Bình cứu hỏa"
+Description = "Bình cứu hỏa mini, xịt liên tục khi giữ nút. Áp suất cạn nhanh, dùng một lần là gần như hết."
+Thought = ""
+IsConsumable = false
+IsDocument = false
+MaxStackSize = 1
+IsToggleable = false
+StartsActive = false
+MaxDurability = 30.0
+DrainPerSecond = 10.0
+AutoDeactivateWhenEmpty = true

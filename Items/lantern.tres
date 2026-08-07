@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PrimaryItem" format=3 uid="uid://cj43hgtfguvkd"]
+
+[ext_resource type="Script" uid="uid://bw8fr4srwqsb3" path="res://scripts/PrimaryItem.cs" id="1_denpin"]
+[ext_resource type="Texture2D" uid="uid://cw6bh4dpymgjh" path="res://Image/lantern.png" id="2_l0ee0"]
+[ext_resource type="PackedScene" path="res://tscn/FlashlightLight.tscn" id="2_light"]
+
+[resource]
+script = ExtResource("1_denpin")
+DrainPerSecond = 2.0
+ActiveEffectScene = ExtResource("2_light")
+ItemName = "Đèn pin"
+Icon = ExtResource("2_l0ee0")
+Description = "Đèn pin cầm tay chạy bằng pin AA. Ánh sáng yếu dần khi pin sắp cạn."
+MaxStackSize = 1
