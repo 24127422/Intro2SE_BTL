@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
 [ext_resource type="Resource" uid="uid://b70ttwhswrf10" path="res://Items/Key.tres" id="19_qachy"]
 [ext_resource type="Resource" uid="uid://cx84p0lt44rno" path="res://Items/pin.tres" id="20_5kcdt"]
+[ext_resource type="PackedScene" uid="uid://c0fu2ut5t8ek8" path="res://tscn/pause_menu.tscn" id="21_pause"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1247,3 +1248,5 @@ ItemData = ExtResource("20_5kcdt")
 [node name="ItemPickup4" parent="." unique_id=719106567 instance=ExtResource("18_qachy")]
 position = Vector2(-147, 21)
 ItemData = ExtResource("19_qachy")
+
+[node name="PauseMenu" parent="." instance=ExtResource("21_pause")]

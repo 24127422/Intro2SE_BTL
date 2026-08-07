@@ -1,11 +1,19 @@
 [gd_scene format=3 uid="uid://c0fu2ut5t8ek8"]
 
 [ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://Image/GUI - Tileset (By Polyshade).png" id="1_gui"]
-[ext_resource type="Script" uid="uid://cne0l5mo2csxf" path="res://scripts/pause_menu.gd" id="1_rfhe0"]
+[ext_resource type="Script" uid="uid://g7k00jkvxxki" path="res://scripts/pause_menu.cs" id="1_udlf0"]
+[ext_resource type="Texture2D" uid="uid://d1xac4ncoviav" path="res://Image/Text/cooltext513351907137790.png" id="3_5g577"]
+[ext_resource type="Texture2D" uid="uid://ccm3ajcuit1e8" path="res://Image/Text/cooltext513353245267368.png" id="3_udlf0"]
+[ext_resource type="Texture2D" uid="uid://n38x3d3dsinj" path="res://Image/Text/cooltext513353196298497.png" id="4_ydsj6"]
+[ext_resource type="Texture2D" uid="uid://bofhbkx2uj8w0" path="res://Image/Text/cooltext513353224420332.png" id="5_ydsj6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_Panel"]
 atlas = ExtResource("1_gui")
 region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ydsj6"]
+texture = ExtResource("3_udlf0")
+region_rect = Rect2(7.4511414, 7.513214, 200.65994, 41.2334)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnNormal"]
 texture = ExtResource("1_gui")
@@ -32,10 +40,9 @@ texture_margin_bottom = 6.0
 region_rect = Rect2(144, 80, 48, 16)
 modulate_color = Color(0.85, 0.85, 0.85, 1)
 
-[node name="Pause Menu" type="CanvasLayer" unique_id=1006550077 node_paths=PackedStringArray("save_load_menu")]
+[node name="Pause Menu" type="CanvasLayer" unique_id=1006550077]
 process_mode = 2
-script = ExtResource("1_rfhe0")
-save_load_menu = NodePath(".")
+script = ExtResource("1_udlf0")
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=371238197]
 anchors_preset = 15
@@ -43,6 +50,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 color = Color(0, 0, 0, 0.6)
 
 [node name="MenuPanel" type="NinePatchRect" parent="." unique_id=2054817460]
@@ -82,7 +91,7 @@ theme_override_colors/font_color = Color(0.941176, 0.823529, 0.631373, 1)
 theme_override_colors/font_outline_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
-text = "PAUSED"
+theme_override_styles/normal = SubResource("StyleBoxTexture_ydsj6")
 horizontal_alignment = 1
 
 [node name="Spacer" type="Control" parent="MenuPanel/VBoxContainer" unique_id=2128049023]
@@ -100,7 +109,18 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
 theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
-text = "Resume"
+
+[node name="TextureRect" type="TextureRect" parent="MenuPanel/VBoxContainer/ResumeBtn" unique_id=892263565]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.97800004
+anchor_bottom = 1.0480001
+offset_left = 32.0
+offset_top = 5.0
+offset_right = -32.04001
+offset_bottom = -9.016003
+texture = ExtResource("3_5g577")
+expand_mode = 1
 
 [node name="SaveBtn" type="Button" parent="MenuPanel/VBoxContainer" unique_id=1455526240]
 custom_minimum_size = Vector2(0, 42)
@@ -113,7 +133,18 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
 theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
-text = "Save Game"
+
+[node name="TextureRect2" type="TextureRect" parent="MenuPanel/VBoxContainer/SaveBtn" unique_id=199237243]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.97800004
+anchor_bottom = 1.0480001
+offset_left = 26.0
+offset_top = 5.0
+offset_right = -27.040009
+offset_bottom = -9.016006
+texture = ExtResource("4_ydsj6")
+expand_mode = 1
 
 [node name="QuitBtn" type="Button" parent="MenuPanel/VBoxContainer" unique_id=270960252]
 custom_minimum_size = Vector2(0, 42)
@@ -126,4 +157,15 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
 theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
-text = "Quit to Menu"
+
+[node name="TextureRect2" type="TextureRect" parent="MenuPanel/VBoxContainer/QuitBtn" unique_id=272506355]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.97800004
+anchor_bottom = 1.0480001
+offset_left = 30.0
+offset_top = 5.0
+offset_right = -34.04001
+offset_bottom = -9.016003
+texture = ExtResource("5_ydsj6")
+expand_mode = 1

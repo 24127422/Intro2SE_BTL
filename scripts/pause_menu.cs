@@ -14,15 +14,21 @@ public partial class pause_menu : CanvasLayer
     public NodePath save_load_menu;
 
     private CanvasLayer saveLoadMenuInstance;
+    private Node gameManager;
 
     public override void _Ready()
     {
+        // 1. Tự động bật tính năng hoạt động khi Game bị Pause
+        ProcessMode = ProcessModeEnum.Always;
+
         Hide();
 
+        // Lấy tham chiếu các nút bấm
         resume_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/ResumeBtn");
         save_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/SaveBtn");
         quit_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/QuitBtn");
 
+        // Khởi tạo hoặc tìm Save/Load Menu Instance
         saveLoadMenuInstance = GetNodeOrNull<CanvasLayer>(save_load_menu);
 
         if (saveLoadMenuInstance == null && save_menu_scene == null)
@@ -38,56 +44,71 @@ public partial class pause_menu : CanvasLayer
             saveLoadMenuInstance.Hide();
         }
 
+        // 2. Đăng ký sự kiện (Signal) chuẩn C# Event của Godot 4
         if (resume_button != null)
-            resume_button.Connect("pressed", new Callable(this, nameof(_OnResumePressed)));
-        if (save_button != null)
-            save_button.Connect("pressed", new Callable(this, nameof(_OnSavePressed)));
-        if (quit_button != null)
-            quit_button.Connect("pressed", new Callable(this, nameof(_OnQuitPressed)));
+            resume_button.Pressed += _OnResumePressed;
 
-        if (Engine.HasSingleton("GameManager") || ClassDB.ClassExists("GameManager"))
+        if (save_button != null)
+            save_button.Pressed += _OnSavePressed;
+
+        if (quit_button != null)
+            quit_button.Pressed += _OnQuitPressed;
+
+        // 3. Cache tham chiếu GameManager từ Autoload
+        gameManager = GetNodeOrNull<Node>("/root/GameManager");
+        if (gameManager != null)
         {
-            var gm = GetNodeOrNull<Node>("/root/GameManager");
-            if (gm != null)
-                gm.Connect("GameStateChanged", new Callable(this, nameof(_OnGameStateChanged)));
+            gameManager.Connect("GameStateChanged", Callable.From<int>(_OnGameStateChanged));
         }
+    }
+
+    public override void _ExitTree()
+    {
+        // Gỡ đăng ký Event khi Node bị giải phóng để tránh rò rỉ bộ nhớ
+        if (resume_button != null) resume_button.Pressed -= _OnResumePressed;
+        if (save_button != null) save_button.Pressed -= _OnSavePressed;
+        if (quit_button != null) quit_button.Pressed -= _OnQuitPressed;
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
+        // Chống lặp lệnh khi đè giữ phím ESC (Echo Key)
+        if (@event is InputEventKey keyEcho && keyEcho.Echo)
+            return;
+
         if ((@event is InputEventKey key && key.Pressed && key.Keycode == Key.Escape)
             || @event.IsActionPressed("ui_cancel")
             || @event.IsActionPressed("toggle_pause"))
         {
-            var gm = GetNodeOrNull<Node>("/root/GameManager");
-            if (gm != null)
+            if (gameManager != null)
             {
-                var current_state = (int)gm.Get("CurrentState");
-                if (current_state == 0 || current_state == 3 || current_state == 4)
+                var currentState = (int)gameManager.Get("CurrentState");
+                if (currentState == 0 || currentState == 3 || currentState == 4)
                     return;
 
-                gm.Call("TogglePause");
+                gameManager.Call("TogglePause");
                 GetViewport().SetInputAsHandled();
             }
         }
     }
 
-    public void _OnResumePressed()
+    private void _OnResumePressed()
     {
-        var gm = GetNodeOrNull<Node>("/root/GameManager");
-        if (gm != null && (int)gm.Get("CurrentState") == 2)
-            gm.Call("TogglePause");
+        if (gameManager != null && (int)gameManager.Get("CurrentState") == 2)
+            gameManager.Call("TogglePause");
     }
 
-    public void _OnQuitPressed()
+    private void _OnQuitPressed()
     {
         GetTree().Quit();
     }
 
-    public void _OnGameStateChanged(int new_state)
+    private void _OnGameStateChanged(int newState)
     {
-        if (new_state == 2)
+        if (newState == 2)
+        {
             Show();
+        }
         else
         {
             Hide();
@@ -96,13 +117,14 @@ public partial class pause_menu : CanvasLayer
         }
     }
 
-    public void _OnSavePressed()
+    private void _OnSavePressed()
     {
         if (saveLoadMenuInstance != null)
         {
-            var slm = saveLoadMenuInstance as Save_load_menu;
-            if (slm != null)
+            if (saveLoadMenuInstance is Save_load_menu slm)
+            {
                 slm.OpenMenu(Save_load_menu.Mode.SAVE);
+            }
         }
         else
         {
