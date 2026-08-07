@@ -19,7 +19,6 @@
 [ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
 [ext_resource type="Resource" uid="uid://cj43hgtfguvkd" path="res://Items/lantern.tres" id="19_5kcdt"]
-[ext_resource type="PackedScene" uid="uid://c0fu2ut5t8ek8" path="res://tscn/pause_menu.tscn" id="21_pause"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1234,16 +1233,4 @@ position = Vector2(235.99998, -34.999996)
 
 [node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("18_qachy")]
 position = Vector2(-141, -35)
-ItemData = ExtResource("19_qachy")
-
-[node name="ItemPickup2" parent="." unique_id=703506827 instance=ExtResource("18_qachy")]
-position = Vector2(-97, -35)
-ItemData = ExtResource("20_5kcdt")
-
-[node name="ItemPickup3" parent="." unique_id=562638362 instance=ExtResource("18_qachy")]
-position = Vector2(-215, 10)
-ItemData = ExtResource("20_5kcdt")
-
-[node name="ItemPickup4" parent="." unique_id=719106567 instance=ExtResource("18_qachy")]
-position = Vector2(-147, 21)
-ItemData = ExtResource("19_qachy")
+ItemData = ExtResource("19_5kcdt")
