@@ -18,17 +18,14 @@ public partial class pause_menu : CanvasLayer
 
     public override void _Ready()
     {
-        // 1. Tự động bật tính năng hoạt động khi Game bị Pause
         ProcessMode = ProcessModeEnum.Always;
 
         Hide();
 
-        // Lấy tham chiếu các nút bấm
         resume_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/ResumeBtn");
         save_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/SaveBtn");
         quit_button = GetNodeOrNull<Button>("MenuPanel/VBoxContainer/QuitBtn");
 
-        // Khởi tạo hoặc tìm Save/Load Menu Instance
         saveLoadMenuInstance = GetNodeOrNull<CanvasLayer>(save_load_menu);
 
         if (saveLoadMenuInstance == null && save_menu_scene == null)
@@ -44,7 +41,6 @@ public partial class pause_menu : CanvasLayer
             saveLoadMenuInstance.Hide();
         }
 
-        // 2. Đăng ký sự kiện (Signal) chuẩn C# Event của Godot 4
         if (resume_button != null)
             resume_button.Pressed += _OnResumePressed;
 
@@ -54,7 +50,6 @@ public partial class pause_menu : CanvasLayer
         if (quit_button != null)
             quit_button.Pressed += _OnQuitPressed;
 
-        // 3. Cache tham chiếu GameManager từ Autoload
         gameManager = GetNodeOrNull<Node>("/root/GameManager");
         if (gameManager != null)
         {
@@ -64,7 +59,6 @@ public partial class pause_menu : CanvasLayer
 
     public override void _ExitTree()
     {
-        // Gỡ đăng ký Event khi Node bị giải phóng để tránh rò rỉ bộ nhớ
         if (resume_button != null) resume_button.Pressed -= _OnResumePressed;
         if (save_button != null) save_button.Pressed -= _OnSavePressed;
         if (quit_button != null) quit_button.Pressed -= _OnQuitPressed;
@@ -72,7 +66,6 @@ public partial class pause_menu : CanvasLayer
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        // Chống lặp lệnh khi đè giữ phím ESC (Echo Key)
         if (@event is InputEventKey keyEcho && keyEcho.Echo)
             return;
 
@@ -100,7 +93,15 @@ public partial class pause_menu : CanvasLayer
 
     private void _OnQuitPressed()
     {
-        GetTree().Quit();
+        GetTree().Paused = false;
+        Hide();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetState(GameManager.GameState.MainMenu);
+        }
+
+        GetTree().ChangeSceneToFile("res://tscn/main_menu.tscn");
     }
 
     private void _OnGameStateChanged(int newState)

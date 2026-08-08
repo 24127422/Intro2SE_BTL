@@ -381,6 +381,8 @@ OffsetSouth = Vector2(-6, 12)
 OffsetEast = Vector2(15, 11)
 OffsetWest = Vector2(-15, 11)
 
+[node name="Sprite2D" type="Sprite2D" parent="HandPos" unique_id=90572157]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2001000001]
 
 [node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=838437235 node_paths=PackedStringArray("SlotContainer")]

@@ -22,8 +22,9 @@ DialogueUi="*uid://d3oklpu6n2bib"
 DocumentJournal="*uid://fmwvkesjp1f2"
 JournalUi="*uid://ct65lkcadci5h"
 GameManager="*res://scripts/GameManager.cs"
-SaveUtils="*uid://p4qi6rixffr"
+SaveUtils="*uid://blpbosaiyflyv"
 Cursor="*uid://dtrio0j10kwpu"
+PauseMenu="*uid://c0fu2ut5t8ek8"
 
 [dotnet]
 

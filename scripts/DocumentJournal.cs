@@ -27,6 +27,33 @@ public partial class DocumentJournal : Node
 		return item != null && _unlocked.Contains(item);
 	}
 
+	public List<string> GetUnlockedDocumentPaths()
+	{
+		var paths = new List<string>();
+		foreach (var item in _unlocked)
+		{
+			if (item != null && !string.IsNullOrWhiteSpace(item.ResourcePath))
+				paths.Add(item.ResourcePath);
+		}
+		return paths;
+	}
+
+	public void RestoreUnlockedDocuments(IEnumerable<string> paths)
+	{
+		_unlocked.Clear();
+		foreach (var path in paths)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				continue;
+
+			var item = ResourceLoader.Load<Item>(path);
+			if (item != null)
+				_unlocked.Add(item);
+		}
+
+		EmitSignal(SignalName.JournalChanged);
+	}
+
 	public void UnlockDocument(Item item)
 	{
 		if (item == null || !item.IsDocument) return;

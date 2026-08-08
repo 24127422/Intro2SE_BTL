@@ -2,8 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://Image/GUI - Tileset (By Polyshade).png" id="1_gui"]
 [ext_resource type="Script" uid="uid://g7k00jkvxxki" path="res://scripts/pause_menu.cs" id="1_udlf0"]
+[ext_resource type="PackedScene" uid="uid://dnvwl2fpw74fk" path="res://tscn/Save.tscn" id="2_eank3"]
 [ext_resource type="Texture2D" uid="uid://d1xac4ncoviav" path="res://Image/Text/cooltext513351907137790.png" id="3_5g577"]
 [ext_resource type="Texture2D" uid="uid://ccm3ajcuit1e8" path="res://Image/Text/cooltext513353245267368.png" id="3_udlf0"]
+[ext_resource type="Texture2D" uid="uid://y480wcq2l0lt" path="res://Image/X.tres" id="4_ca2gr"]
+[ext_resource type="Theme" uid="uid://b24oxgps7hfdo" path="res://Image/Button_default.tres" id="4_t4j7j"]
 [ext_resource type="Texture2D" uid="uid://n38x3d3dsinj" path="res://Image/Text/cooltext513353196298497.png" id="4_ydsj6"]
 [ext_resource type="Texture2D" uid="uid://bofhbkx2uj8w0" path="res://Image/Text/cooltext513353224420332.png" id="5_ydsj6"]
 
@@ -15,34 +18,11 @@ region = Rect2(0, 0, 48, 48)
 texture = ExtResource("3_udlf0")
 region_rect = Rect2(7.4511414, 7.513214, 200.65994, 41.2334)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnNormal"]
-texture = ExtResource("1_gui")
-texture_margin_left = 10.0
-texture_margin_top = 2.0
-texture_margin_right = 8.0
-texture_margin_bottom = 2.0
-region_rect = Rect2(287.17535, 146.15924, 48.31357, 17.156479)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnPressed"]
-texture = ExtResource("1_gui")
-texture_margin_left = 12.0
-texture_margin_top = 6.0
-texture_margin_right = 12.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(144, 96, 48, 16)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_BtnHover"]
-texture = ExtResource("1_gui")
-texture_margin_left = 12.0
-texture_margin_top = 4.0
-texture_margin_right = 12.0
-texture_margin_bottom = 6.0
-region_rect = Rect2(144, 80, 48, 16)
-modulate_color = Color(0.85, 0.85, 0.85, 1)
-
 [node name="Pause Menu" type="CanvasLayer" unique_id=1006550077]
 process_mode = 2
 script = ExtResource("1_udlf0")
+save_menu_scene = ExtResource("2_eank3")
+save_load_menu = NodePath("MenuPanel/VBoxContainer/SaveBtn")
 
 [node name="Overlay" type="ColorRect" parent="." unique_id=371238197]
 anchors_preset = 15
@@ -83,6 +63,7 @@ offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_t4j7j")
 theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="MenuPanel/VBoxContainer" unique_id=1347905951]
@@ -105,10 +86,6 @@ theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
-theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
 
 [node name="TextureRect" type="TextureRect" parent="MenuPanel/VBoxContainer/ResumeBtn" unique_id=892263565]
 layout_mode = 1
@@ -129,10 +106,6 @@ theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
-theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
 
 [node name="TextureRect2" type="TextureRect" parent="MenuPanel/VBoxContainer/SaveBtn" unique_id=199237243]
 layout_mode = 1
@@ -153,10 +126,6 @@ theme_override_colors/font_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_focus_color = Color(0.247059, 0.156863, 0.117647, 1)
 theme_override_colors/font_pressed_color = Color(0.1, 0.05, 0.05, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_styles/normal = SubResource("StyleBoxTexture_BtnNormal")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_BtnPressed")
-theme_override_styles/hover = SubResource("StyleBoxTexture_BtnHover")
-theme_override_styles/focus = SubResource("StyleBoxTexture_BtnHover")
 
 [node name="TextureRect2" type="TextureRect" parent="MenuPanel/VBoxContainer/QuitBtn" unique_id=272506355]
 layout_mode = 1
@@ -168,4 +137,20 @@ offset_top = 5.0
 offset_right = -34.04001
 offset_bottom = -9.016003
 texture = ExtResource("5_ydsj6")
+expand_mode = 1
+
+[node name="ExitButton" type="Button" parent="MenuPanel" unique_id=1074107283]
+layout_mode = 0
+offset_left = 195.0
+offset_top = -3.0
+offset_right = 225.0
+offset_bottom = 25.0
+
+[node name="TextureRect" type="TextureRect" parent="MenuPanel/ExitButton" unique_id=729494479]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 30.0
+offset_bottom = 29.0
+texture = ExtResource("4_ca2gr")
 expand_mode = 1

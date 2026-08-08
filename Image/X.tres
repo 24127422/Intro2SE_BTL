@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" format=3 uid="uid://y480wcq2l0lt"]
+
+[ext_resource type="Texture2D" uid="uid://s3jf1x1kn25k" path="res://Image/GUI - Tileset (By Polyshade).png" id="1_gg157"]
+
+[resource]
+atlas = ExtResource("1_gg157")
+region = Rect2(53, 99, 14, 16)

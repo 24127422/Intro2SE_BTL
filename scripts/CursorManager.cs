@@ -8,6 +8,9 @@ public partial class CursorManager : CanvasLayer
 
     public override void _Ready()
     {
+        // QUAN TRỌNG: Cho phép Node tiếp tục hoạt động khi Game bị Pause
+        ProcessMode = ProcessModeEnum.Always;
+
         // Ẩn con trỏ mặc định của Windows/Mac
         Input.MouseMode = Input.MouseModeEnum.Hidden;
         
@@ -33,18 +36,15 @@ public partial class CursorManager : CanvasLayer
             }
             else
             {
-                // Khi nhả chuột, ưu tiên trở về "hover" nếu đang trỏ vào nút, ngược lại là "idle"
                 _sprite.Play(_isHovering ? "hover" : "idle");
             }
         }
     }
 
-    // Hàm này sẽ được các Nút bấm (Button) gọi đến khi rê chuột vào/ra
     public void SetHoverState(bool hovering)
     {
         _isHovering = hovering;
         
-        // Chỉ đổi animation nếu người chơi không đang đè giữ chuột
         if (!Input.IsMouseButtonPressed(MouseButton.Left))
         {
             _sprite.Play(_isHovering ? "hover" : "idle");

@@ -14,6 +14,26 @@ public partial class PlayerStats : Node
 	private float maxSanity = 100f;
 	private float currSanity = 100f;
 
+	public float GetCurrentHealth() => currHealth;
+	public float GetCurrentHunger() => currHunger;
+	public float GetCurrentThirst() => currThirst;
+	public float GetCurrentSanity() => currSanity;
+
+	public void ApplySnapshot(PlayerSaveSnapshot snapshot)
+	{
+		if (snapshot == null) return;
+
+		currHealth = Mathf.Clamp(snapshot.Health, 0f, maxHealth);
+		currHunger = Mathf.Clamp(snapshot.Hunger, 0f, maxHunger);
+		currThirst = Mathf.Clamp(snapshot.Thirst, 0f, maxThirst);
+		currSanity = Mathf.Clamp(snapshot.Sanity, 0f, maxSanity);
+
+		MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
+		MyStatsControl?.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
+		MyStatsControl?.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
+		MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
+	}
+
 	[Export] public float HungerDecreaseRate = 0.0167f;
 	[Export] public float ThirstDecreaseRate = 0.0167f;
 	[Export] public float SanityDecreaseRate = 0.0167f;
