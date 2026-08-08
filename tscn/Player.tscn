@@ -189,7 +189,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q1haa")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Death_E",
 "speed": 8.0
 }, {
@@ -206,7 +206,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1tfkq")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Death_N",
 "speed": 8.0
 }, {
@@ -223,7 +223,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pm2vd")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Death_S",
 "speed": 8.0
 }, {
@@ -240,7 +240,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rti4s")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Death_W",
 "speed": 8.0
 }, {
@@ -251,7 +251,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_34em8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -262,7 +262,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_exuc5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -273,7 +273,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jfsi")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -284,7 +284,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nvvsh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -301,7 +301,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yit3w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -318,7 +318,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t3scq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -335,7 +335,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kh7nt")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -352,7 +352,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lroks")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -373,7 +373,7 @@ animation = &"Death_E"
 
 [node name="HandPos" type="Marker2D" parent="." unique_id=652352412 node_paths=PackedStringArray("HandMarker")]
 y_sort_enabled = true
-position = Vector2(-26, 31)
+position = Vector2(-21, 36)
 script = ExtResource("11_qpm1p")
 HandMarker = NodePath(".")
 OffsetNorth = Vector2(6, 6)

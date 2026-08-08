@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dtrio0j10kwpu"]
+
+[ext_resource type="Script" uid="uid://bekh880jixlg1" path="res://scripts/CursorManager.cs" id="1_irflu"]
+[ext_resource type="Texture2D" uid="uid://bxx2e1xlxnc26" path="res://Image/dark/click.png" id="2_irflu"]
+[ext_resource type="Texture2D" uid="uid://b30mg4e2epecb" path="res://Image/dark/pointer.png" id="3_eki2m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0bw2e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_irflu")
+}],
+"loop": 1,
+"name": &"click",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_eki2m")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=422146645]
+layer = 100
+script = ExtResource("1_irflu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1834821885]
+sprite_frames = SubResource("SpriteFrames_0bw2e")
+animation = &"idle"

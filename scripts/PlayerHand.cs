@@ -7,21 +7,21 @@ public partial class PlayerHand : Node2D
     private Item _currentActiveItem = null; 
     private movement _playerMovement;
 
-    
+    // LƯU VỊ TRÍ GỐC CỦA MARKER KHI KÉO TRONG EDITOR
+    private Vector2 _baseHandPosition;
+
     [ExportGroup("Tọa độ tay (Offsets)")]
     [Export] public Vector2 OffsetNorth { get; set; } = new Vector2(0, -14); 
     [Export] public Vector2 OffsetSouth { get; set; } = new Vector2(0, 12);   
     [Export] public Vector2 OffsetEast { get; set; } = new Vector2(14, 4);   
     [Export] public Vector2 OffsetWest { get; set; } = new Vector2(-14, 4);  
 
-    
     [ExportGroup("Góc xoay tay (Rotations trong độ)")]
     [Export] public float RotationNorth { get; set; } = -45f; 
     [Export] public float RotationSouth { get; set; } = 45f;  
     [Export] public float RotationEast { get; set; } = 0f;    
     [Export] public float RotationWest { get; set; } = 0f;    
 
-    
     [ExportGroup("Thứ tự đè (Z Index)")]
     [Export] public int ZIndexNorth { get; set; } = -1; 
     [Export] public int ZIndexSouth { get; set; } = 1;  
@@ -35,7 +35,9 @@ public partial class PlayerHand : Node2D
             HandMarker = this;
         }
 
-        
+        // 1. LƯU VỊ TRÍ BAN ĐẦU MÀ BẠN ĐÃ KÉO THẢ TRONG EDITOR
+        _baseHandPosition = HandMarker.Position;
+
         _playerMovement = FindPlayerMovement();
 
         if (_playerMovement != null)
@@ -56,7 +58,6 @@ public partial class PlayerHand : Node2D
         UpdateHeldItem();
     }
 
-    
     private movement FindPlayerMovement()
     {
         Node current = this;
@@ -85,15 +86,8 @@ public partial class PlayerHand : Node2D
         }
     }
 
-    // GHI CHÚ: KHÔNG xử lý phím số / cuộn chuột ở đây nữa.
-    // Việc chuyển ô active (ActiveSlotIndex) đã được xử lý DUY NHẤT trong movement.cs.
-    // PlayerHand chỉ lắng nghe signal ActiveSlotChanged/InventoryChanged để cập nhật hình ảnh trên tay.
-    // (Lý do bug "cuộn 1 lần nhảy 2 ô": trước đây cả 2 script cùng cộng dồn ActiveSlotIndex
-    // cho cùng 1 sự kiện chuột/phím, nên bị tăng gấp đôi.)
-
     private void UpdateHeldItem()
     {
-        
         if (_currentHeldNode != null && GodotObject.IsInstanceValid(_currentHeldNode))
         {
             _currentHeldNode.QueueFree();
@@ -116,7 +110,6 @@ public partial class PlayerHand : Node2D
         Item item = activeSlot.Item;
         _currentActiveItem = item;
 
-        
         if (item.HandModel != null)
         {
             Node2D modelInstance = item.HandModel.Instantiate<Node2D>();
@@ -145,7 +138,6 @@ public partial class PlayerHand : Node2D
 
     private void ApplyFacingDirection(string direction)
     {
-        
         Vector2 targetOffset = OffsetSouth;
         float targetRotationDegrees = RotationSouth;
         int targetZIndex = ZIndexSouth;
@@ -175,7 +167,9 @@ public partial class PlayerHand : Node2D
         }
 
         Node2D targetNode = HandMarker ?? this;
-        targetNode.Position = targetOffset;
+
+        // 2. CỘNG VỊ TRÍ GỐC VỚI OFFSET THAY VÌ ĐÈ HOÀN TOÀN
+        targetNode.Position = _baseHandPosition + targetOffset;
         targetNode.Rotation = Mathf.DegToRad(targetRotationDegrees);
         targetNode.ZIndex = targetZIndex;
         targetNode.Scale = Vector2.One; 
@@ -211,7 +205,6 @@ public partial class PlayerHand : Node2D
                         }
                         else if (_currentActiveItem.TextureEast != null)
                         {
-                            
                             sprite.Texture = _currentActiveItem.TextureEast;
                             sprite.Scale = new Vector2(-1f, 1f); 
                         }
@@ -220,7 +213,6 @@ public partial class PlayerHand : Node2D
             }
             else
             {
-                
                 sprite.Texture = _currentActiveItem.Icon;
                 bool facingLeft = direction == "W";
                 sprite.Scale = new Vector2(facingLeft ? -1f : 1f, 1f);

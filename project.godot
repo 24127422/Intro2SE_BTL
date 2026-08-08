@@ -23,6 +23,7 @@ DocumentJournal="*uid://fmwvkesjp1f2"
 JournalUi="*uid://ct65lkcadci5h"
 GameManager="*res://scripts/GameManager.cs"
 SaveUtils="*uid://p4qi6rixffr"
+Cursor="*uid://dtrio0j10kwpu"
 
 [dotnet]
 
