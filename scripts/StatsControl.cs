@@ -6,7 +6,8 @@ public enum ResourceType
 	Health,
 	Hunger,
 	Thirst,
-	Sanity
+	Sanity,
+	Stamina
 }
 
 public partial class StatsControl : Control
@@ -26,6 +27,10 @@ public partial class StatsControl : Control
 	[Export] public NodePath SanityProgressBarPath;
 	[Export] public NodePath SanityValueLabelPath;
 	[Export] public NodePath SanityNameLabelPath;
+
+	[Export] public NodePath StaminaProgressBarPath;
+	[Export] public NodePath StaminaValueLabelPath;
+	[Export] public NodePath StaminaNameLabelPath;
 
 	private class BarRefs
 	{
@@ -64,10 +69,20 @@ public partial class StatsControl : Control
 			NameLabel = GetNode<Label>(SanityNameLabelPath)
 		};
 
+		_bars[ResourceType.Stamina] = new BarRefs
+		{
+			Bar = GetNode<ProgressBar>(StaminaProgressBarPath),
+			ValueLabel = GetNode<Label>(StaminaValueLabelPath),
+			NameLabel = GetNode<Label>(StaminaNameLabelPath)
+		};
+
+
+
 		_bars[ResourceType.Health].NameLabel.Text = "Health";
 		_bars[ResourceType.Hunger].NameLabel.Text = "Hunger";
 		_bars[ResourceType.Thirst].NameLabel.Text = "Thirst";
 		_bars[ResourceType.Sanity].NameLabel.Text = "Sanity";
+		_bars[ResourceType.Stamina].NameLabel.Text = "Stamina";
 
 		// NOTE: no starting SetValue calls here anymore either —
 		// PlayerStats._Ready() will push the initial values in, since

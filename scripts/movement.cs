@@ -12,9 +12,9 @@ public partial class movement : CharacterBody2D
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
 	public string FacingDirection => _lastDirection;
 	private bool _isFlashing = false;
+	private PlayerStats _playerStats;
 	
 	public bool IsDead { get; private set; } = false;
-
 	[Export] public PackedScene ItemPickupScene;
 
 	private Random _rng = new Random();
@@ -64,8 +64,12 @@ public partial class movement : CharacterBody2D
 
 		if (direction != Vector2.Zero)
 		{
-			float currentSpeed = Input.IsActionPressed("sprint") ? RunSpeed : Speed;
-			_sprite.SpeedScale = Input.IsActionPressed("sprint") ? 1.5f : 1.0f;
+			//float currentSpeed = Input.IsActionPressed("sprint") ? RunSpeed : Speed;
+			//_sprite.SpeedScale = Input.IsActionPressed("sprint") ? 1.5f : 1.0f;
+
+			bool wantsSprint = Input.IsActionPressed("sprint") && (_playerStats?.CanSprint ?? true);
+			float currentSpeed = wantsSprint ? RunSpeed : Speed;
+			_sprite.SpeedScale = wantsSprint ? 1.5f : 1.0f;
 
 			bool blocked = TestMove(GlobalTransform, direction);
 
@@ -134,6 +138,7 @@ public partial class movement : CharacterBody2D
 		Inventory.Instance.ItemDropped += OnItemDropped;
 
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_playerStats = GetNode<PlayerStats>("PlayerStats2");
 	}
 
 	public override void _UnhandledInput(InputEvent @event)

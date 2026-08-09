@@ -13,11 +13,14 @@ public partial class PlayerStats : Node
 	private float currThirst = 100f;
 	private float maxSanity = 100f;
 	private float currSanity = 100f;
+	private float maxStamina = 10f;
+	private float currStamina = 10f;
 
 	public float GetCurrentHealth() => currHealth;
 	public float GetCurrentHunger() => currHunger;
 	public float GetCurrentThirst() => currThirst;
 	public float GetCurrentSanity() => currSanity;
+	public bool CanSprint => currStamina > 0 && !_staminaExhausted;
 
 	public void ApplySnapshot(PlayerSaveSnapshot snapshot)
 	{
@@ -41,14 +44,21 @@ public partial class PlayerStats : Node
 	[Export] public float HungerZeroDamageRate = 2f;
 	[Export] public float ThirstZeroDamageRate = 2f;
 	[Export] public float SanityZeroDamageRate = 1f;
-	private movement _player;
+
+	[Export] public float StaminaDrainRate = 2f;
+	[Export] public float StaminaRegenRate = 3f;
+    private movement _player;
+	private bool _staminaExhausted = false;
+	public static PlayerStats Instance { get; private set; }
 
 	public override void _Ready()
 	{
+		Instance = this;
 		currHealth = maxHealth;
 		currHunger = maxHunger;
 		currThirst = maxThirst;
 		currSanity = maxSanity;
+		currStamina = maxStamina;
 
 		_player = GetParentOrNull<movement>();
 
@@ -58,6 +68,7 @@ public partial class PlayerStats : Node
 			MyStatsControl.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
 			MyStatsControl.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
 			MyStatsControl.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
+			MyStatsControl.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
 		}
 	}
 
@@ -99,6 +110,31 @@ public partial class PlayerStats : Node
 		{
 			TakeDamage((float)delta * SanityZeroDamageRate);
 		}
+
+		bool wantsSprint = Input.IsActionPressed("sprint");
+		bool isMoving = Input.IsActionPressed("left") || Input.IsActionPressed("right")
+					|| Input.IsActionPressed("up") || Input.IsActionPressed("down");
+
+		bool isSprinting = wantsSprint && isMoving && currStamina > 0 && !_staminaExhausted;
+
+		if (isSprinting)
+		{
+			currStamina = Mathf.Max(0, currStamina - (float)delta * StaminaDrainRate);
+			if (currStamina <= 0)
+			{
+				_staminaExhausted = true; // force a full walk-only state once drained
+			}
+		}
+		else
+		{
+			currStamina = Mathf.Min(maxStamina, currStamina + (float)delta * StaminaRegenRate);
+			if (_staminaExhausted && currStamina >= maxStamina)
+			{
+				_staminaExhausted = false; // only allow sprinting again once fully refilled
+			}
+		}
+
+		MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
 	}
 
 		public void TakeDamage(float amount)

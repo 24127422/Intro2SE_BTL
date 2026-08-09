@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://cfm1w3dahqf0j"]
+
+[ext_resource type="Texture2D" uid="uid://2kr4uctrb32e" path="res://Image/Ca phe sua tuoi.png" id="1_k7rpd"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_plqrk"]
+
+[resource]
+script = ExtResource("1_plqrk")
+ItemName = "Cà phê sữa tươi"
+Icon = ExtResource("1_k7rpd")
+Description = "Nghe nói ở LHP từ ngoài vào bà bên trái bán rẻ hơn bà bên phải...
+
+Khi dùng sẽ hồi lại một lượng khát và điểm tỉnh táo"
+IsConsumable = true
+RestoreThirst = 20.0
+RestoreSanity = 20.0
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

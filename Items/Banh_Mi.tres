@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://yivsdc07hlbj"]
+
+[ext_resource type="Texture2D" uid="uid://j4b5pvvhu12o" path="res://Image/BanhMi.png" id="1_463h5"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_s3stp"]
+
+[resource]
+script = ExtResource("1_s3stp")
+ItemName = "Bánh Mì 1 Trứng"
+Icon = ExtResource("1_463h5")
+Description = "Cái gì??? 20 ngàn cho một ổ bánh mì 1 trứng thôi hả????
+
+Khi dùng sẽ hồi lại một lượng máu và đói nhất định"
+IsConsumable = true
+RestoreHunger = 20.0
+RestoreHealth = 20.0
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

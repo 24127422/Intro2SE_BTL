@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://dq0d42ajjjkbv"]
+
+[ext_resource type="Texture2D" uid="uid://ck0k26ma1pbqr" path="res://Image/kho ga ximi food.png" id="1_fvao2"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_kmou3"]
+
+[resource]
+script = ExtResource("1_kmou3")
+ItemName = "Hũ khô gà"
+Icon = ExtResource("1_fvao2")
+Description = "Nần ná na na...
+Hình như mình đã mua từ một streamer nào đó
+
+Khi dùng sẽ hồi lại một lượng đói nhất định"
+IsConsumable = true
+RestoreHunger = 10.0
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

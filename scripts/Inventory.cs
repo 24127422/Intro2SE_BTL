@@ -182,6 +182,13 @@ public partial class Inventory : Node
 
 		if (slot.Item.IsConsumable)
 		{
+			PlayerStats.Instance?.Consume(
+				hungerAmount: slot.Item.RestoreHunger,
+				thirstAmount: slot.Item.RestoreThirst,
+				sanityAmount: slot.Item.RestoreSanity,
+				healthAmount: slot.Item.RestoreHealth
+    			);
+			
 			RemoveAt(index, 1);
 		}
 	}

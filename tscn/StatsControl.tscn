@@ -58,6 +58,13 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ugcl7"]
+bg_color = Color(0.7733656, 0.5573588, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="StatsControl" type="Control" unique_id=1526490129]
 layout_mode = 3
 anchors_preset = 0
@@ -74,6 +81,9 @@ ThirstNameLabelPath = NodePath("Thirst/NameLabel")
 SanityProgressBarPath = NodePath("Sanity/ProgressBar")
 SanityValueLabelPath = NodePath("Sanity/ValueLabel")
 SanityNameLabelPath = NodePath("Sanity/NameLabel")
+StaminaProgressBarPath = NodePath("Stamina/ProgressBar")
+StaminaValueLabelPath = NodePath("Stamina/ValueLabel")
+StaminaNameLabelPath = NodePath("Stamina/NameLabel")
 
 [node name="Health" type="Control" parent="." unique_id=959373209]
 anchors_preset = 0
@@ -204,6 +214,38 @@ offset_top = -11.0
 offset_right = 268.0
 offset_bottom = 12.0
 text = "Sanity"
+
+[node name="Stamina" type="Control" parent="." unique_id=279828649]
+anchors_preset = 0
+offset_left = -47.0
+offset_top = 121.0
+offset_right = -7.0
+offset_bottom = 161.0
+
+[node name="ProgressBar" type="ProgressBar" parent="Stamina" unique_id=286866584]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 7.0
+offset_right = 223.0
+offset_bottom = 12.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ugcl7")
+show_percentage = false
+
+[node name="ValueLabel" type="Label" parent="Stamina" unique_id=212873962]
+layout_mode = 0
+offset_left = 47.0
+offset_top = -13.0
+offset_right = 96.0
+offset_bottom = 9.0
+text = "10/10"
+
+[node name="NameLabel" type="Label" parent="Stamina" unique_id=1598040819]
+layout_mode = 0
+offset_left = 226.0
+offset_top = -3.0
+offset_right = 294.0
+offset_bottom = 19.0
+text = "Stamina"
 
 [node name="HungerTimer" type="Timer" parent="." unique_id=1680290481]
 wait_time = 60.0
