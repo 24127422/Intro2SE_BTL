@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dj6sr7m11wk4y"]
+
+[ext_resource type="Script" uid="uid://bstgc0v6t4n0q" path="res://scripts/StunIndicator.cs" id="1_qe01s"]
+
+[node name="StunIndicator" type="CanvasLayer" unique_id=1054240214]
+layer = 100
+script = ExtResource("1_qe01s")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2045319054]
+offset_left = -14.0
+offset_top = -27.0
+offset_right = 43.0
+offset_bottom = -24.0
+color = Color(0.79274064, 0.52542263, 1, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1642303659]
+offset_left = -15.0
+offset_top = -39.0
+offset_right = 33.0
+offset_bottom = -25.0
+theme_override_colors/font_color = Color(0.81668496, 0.58978087, 1, 1)
+theme_override_font_sizes/font_size = 10
+text = "STUNNING"

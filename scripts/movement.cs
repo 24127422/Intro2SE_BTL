@@ -4,7 +4,7 @@ using Godot;
 public partial class movement : CharacterBody2D
 {
 	public float Speed = 150.0f;
-	public float RunSpeed = 250.0f;
+	public float RunSpeed = 200.0f;
 	private const int HotbarSize = 9;
 	private Control _inventoryUI;
 	private AnimatedSprite2D _sprite;

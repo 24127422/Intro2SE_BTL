@@ -4,11 +4,35 @@
 [ext_resource type="Texture2D" uid="uid://cw6bh4dpymgjh" path="res://Image/lantern.png" id="2_l0ee0"]
 [ext_resource type="PackedScene" path="res://tscn/FlashlightLight.tscn" id="2_light"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_msjdr"]
+atlas = ExtResource("2_l0ee0")
+region = Rect2(0, 0, 32, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1haa"]
+atlas = ExtResource("2_l0ee0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34em8"]
+atlas = ExtResource("2_l0ee0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpm1p"]
+atlas = ExtResource("2_l0ee0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56q24"]
+atlas = ExtResource("2_l0ee0")
+region = Rect2(96, 0, 32, 32)
+
 [resource]
 script = ExtResource("1_denpin")
-DrainPerSecond = 2.0
+DrainPerSecond = 1.0
 ActiveEffectScene = ExtResource("2_light")
+IconFull = SubResource("AtlasTexture_q1haa")
+IconMedium = SubResource("AtlasTexture_qpm1p")
+IconLow = SubResource("AtlasTexture_34em8")
+IconOff = SubResource("AtlasTexture_56q24")
 ItemName = "Đèn pin"
-Icon = ExtResource("2_l0ee0")
+Icon = SubResource("AtlasTexture_msjdr")
 Description = "Đèn pin cầm tay chạy bằng pin AA. Ánh sáng yếu dần khi pin sắp cạn."
 MaxStackSize = 1

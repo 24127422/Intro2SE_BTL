@@ -1,44 +1,81 @@
 using Godot;
 
-// Kế thừa Item để tái sử dụng toàn bộ field chung (ItemName, Icon, HandModel,
-// TextureNorth/South/East/West...) vốn đã dùng cho hệ thống cầm-tay (PlayerHand).
-//
-// THIẾT KẾ: đây là 1 class DÙNG CHUNG cho MỌI "dụng cụ chính" có thể kích hoạt/bật-tắt
-// (đèn pin, bình cứu hỏa, radio dò sóng, chìa khóa điện tử có pin...) — đúng tinh thần
-// tái sử dụng mà ItemPickup.cs đang áp dụng cho Item: KHÔNG tạo FlashlightItem,
-// FireExtinguisherItem... riêng từng class, mà tạo nhiều Resource .tres khác nhau
-// (VD: "Đèn pin.tres", "Bình cứu hỏa.tres") cùng dùng class PrimaryItem này, chỉ khác
-// giá trị các [Export] bên dưới. Muốn thêm dụng cụ mới -> tạo .tres mới, không cần viết
-// thêm code C#.
 [GlobalClass]
 public partial class PrimaryItem : Item
 {
-	[ExportGroup("Primary Item - Kích hoạt")]
-	// true  = bấm dùng để BẬT/TẮT lặp lại (đèn pin: bật rồi tắt khi hết pin thì bật lại được)
-	// false = giữ để dùng liên tục, buông ra là tắt ngay (bình cứu hỏa: giữ nút xịt)
+	// USE MODE
+	[ExportGroup("Primary Item - Use Mode")]
+	// true  = bật/tắt bằng 1 lần bấm (Flashlight)
+	// false = chỉ hoạt động khi giữ nút sử dụng (Fire Extinguisher)
 	[Export] public bool IsToggleable { get; set; } = true;
 
-	// Vừa trang bị vào tay là bật sẵn hay chưa (thường để false)
+	// Chỉ dùng cho item giữ để sử dụng
+	// Mỗi UseInterval giây sẽ kích hoạt 1 lần
+	[Export] public float UseInterval { get; set; } = 0.1f;
+
+	// Mỗi lần kích hoạt sẽ tiêu hao bao nhiêu durability
+	[Export] public float DurabilityPerUse { get; set; } = 1f;
+
+	// Với item toggle: khi vừa equip có bật sẵn không
 	[Export] public bool StartsActive { get; set; } = false;
 
-	[ExportGroup("Primary Item - Năng lượng / Độ bền")]
-	// Dung lượng tối đa: pin đèn pin, áp suất bình cứu hỏa... <= 0 nghĩa là dùng vô hạn,
-	// không hao hụt (vd chìa khóa điện tử dùng nhiều lần không giới hạn).
+
+	// DURABILITY / ENERGY
+	[ExportGroup("Primary Item - Durability")]
+
+	// <= 0 nghĩa là dùng vô hạn
 	[Export] public float MaxDurability { get; set; } = 100f;
 
-	// Tốc độ hao hụt mỗi giây trong lúc đang Active (đèn pin đang sáng, bình cứu hỏa đang xịt).
+	// Chỉ dùng cho item toggle (ví dụ: đèn pin đang bật)
 	[Export] public float DrainPerSecond { get; set; } = 5f;
 
-	// Hết năng lượng thì có tự động tắt không (mặc định có)
 	[Export] public bool AutoDeactivateWhenEmpty { get; set; } = true;
 
-	[ExportGroup("Primary Item - Hiệu ứng khi kích hoạt")]
-	// Scene hiệu ứng gắn thêm vào tay khi Active: vùng sáng đèn pin (Light2D),
-	// tia bọt/particle của bình cứu hỏa... Để trống nếu dụng cụ không cần hiệu ứng riêng.
+
+	// EFFECTS
+	[ExportGroup("Primary Item - Effects")]
+
+	// Flashlight: Light2D
+	// Extinguisher: AnimatedSprite2D / GPUParticles2D
 	[Export] public PackedScene ActiveEffectScene { get; set; }
 
-	[ExportGroup("Primary Item - Âm thanh")]
+
+	// AUDIO
+	[ExportGroup("Primary Item - Audio")]
+
 	[Export] public AudioStream ActivateSound { get; set; }
 	[Export] public AudioStream DeactivateSound { get; set; }
-	[Export] public AudioStream DepletedSound { get; set; } // phát khi hết năng lượng giữa chừng
+	[Export] public AudioStream DepletedSound { get; set; }
+
+
+	// ICON STATES
+	[ExportGroup("Primary Item - Icon States")]
+
+	[Export] public Texture2D IconFull { get; set; }
+	[Export] public Texture2D IconMedium { get; set; }
+	[Export] public Texture2D IconLow { get; set; }
+	[Export] public Texture2D IconOff { get; set; }
+
+
+	// HELPERS
+	public Texture2D GetIcon(float durability, bool active)
+	{
+		// Item đang tắt
+		if (!active)
+			return IconOff ?? Icon;
+
+		// Item không dùng durability
+		if (MaxDurability <= 0f)
+			return IconFull ?? Icon;
+
+		float p = durability / MaxDurability;
+
+		if (p > 0.5f)
+			return IconFull ?? Icon;
+
+		if (p > 0.2f)
+			return IconMedium ?? Icon;
+
+		return IconLow ?? Icon;
+	}
 }

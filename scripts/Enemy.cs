@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Enemy : CharacterBody2D
 {
@@ -8,6 +9,19 @@ public partial class Enemy : CharacterBody2D
 	[Export] public float PatrolDistance = 96f;
 	[Export] public float AttackDmg = 33f;
 	[Export] public float AttackCooldown = 1.0f;
+	
+	[Export] public float SlowMultiplier = 0.5f;
+	[Export] public float SlowDuration = 1.5f;
+	[Export] public int HitsToStun = 5;
+	[Export] public float StunDuration = 2f;
+	
+	[Export] public PackedScene StunIndicatorScene;
+	private StunIndicator _stunIndicator;
+
+	private bool _isSlowed = false;
+	private bool _isStunned = false;
+	private int _sprayHitCount = 0;
+	private int _slowToken = 0;
 	
 	private bool _attacking = false;
 	private bool _canAttack = true;
@@ -32,6 +46,7 @@ public partial class Enemy : CharacterBody2D
 		Patrol,
 		Chase,
 		Attack,
+		Stunned,
 		Dead
 	}
 
@@ -94,6 +109,10 @@ public partial class Enemy : CharacterBody2D
 			case State.Attack:
 				Velocity = Vector2.Zero;
 				break;
+			
+			case State.Stunned:
+				Velocity = Vector2.Zero;
+				break;
 
 			case State.Dead:
 				Velocity = Vector2.Zero;
@@ -108,7 +127,12 @@ public partial class Enemy : CharacterBody2D
 	//----------------------------------------------------------
 
 	private void Patrol()
-	{
+	{	
+		if (_isStunned)
+		{
+			Velocity = Vector2.Zero;
+			return;
+		}
 		Vector2 dir = _patrolTarget - GlobalPosition;
 
 		if (dir.Length() < 8)
@@ -131,7 +155,8 @@ public partial class Enemy : CharacterBody2D
 			return;
 		}
 
-		Velocity = dir * WalkSpeed;
+		float speed = _isSlowed ? WalkSpeed * SlowMultiplier : WalkSpeed;
+		Velocity = dir * speed;
 
 		PlayWalk();
 	}
@@ -141,7 +166,12 @@ public partial class Enemy : CharacterBody2D
 	//----------------------------------------------------------
 
 	private void Chase()
-	{
+	{	
+		if (_isStunned)
+		{
+			Velocity = Vector2.Zero;
+			return;
+		}
 		if (_player == null || _player.IsDead)
 		{
 			_state = State.Patrol;
@@ -169,7 +199,11 @@ public partial class Enemy : CharacterBody2D
 			return;
 		}
 
-		Velocity = dir * ChaseSpeed;
+		float speed = _isSlowed
+			? ChaseSpeed * SlowMultiplier
+			: ChaseSpeed;
+
+		Velocity = dir * speed;
 		PlayWalk();
 	}
 
@@ -283,6 +317,10 @@ public partial class Enemy : CharacterBody2D
 		_player = null;
 		_playerInAttackRange = false;
 
+		// Đang stun thì giữ nguyên stun
+		if (_isStunned)
+			return;
+
 		if (_state != State.Attack)
 		{
 			_state = State.Patrol;
@@ -359,5 +397,73 @@ public partial class Enemy : CharacterBody2D
 		
 		if (_playerStats != null)
 			_playerStats.TakeDamage(AttackDmg);
+	}
+	
+	public async void ApplyExtinguisherHit()
+	{
+		if (_state == State.Dead || _isStunned)
+			return;
+
+		_isSlowed = true;
+		_sprayHitCount++;
+
+		int token = ++_slowToken;
+
+		if (_sprayHitCount >= HitsToStun)
+		{
+			_sprayHitCount = 0;
+			await Stun();
+			return;
+		}
+
+		await ToSignal(GetTree().CreateTimer(SlowDuration),
+					   SceneTreeTimer.SignalName.Timeout);
+
+		// Chỉ timer mới nhất mới được quyền hết slow
+		if (token == _slowToken && !_isStunned)
+			_isSlowed = false;
+	}
+	
+	private async Task Stun()
+	{
+		_isStunned = true;
+		_isSlowed = false;
+
+		Velocity = Vector2.Zero;
+		_state = State.Stunned;
+
+		PlayIdle();
+		
+		if (StunIndicatorScene != null)
+		{
+			if (_stunIndicator != null &&
+				!GodotObject.IsInstanceValid(_stunIndicator))
+			{
+				_stunIndicator = null;
+			}
+
+			if (_stunIndicator == null)
+			{
+				_stunIndicator = StunIndicatorScene.Instantiate<StunIndicator>();
+
+				GetTree().CurrentScene.AddChild(_stunIndicator);
+
+				_stunIndicator.Start(this, StunDuration);
+			}
+		}
+
+		await ToSignal(GetTree().CreateTimer(StunDuration),
+					   SceneTreeTimer.SignalName.Timeout);
+
+		_isStunned = false;
+
+		// Chỉ quyết định state sau khi stun kết thúc
+		if (_player != null && !_player.IsDead)
+			_state = State.Chase;
+		else
+		{
+			_state = State.Patrol;
+			PickPatrolPoint();
+		}
 	}
 }

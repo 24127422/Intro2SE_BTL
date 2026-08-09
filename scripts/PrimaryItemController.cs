@@ -16,6 +16,7 @@ public partial class PrimaryItemController : Node
 	private Node2D _currentEffectNode;
 	private AudioStreamPlayer2D _audioPlayer;
 	private bool _wasActive = false;
+	private float _holdUseTimer = 0f;
 
 	public override void _Ready()
 	{
@@ -41,18 +42,63 @@ public partial class PrimaryItemController : Node
 	public override void _Process(double delta)
 	{
 		var (slot, primary) = GetActivePrimary();
-		if (slot == null || primary == null || !slot.IsActive) return;
-		if (primary.MaxDurability <= 0f) return; // <= 0 nghĩa là dùng vô hạn, không hao
 
-		float current = (slot.CurrentDurability ?? primary.MaxDurability) - primary.DrainPerSecond * (float)delta;
-		slot.CurrentDurability = Mathf.Max(0f, current);
+		if (slot == null || primary == null)
+			return;
 
-		if (slot.CurrentDurability <= 0f && primary.AutoDeactivateWhenEmpty)
+		// for toggle (Flashlight)
+		if (primary.IsToggleable)
 		{
-			PlaySound(primary.DepletedSound);
-			// Tắt qua Inventory (nguồn sự thật duy nhất) -> phát InventoryChanged
-			// -> OnInventoryChanged bên dưới tự dọn hiệu ứng/âm thanh.
-			Inventory.Instance.SetSlotActive(Inventory.Instance.ActiveSlotIndex, false);
+			if (!slot.IsActive)
+				return;
+
+			if (primary.MaxDurability <= 0f)
+				return;
+
+			float current = (slot.CurrentDurability ?? primary.MaxDurability)
+							- primary.DrainPerSecond * (float)delta;
+
+			slot.CurrentDurability = Mathf.Max(0f, current);
+
+			if (slot.CurrentDurability <= 0f && primary.AutoDeactivateWhenEmpty)
+			{
+				PlaySound(primary.DepletedSound);
+				Inventory.Instance.SetSlotActive(Inventory.Instance.ActiveSlotIndex, false);
+			}
+
+			return;
+		}
+
+		// for hold (Fire Extinguisher)
+		if (!Input.IsActionPressed("use_item"))
+		{
+			_holdUseTimer = 0f;
+			return;
+		}
+
+		float durability = slot.CurrentDurability ?? primary.MaxDurability;
+
+		if (primary.MaxDurability > 0f && durability <= 0f)
+			return;
+
+		_holdUseTimer += (float)delta;
+
+		if (_holdUseTimer >= primary.UseInterval)
+		{
+			_holdUseTimer = 0f;
+
+			SpawnEffect(primary);
+			PlaySound(primary.ActivateSound);
+
+			if (primary.MaxDurability > 0f)
+			{
+				slot.CurrentDurability = Mathf.Max(
+					0f,
+					durability - primary.DurabilityPerUse
+				);
+			}
+
+			Inventory.Instance.EmitSignal(Inventory.SignalName.InventoryChanged);
 		}
 	}
 
@@ -99,11 +145,21 @@ public partial class PrimaryItemController : Node
 
 	private void SpawnEffect(PrimaryItem primary)
 	{
-		ClearEffect();
-		if (primary.ActiveEffectScene == null || EffectAttachPoint == null) return;
+		if (primary.ActiveEffectScene == null || EffectAttachPoint == null)
+			return;
 
-		_currentEffectNode = primary.ActiveEffectScene.Instantiate<Node2D>();
-		EffectAttachPoint.AddChild(_currentEffectNode);
+		Node2D effect = primary.ActiveEffectScene.Instantiate<Node2D>();
+
+		// Gắn vào tay
+		EffectAttachPoint.AddChild(effect);
+
+		// Lấy hướng từ player tới chuột
+		Vector2 mouseGlobal = GetViewport().GetMousePosition();
+		Vector2 dir = (mouseGlobal - EffectAttachPoint.GlobalPosition).Normalized();
+
+		// Xoay effect theo hướng chuột
+		effect.GlobalPosition = EffectAttachPoint.GlobalPosition;
+		effect.GlobalRotation = dir.Angle();
 	}
 
 	private void ClearEffect()

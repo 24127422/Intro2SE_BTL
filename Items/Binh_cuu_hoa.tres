@@ -1,17 +1,14 @@
-[gd_resource type="Resource" script_class="PrimaryItem" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="PrimaryItem" format=3 uid="uid://d338ptfah3mhr"]
 
-[ext_resource type="Script" path="res://scripts/PrimaryItem.cs" id="1_binhchuahoa"]
+[ext_resource type="Script" uid="uid://bw8fr4srwqsb3" path="res://scripts/PrimaryItem.cs" id="1_binhchuahoa"]
+[ext_resource type="Texture2D" uid="uid://dmk0xfxx31own" path="res://Image/sprites/fire_extinguisher/fire_extinguisher.png" id="2_kasjo"]
 
 [resource]
 script = ExtResource("1_binhchuahoa")
-ItemName = "Bình cứu hỏa"
-Description = "Bình cứu hỏa mini, xịt liên tục khi giữ nút. Áp suất cạn nhanh, dùng một lần là gần như hết."
-Thought = ""
-IsConsumable = false
-IsDocument = false
-MaxStackSize = 1
 IsToggleable = false
-StartsActive = false
-MaxDurability = 30.0
+UseInterval = 0.5
 DrainPerSecond = 10.0
-AutoDeactivateWhenEmpty = true
+ItemName = "Bình cứu hỏa"
+Icon = ExtResource("2_kasjo")
+Description = "Bình cứu hỏa mini, xịt liên tục khi giữ. Áp suất cạn nhanh, dùng một lần là gần như hết."
+MaxStackSize = 1

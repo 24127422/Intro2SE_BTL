@@ -5,7 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://bko3h8qf01nbg" path="res://Image/sprites/characters/player/Death.png" id="3_emu1f"]
 [ext_resource type="Texture2D" uid="uid://c1bllgfkm7omd" path="res://Image/sprites/characters/player/Idle.png" id="9_q1haa"]
 [ext_resource type="Texture2D" uid="uid://b008672yiqnqh" path="res://Image/sprites/characters/player/Walk.png" id="10_qpm1p"]
+[ext_resource type="Script" uid="uid://ds5rbrgo3u5sd" path="res://scripts/FireExtinguisherController.cs" id="11_2i02x"]
 [ext_resource type="Script" uid="uid://cxmp0ekep7reg" path="res://scripts/PlayerHand.cs" id="11_qpm1p"]
+[ext_resource type="PackedScene" uid="uid://blqffpjn3b1b4" path="res://tscn/ExtinguisherSpray.tscn" id="12_2i02x"]
 [ext_resource type="Script" uid="uid://f8yvxoerqnvl" path="res://scripts/InventoryUI.cs" id="20_invui"]
 [ext_resource type="PackedScene" uid="uid://dgddlp6c3jhtf" path="res://tscn/InventorySlot.tscn" id="21_islot"]
 [ext_resource type="Script" uid="uid://dbyx0u7xkejx5" path="res://scripts/PrimaryItemController.cs" id="22_pic"]
@@ -383,6 +385,8 @@ OffsetWest = Vector2(-15, 11)
 
 [node name="Sprite2D" type="Sprite2D" parent="HandPos" unique_id=90572157]
 
+[node name="SprayOrigin" type="Node2D" parent="HandPos" unique_id=1006934013]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2001000001]
 
 [node name="InventoryUI" type="Panel" parent="CanvasLayer" unique_id=838437235 node_paths=PackedStringArray("SlotContainer")]
@@ -452,3 +456,8 @@ show_percentage = false
 [node name="PrimaryItemController" type="Node" parent="." unique_id=2001000005 node_paths=PackedStringArray("EffectAttachPoint")]
 script = ExtResource("22_pic")
 EffectAttachPoint = NodePath("../HandPos")
+
+[node name="NodeFireExtinguisherController" type="Node" parent="." unique_id=2103541518 node_paths=PackedStringArray("SprayOrigin")]
+script = ExtResource("11_2i02x")
+SprayOrigin = NodePath("../HandPos/SprayOrigin")
+SprayScene = ExtResource("12_2i02x")

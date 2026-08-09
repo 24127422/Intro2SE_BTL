@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://j23g8wkovb0" path="res://scripts/Enemy.cs" id="1_883pt"]
 [ext_resource type="Texture2D" uid="uid://clqcim1lgaait" path="res://Image/sprites/characters/enemy_test/Attack.png" id="2_fiwim"]
+[ext_resource type="PackedScene" uid="uid://dj6sr7m11wk4y" path="res://tscn/StunIndicator.tscn" id="2_omnov"]
 [ext_resource type="Texture2D" uid="uid://dqje5b8pqfjfd" path="res://Image/sprites/characters/enemy_test/Idle.png" id="3_omnov"]
 [ext_resource type="Texture2D" uid="uid://coldktd360h1s" path="res://Image/sprites/characters/enemy_test/Walk.png" id="4_5hk8j"]
 
@@ -403,7 +404,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2844s")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_E",
 "speed": 8.0
 }, {
@@ -432,7 +433,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qqblo")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_N",
 "speed": 8.0
 }, {
@@ -461,7 +462,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_to3hp")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_S",
 "speed": 8.0
 }, {
@@ -490,7 +491,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oskjw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_W",
 "speed": 8.0
 }, {
@@ -510,7 +511,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5ulf2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -530,7 +531,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yum6w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -550,7 +551,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pv3y1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -570,7 +571,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h47xj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -605,7 +606,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0wljr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -640,7 +641,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jypwg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -675,7 +676,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8qpbr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -710,7 +711,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rixd3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_W",
 "speed": 8.0
 }]
@@ -727,6 +728,7 @@ script = ExtResource("1_883pt")
 WalkSpeed = 50.0
 ChaseSpeed = 150.0
 PatrolDistance = 400.0
+StunIndicatorScene = ExtResource("2_omnov")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1932434850]
 position = Vector2(3.0517585e-06, 7.629394e-07)
