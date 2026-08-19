@@ -6,7 +6,8 @@
 [resource]
 script = ExtResource("1_binhchuahoa")
 IsToggleable = false
-UseInterval = 0.5
+UseInterval = 0.25
+DurabilityPerUse = 2.0
 DrainPerSecond = 10.0
 ItemName = "Bình cứu hỏa"
 Icon = ExtResource("2_kasjo")
