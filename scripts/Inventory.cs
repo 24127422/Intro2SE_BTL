@@ -187,7 +187,7 @@ public partial class Inventory : Node
 				thirstAmount: slot.Item.RestoreThirst,
 				sanityAmount: slot.Item.RestoreSanity,
 				healthAmount: slot.Item.RestoreHealth
-    			);
+				);
 			
 			RemoveAt(index, 1);
 		}

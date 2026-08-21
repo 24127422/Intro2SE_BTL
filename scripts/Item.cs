@@ -16,10 +16,10 @@ public partial class Item : Resource
 	[Export] public PackedScene HandModel { get; set; }
 
 	[ExportGroup("Consumable Effects")]
-    [Export] public float RestoreHunger { get; set; } = 0f;
-    [Export] public float RestoreThirst { get; set; } = 0f;
-    [Export] public float RestoreSanity { get; set; } = 0f;
-    [Export] public float RestoreHealth { get; set; } = 0f;
+	[Export] public float RestoreHunger { get; set; } = 0f;
+	[Export] public float RestoreThirst { get; set; } = 0f;
+	[Export] public float RestoreSanity { get; set; } = 0f;
+	[Export] public float RestoreHealth { get; set; } = 0f;
 
 	// === TÍNH NĂNG TÀI LIỆU (DOCUMENT) ===
 	[ExportGroup("Document Details")]

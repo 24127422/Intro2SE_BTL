@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://8vnl0hoebeng"]
+
+[ext_resource type="Script" uid="uid://cm02ta6kfag1i" path="res://scripts/TestGroq.cs" id="1_jnrp0"]
+
+[node name="Node2D" type="Node2D" unique_id=1916656659]
+script = ExtResource("1_jnrp0")

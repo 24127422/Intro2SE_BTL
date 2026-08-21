@@ -13,6 +13,7 @@ public partial class movement : CharacterBody2D
 	public string FacingDirection => _lastDirection;
 	private bool _isFlashing = false;
 	private PlayerStats _playerStats;
+	public static movement Instance { get; private set; }
 	
 	public bool IsDead { get; private set; } = false;
 	[Export] public PackedScene ItemPickupScene;
@@ -129,6 +130,13 @@ public partial class movement : CharacterBody2D
 
 	public override void _Ready()
 	{
+		if (Instance != null && Instance != this)
+		{
+			QueueFree();
+			return;
+		}
+		Instance = this;
+
 		_inventoryUI = GetNodeOrNull<Control>("CanvasLayer/InventoryUI");
 		if (_inventoryUI == null)
 			GD.PrintErr("[movement] Không tìm thấy 'CanvasLayer/InventoryUI' dưới Player! Kiểm tra lại Player.tscn.");

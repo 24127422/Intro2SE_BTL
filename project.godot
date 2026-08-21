@@ -12,7 +12,7 @@ config_version=5
 
 config/name="The last of us-ers"
 run/main_scene="uid://bni83xa6jd571"
-config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,6 +25,8 @@ GameManager="*res://scripts/GameManager.cs"
 SaveUtils="*uid://blpbosaiyflyv"
 Cursor="*uid://dtrio0j10kwpu"
 PauseMenu="*uid://c0fu2ut5t8ek8"
+GeminiConfig="*uid://dmdr3mj1g3ab3"
+GroqConfig="*uid://cc7xdywv7pc2v"
 
 [dotnet]
 

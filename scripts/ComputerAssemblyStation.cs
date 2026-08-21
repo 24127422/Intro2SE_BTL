@@ -70,7 +70,7 @@ public partial class ComputerAssemblyStation : Area2D
 			return;
 		}
 
-		// Bước 1: lắp mọi linh kiện hợp lệ mà người chơi đang mang theo lúc này
+		//Lắp mọi linh kiện đang mang theo
 		var justInserted = new List<string>();
 		foreach (var part in RequiredParts)
 		{
@@ -85,7 +85,7 @@ public partial class ComputerAssemblyStation : Area2D
 			}
 		}
 
-		// Bước 2: kiểm tra đã đủ hết chưa
+		// kiểm tra đã đủ hết chưa
 		bool complete = true;
 		var stillMissing = new List<string>();
 		foreach (var part in RequiredParts)

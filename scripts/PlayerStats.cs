@@ -3,6 +3,10 @@ using System;
 
 public partial class PlayerStats : Node
 {
+	// === Singleton — cần thiết vì Inventory.UseItem() gọi thẳng
+	// PlayerStats.Instance?.Consume(...) khi dùng item tiêu hao. ===
+	public static PlayerStats Instance { get; private set; }
+
 	[Export] public StatsControl MyStatsControl;
 
 	private float maxHealth = 100f;
@@ -16,12 +20,35 @@ public partial class PlayerStats : Node
 	private float maxStamina = 10f;
 	private float currStamina = 10f;
 
+	[Export] public float HungerDecreaseRate = 0.0167f;
+	[Export] public float ThirstDecreaseRate = 0.0167f;
+	[Export] public float SanityDecreaseRate = 0.0167f;
+
+	[Export] public float HungerZeroDamageRate = 2f;
+	[Export] public float ThirstZeroDamageRate = 2f;
+	[Export] public float SanityZeroDamageRate = 1f;
+
+	[Export] public float StaminaDrainRate = 2f;
+	[Export] public float StaminaRegenRate = 3f;
+
+	private movement _player;
+	private bool _staminaExhausted = false;
+
+	// === Getter đọc-only cho Enemy Tactical AI (EnemyNeuralPolicy) lấy % máu thật
+	// của người chơi. Enemy.cs phụ thuộc trực tiếp vào field này — KHÔNG được xóa
+	// khi nâng cấp PlayerStats, nếu không Enemy.cs sẽ lỗi build ngược lại. ===
+	public float HealthPercent => maxHealth > 0 ? currHealth / maxHealth * 100f : 100f;
+
+	// === Dùng bởi Save_utils.CaptureCurrentGame() để đóng gói snapshot lưu game ===
 	public float GetCurrentHealth() => currHealth;
 	public float GetCurrentHunger() => currHunger;
 	public float GetCurrentThirst() => currThirst;
 	public float GetCurrentSanity() => currSanity;
+
+	// === Dùng bởi movement.cs để quyết định có cho sprint hay không ===
 	public bool CanSprint => currStamina > 0 && !_staminaExhausted;
 
+	// === Dùng bởi Save_utils.ApplySaveData() khi load game ===
 	public void ApplySnapshot(PlayerSaveSnapshot snapshot)
 	{
 		if (snapshot == null) return;
@@ -37,23 +64,10 @@ public partial class PlayerStats : Node
 		MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
 	}
 
-	[Export] public float HungerDecreaseRate = 0.0167f;
-	[Export] public float ThirstDecreaseRate = 0.0167f;
-	[Export] public float SanityDecreaseRate = 0.0167f;
-
-	[Export] public float HungerZeroDamageRate = 2f;
-	[Export] public float ThirstZeroDamageRate = 2f;
-	[Export] public float SanityZeroDamageRate = 1f;
-
-	[Export] public float StaminaDrainRate = 2f;
-	[Export] public float StaminaRegenRate = 3f;
-    private movement _player;
-	private bool _staminaExhausted = false;
-	public static PlayerStats Instance { get; private set; }
-
 	public override void _Ready()
 	{
 		Instance = this;
+
 		currHealth = maxHealth;
 		currHunger = maxHunger;
 		currThirst = maxThirst;
@@ -111,6 +125,8 @@ public partial class PlayerStats : Node
 			TakeDamage((float)delta * SanityZeroDamageRate);
 		}
 
+		// === Stamina: hao khi sprint + đang di chuyển, hồi khi không sprint.
+		// Kiệt sức (_staminaExhausted) thì phải hồi ĐẦY mới được sprint lại. ===
 		bool wantsSprint = Input.IsActionPressed("sprint");
 		bool isMoving = Input.IsActionPressed("left") || Input.IsActionPressed("right")
 					|| Input.IsActionPressed("up") || Input.IsActionPressed("down");
@@ -122,7 +138,7 @@ public partial class PlayerStats : Node
 			currStamina = Mathf.Max(0, currStamina - (float)delta * StaminaDrainRate);
 			if (currStamina <= 0)
 			{
-				_staminaExhausted = true; // force a full walk-only state once drained
+				_staminaExhausted = true;
 			}
 		}
 		else
@@ -130,30 +146,32 @@ public partial class PlayerStats : Node
 			currStamina = Mathf.Min(maxStamina, currStamina + (float)delta * StaminaRegenRate);
 			if (_staminaExhausted && currStamina >= maxStamina)
 			{
-				_staminaExhausted = false; // only allow sprinting again once fully refilled
+				_staminaExhausted = false;
 			}
 		}
 
 		MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
 	}
 
-		public void TakeDamage(float amount)
+	public void TakeDamage(float amount)
+	{
+		if (_player != null && _player.IsDead)
+			return; // đã chết rồi, không xử lý damage thêm
+
+		_player?.FlashDamage();
+
+		currHealth = Mathf.Max(0, currHealth - amount);
+		MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
+
+		if (currHealth <= 0)
 		{
-			if (_player != null && _player.IsDead)
-				return; // already dead, stop processing further damage
-
-			_player?.FlashDamage();
-
-			currHealth = Mathf.Max(0, currHealth - amount);
-			MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
-
-			if (currHealth <= 0)
-		{   
 			_player?.Die();
+			// Nối luồng Game Over còn thiếu (Phần 6.1 trong tài liệu kiến trúc):
+			// trước đây chỉ Print ra console chứ không chuyển GameState.
 			GameManager.Instance?.TriggerGameOver();
 			GD.Print("Player died. Game over!");
 		}
-}
+	}
 
 	public void Consume(float hungerAmount, float thirstAmount = 0f, float sanityAmount = 0f, float healthAmount = 0f)
 	{

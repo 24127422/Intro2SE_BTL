@@ -30,7 +30,6 @@ public partial class DialogueUI : CanvasLayer
 		Instance = this;
 		Panel.Visible = false;
 		
-		// ĐĂNG KÝ SỰ KIỆN: Lắng nghe click chuột trực tiếp trên Panel để tránh bị nuốt mất sự kiện click
 		Panel.GuiInput += OnPanelGuiInput;
 	}
 
@@ -46,7 +45,6 @@ public partial class DialogueUI : CanvasLayer
 
 	private void ShowLine(int index)
 	{
-		// Nếu chỉ số dòng tiếp theo là -1 (kết thúc) hoặc vượt quá số lượng dòng thoại
 		if (_currentDialogue == null || index == -1 || index >= _currentDialogue.Lines.Count)
 		{
 			EndDialogue();
@@ -69,11 +67,9 @@ public partial class DialogueUI : CanvasLayer
 		_isTyping = TypeSpeed > 0f && _fullText.Length > 0;
 		TextLabel.Text = _isTyping ? "" : _fullText;
 
-		// Thưởng vật phẩm nếu có
 		if (line.RewardItem != null)
 		{
 			Inventory.Instance.AddItem(line.RewardItem, line.RewardQuantity);
-			// Xóa tham chiếu để không thưởng lại nếu người chơi xem lại dòng này lần nữa
 			line.RewardItem = null;
 		}
 
@@ -98,25 +94,21 @@ public partial class DialogueUI : CanvasLayer
 		}
 		if (_typedChars >= _fullText.Length)
 		{
-			// Gõ xong -> DỪNG lại chờ người chơi bấm chuột trái để tiếp tục
 			_isTyping = false;
 			ShowChoicesIfAny(_currentDialogue.Lines[_currentLineIndex]);
 		}
 	}
 
-	// Nhận sự kiện click chuột khi người chơi click TRỰC TIẾP lên khung hội thoại (Panel)
 	private void OnPanelGuiInput(InputEvent @event)
 	{
 		HandleDialogueInput(@event);
 	}
 
-	// Nhận sự kiện click chuột khi người chơi click RA NGOÀI khung hội thoại
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		HandleDialogueInput(@event);
 	}
 
-	// Hàm xử lý logic click chuột chung để chuyển dòng hoặc tắt hội thoại
 	private void HandleDialogueInput(InputEvent @event)
 	{
 		if (!IsTalking) return;
