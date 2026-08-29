@@ -27,6 +27,7 @@ Cursor="*uid://dtrio0j10kwpu"
 PauseMenu="*uid://c0fu2ut5t8ek8"
 GeminiConfig="*uid://dmdr3mj1g3ab3"
 GroqConfig="*uid://cc7xdywv7pc2v"
+GameOverUI="*uid://kpll3i3uve1s"
 
 [dotnet]
 

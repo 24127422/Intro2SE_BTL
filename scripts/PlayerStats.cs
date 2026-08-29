@@ -20,16 +20,16 @@ public partial class PlayerStats : Node
 	private float maxStamina = 10f;
 	private float currStamina = 10f;
 
-	[Export] public float HungerDecreaseRate = 0.0167f;
-	[Export] public float ThirstDecreaseRate = 0.0167f;
-	[Export] public float SanityDecreaseRate = 0.0167f;
+	[Export] public float HungerDecreaseRate = 0.5f;
+	[Export] public float ThirstDecreaseRate = 0.5f;
+	[Export] public float SanityDecreaseRate = 0.5f;
 
 	[Export] public float HungerZeroDamageRate = 2f;
 	[Export] public float ThirstZeroDamageRate = 2f;
 	[Export] public float SanityZeroDamageRate = 1f;
 
 	[Export] public float StaminaDrainRate = 2f;
-	[Export] public float StaminaRegenRate = 3f;
+	[Export] public float StaminaRegenRate = 2f;
 
 	private movement _player;
 	private bool _staminaExhausted = false;
@@ -87,71 +87,74 @@ public partial class PlayerStats : Node
 	}
 
 	public override void _Process(double delta)
+{
+	if (_player != null && _player.IsDead)
 	{
-		if (_player != null && _player.IsDead)
-		{
-			return;
-		}
-
-		if (currHunger > 0)
-		{
-			float hungerRate = HungerDecreaseRate * (Input.IsActionPressed("sprint") ? 5f : 1f);
-			currHunger = Mathf.Max(0, currHunger - (float)delta * hungerRate);
-			MyStatsControl?.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
-		}
-		else
-		{
-			TakeDamage((float)delta * HungerZeroDamageRate);
-		}
-
-		if (currThirst > 0)
-		{
-			float thirstRate = ThirstDecreaseRate * (Input.IsActionPressed("sprint") ? 5f : 1f);
-			currThirst = Mathf.Max(0, currThirst - (float)delta * thirstRate);
-			MyStatsControl?.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
-		}
-		else
-		{
-			TakeDamage((float)delta * ThirstZeroDamageRate);
-		}
-
-		if (currSanity > 0)
-		{
-			currSanity = Mathf.Max(0, currSanity - (float)delta * SanityDecreaseRate);
-			MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
-		}
-		else
-		{
-			TakeDamage((float)delta * SanityZeroDamageRate);
-		}
-
-		// === Stamina: hao khi sprint + đang di chuyển, hồi khi không sprint.
-		// Kiệt sức (_staminaExhausted) thì phải hồi ĐẦY mới được sprint lại. ===
-		bool wantsSprint = Input.IsActionPressed("sprint");
-		bool isMoving = Input.IsActionPressed("left") || Input.IsActionPressed("right")
-					|| Input.IsActionPressed("up") || Input.IsActionPressed("down");
-
-		bool isSprinting = wantsSprint && isMoving && currStamina > 0 && !_staminaExhausted;
-
-		if (isSprinting)
-		{
-			currStamina = Mathf.Max(0, currStamina - (float)delta * StaminaDrainRate);
-			if (currStamina <= 0)
-			{
-				_staminaExhausted = true;
-			}
-		}
-		else
-		{
-			currStamina = Mathf.Min(maxStamina, currStamina + (float)delta * StaminaRegenRate);
-			if (_staminaExhausted && currStamina >= maxStamina)
-			{
-				_staminaExhausted = false;
-			}
-		}
-
-		MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
+		return;
 	}
+
+	// === Tính isSprinting TRƯỚC, dùng chung cho Hunger/Thirst/Stamina.
+	// Trước đây Hunger/Thirst chỉ check Input.IsActionPressed("sprint") mà không
+	// check isMoving -> đứng yên giữ phím sprint vẫn bị hao đói/khát x5 vô lý. ===
+	bool wantsSprint = Input.IsActionPressed("sprint");
+	bool isMoving = Input.IsActionPressed("left") || Input.IsActionPressed("right")
+				|| Input.IsActionPressed("up") || Input.IsActionPressed("down");
+
+	bool isSprinting = wantsSprint && isMoving && currStamina > 0 && !_staminaExhausted;
+
+	if (currHunger > 0)
+	{
+		float hungerRate = HungerDecreaseRate * (isSprinting ? 5f : 1f);
+		currHunger = Mathf.Max(0, currHunger - (float)delta * hungerRate);
+		MyStatsControl?.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
+	}
+	else
+	{
+		TakeDamage((float)delta * HungerZeroDamageRate);
+	}
+
+	if (currThirst > 0)
+	{
+		float thirstRate = ThirstDecreaseRate * (isSprinting ? 5f : 1f);
+		currThirst = Mathf.Max(0, currThirst - (float)delta * thirstRate);
+		MyStatsControl?.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
+	}
+	else
+	{
+		TakeDamage((float)delta * ThirstZeroDamageRate);
+	}
+
+	if (currSanity > 0)
+	{
+		currSanity = Mathf.Max(0, currSanity - (float)delta * SanityDecreaseRate);
+		MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
+	}
+	else
+	{
+		TakeDamage((float)delta * SanityZeroDamageRate);
+	}
+
+	// === Stamina: hao khi sprint + đang di chuyển, hồi khi không sprint.
+	// Kiệt sức (_staminaExhausted) thì phải hồi ĐẦY mới được sprint lại. ===
+	if (isSprinting)
+	{
+		currStamina = Mathf.Max(0, currStamina - (float)delta * StaminaDrainRate);
+		if (currStamina <= 0)
+		{
+			_staminaExhausted = true;
+		}
+	}
+	else
+	{
+		currStamina = Mathf.Min(maxStamina, currStamina + (float)delta * StaminaRegenRate);
+		if (_staminaExhausted && currStamina >= maxStamina)
+		{
+			_staminaExhausted = false;
+		}
+	}
+
+	MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
+}
 
 	public void TakeDamage(float amount)
 	{

@@ -12,12 +12,10 @@
 [ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="11_v8vuo"]
 [ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_fu8xo"]
 [ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
-[ext_resource type="Resource" uid="uid://d338ptfah3mhr" path="res://Items/Binh_cuu_hoa.tres" id="16_tah4c"]
+[ext_resource type="Resource" uid="uid://cj43hgtfguvkd" path="res://Items/lantern.tres" id="16_tah4c"]
 [ext_resource type="PackedScene" path="res://tscn/computer_assembly.tscn" id="17_1jpnp"]
-[ext_resource type="Resource" uid="uid://yivsdc07hlbj" path="res://Items/Banh_Mi.tres" id="17_qachy"]
 [ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
 [ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
-[ext_resource type="Resource" uid="uid://cfm1w3dahqf0j" path="res://Items/Ca_Phe_Sua.tres" id="18_5kcdt"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
@@ -1198,17 +1196,13 @@ StaminaProgressBarPath = null
 StaminaValueLabelPath = null
 StaminaNameLabelPath = null
 
-[node name="binhcuuhoa" parent="." unique_id=347758319 instance=ExtResource("18_qachy")]
-position = Vector2(-141, -35)
+[node name="binhcuuhoa" parent="." unique_id=1399356506 instance=ExtResource("18_qachy")]
+position = Vector2(11, 7)
 ItemData = ExtResource("16_tah4c")
 
-[node name="BahnMi" parent="." unique_id=1803427756 instance=ExtResource("18_qachy")]
-position = Vector2(-21, -54)
-ItemData = ExtResource("17_qachy")
-
 [node name="Caphe" parent="." unique_id=1823116340 instance=ExtResource("18_qachy")]
-position = Vector2(126, -6)
-ItemData = ExtResource("18_5kcdt")
+position = Vector2(-133, 6)
+ItemData = ExtResource("16_tah4c")
 
 [node name="ComputerAssemblyStation" parent="." unique_id=1645148345 instance=ExtResource("17_1jpnp")]
 position = Vector2(68, -78)

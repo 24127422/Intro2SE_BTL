@@ -216,7 +216,9 @@ public partial class Enemy : CharacterBody2D
 	// ưu tiên hơn kế hoạch chiến thuật.
 	public void AssignTacticalPlan(List<EnemyPlanAction> plan)
 	{
-		if (_state == State.Attack || _state == State.Dead || _state == State.Stunned) return;
+		 if (_state == State.Attack || _state == State.Dead ||
+			 _state == State.Stunned || _state == State.Chase)
+		return;
 		if (plan == null || plan.Count == 0) return;
 
 		_tacticalPlan = plan;

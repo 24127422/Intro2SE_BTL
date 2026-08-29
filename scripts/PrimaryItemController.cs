@@ -102,9 +102,6 @@ public partial class PrimaryItemController : Node
 		}
 	}
 
-	// ------------------------------------------------------------------
-	// PHẢN ỨNG lại thay đổi từ Inventory (không tự ý bật/tắt gì ở đây)
-	// ------------------------------------------------------------------
 
 	private void OnInventoryChanged()
 	{
