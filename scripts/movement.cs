@@ -219,13 +219,15 @@ public partial class movement : CharacterBody2D
 		inventory.UseItem(inventory.ActiveSlotIndex);
 	}
 
-	private void OnItemDropped(Item item, int amount)
+	private void OnItemDropped(Item item, int amount, float durability)
 	{
 		for (int i = 0; i < amount; i++)
 		{
 			var pickup = ItemPickupScene.Instantiate<ItemPickup>();
-
 			pickup.ItemData = item;
+
+			if (item is PrimaryItem)
+				pickup.Durability = durability;
 
 			float offsetX = (float)(_rng.NextDouble() * 20 - 10);
 			float offsetY = (float)(_rng.NextDouble() * 20 - 10);
@@ -235,6 +237,7 @@ public partial class movement : CharacterBody2D
 			pickup.GlobalPosition = dropPosition;
 		}
 	}
+	
 	public void Die()
 	{
 		if (IsDead)

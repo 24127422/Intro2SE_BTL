@@ -3,6 +3,8 @@ using Godot;
 public partial class ItemPickup : Area2D
 {
 	[Export] public Item ItemData { get; set; }
+	
+	public float? Durability { get; set; } = null;
 
 	private Label _promptLabel;
 	private bool _isPlayerInRange = false;
@@ -12,14 +14,12 @@ public partial class ItemPickup : Area2D
 	{
 		_inventory = GetNodeOrNull<Inventory>("/root/Inventory");
 
-		// Lấy Node Label ra và ẩn nó đi lúc đầu
 		_promptLabel = GetNode<Label>("Label");
 		if (_promptLabel != null)
 		{
 			_promptLabel.Visible = false;
 		}
 
-		// Kết nối sự kiện va chạm
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
 		if (ItemData == null)
@@ -36,7 +36,6 @@ public partial class ItemPickup : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		// Kiểm tra nếu vật thể bước vào vùng là Nhân vật
 		if (body is CharacterBody2D)
 		{
 			_isPlayerInRange = true;
@@ -74,8 +73,7 @@ public partial class ItemPickup : Area2D
 				GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
 				return;
 			}
-
-			bool success = _inventory.AddItem(ItemData);
+bool success = _inventory.AddItem(ItemData, 1, Durability);
 			if (success)
 			{
 				QueueFree();

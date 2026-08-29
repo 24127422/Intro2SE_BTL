@@ -1,16 +1,7 @@
 using Godot;
 
-// Áp dụng hành vi thời gian thực cho PrimaryItem (đèn pin, bình cứu hỏa...) đang ở ô
-// ActiveSlotIndex: hao năng lượng mỗi frame khi Active, tự tắt khi hết, gắn/gỡ hiệu ứng
-// hình ảnh (ActiveEffectScene), phát âm thanh Activate/Deactivate/Depleted.
-//
-// TÁCH RIÊNG khỏi PlayerHand.cs: PlayerHand chỉ lo HIỂN THỊ model/texture theo hướng nhìn,
-// còn class này chỉ lo HÀNH VI (Active/Inactive, hao năng lượng, hiệu ứng). Việc BẬT/TẮT
-// (IsActive) vẫn do Inventory.UseItem()/SetSlotActive() quyết định — Inventory vẫn là nguồn
-// sự thật duy nhất; class này CHỈ lắng nghe & phản ứng, giống cách PlayerHand đang làm.
 public partial class PrimaryItemController : Node
 {
-	// Điểm gắn hiệu ứng (Light2D, particle...) — thường trỏ tới HandPos/HandMarker của PlayerHand.
 	[Export] public Node2D EffectAttachPoint;
 
 	private Node2D _currentEffectNode;
@@ -136,28 +127,28 @@ public partial class PrimaryItemController : Node
 		_wasActive = isActiveNow;
 	}
 
-	// ------------------------------------------------------------------
-	// Helpers
-	// ------------------------------------------------------------------
+	
+private void SpawnEffect(PrimaryItem primary)
+{
+	// Luôn dọn hiệu ứng cũ TRƯỚC khi tạo mới — đảm bảo tại một thời điểm chỉ có
+	// DUY NHẤT 1 effect node tồn tại, dù SpawnEffect được gọi lặp lại liên tục
+	// (chế độ giữ nút, ví dụ bình cứu hỏa) hay chỉ gọi 1 lần (chế độ toggle, đèn pin).
+	ClearEffect();
 
-	private void SpawnEffect(PrimaryItem primary)
-	{
-		if (primary.ActiveEffectScene == null || EffectAttachPoint == null)
-			return;
+	if (primary.ActiveEffectScene == null || EffectAttachPoint == null)
+		return;
 
-		Node2D effect = primary.ActiveEffectScene.Instantiate<Node2D>();
+	Node2D effect = primary.ActiveEffectScene.Instantiate<Node2D>();
+	EffectAttachPoint.AddChild(effect);
 
-		// Gắn vào tay
-		EffectAttachPoint.AddChild(effect);
+	Vector2 mouseGlobal = GetViewport().GetMousePosition();
+	Vector2 dir = (mouseGlobal - EffectAttachPoint.GlobalPosition).Normalized();
 
-		// Lấy hướng từ player tới chuột
-		Vector2 mouseGlobal = GetViewport().GetMousePosition();
-		Vector2 dir = (mouseGlobal - EffectAttachPoint.GlobalPosition).Normalized();
+	effect.GlobalPosition = EffectAttachPoint.GlobalPosition;
+	effect.GlobalRotation = dir.Angle();
 
-		// Xoay effect theo hướng chuột
-		effect.GlobalPosition = EffectAttachPoint.GlobalPosition;
-		effect.GlobalRotation = dir.Angle();
-	}
+	_currentEffectNode = effect;
+}
 
 	private void ClearEffect()
 	{
