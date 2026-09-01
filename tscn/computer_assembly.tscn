@@ -1,22 +1,37 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://bpc30o5mj8wlg"]
 
-[ext_resource type="Script" path="res://scripts/ComputerAssemblyStation.cs" id="1_asm01"]
+[ext_resource type="Script" uid="uid://blkd5wmgx5tlt" path="res://scripts/ComputerAssemblyStation.cs" id="1_asm01"]
+[ext_resource type="Script" uid="uid://b8ljy0o46ero7" path="res://scripts/AssemblyPart.cs" id="2_iojee"]
+[ext_resource type="Resource" uid="uid://d338ptfah3mhr" path="res://Items/Binh_cuu_hoa.tres" id="3_m0qa3"]
+[ext_resource type="Resource" uid="uid://cfm1w3dahqf0j" path="res://Items/Ca_Phe_Sua.tres" id="4_h4mdv"]
+
+[sub_resource type="Resource" id="Resource_kybq3"]
+script = ExtResource("2_iojee")
+RequiredItem = ExtResource("3_m0qa3")
+metadata/_custom_type_script = "uid://b8ljy0o46ero7"
+
+[sub_resource type="Resource" id="Resource_53n3v"]
+script = ExtResource("2_iojee")
+RequiredItem = ExtResource("4_h4mdv")
+metadata/_custom_type_script = "uid://b8ljy0o46ero7"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_asm01"]
 size = Vector2(48, 32)
 
-[node name="ComputerAssemblyStation" type="Area2D"]
+[node name="ComputerAssemblyStation" type="Area2D" unique_id=823802711]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_asm01")
+RequiredParts = Array[ExtResource("2_iojee")]([SubResource("Resource_kybq3"), SubResource("Resource_53n3v")])
+IntroText = "skibidi khong"
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=198191749]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1526181413]
 shape = SubResource("RectangleShape2D_asm01")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=936697798]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5

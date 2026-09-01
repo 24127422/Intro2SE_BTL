@@ -6,7 +6,7 @@ public partial class DialogueUI : CanvasLayer
 
 	[Export] public Panel Panel;
 	[Export] public Label NameLabel;
-	[Export] public Label TextLabel;
+	[Export] public RichTextLabel TextLabel;
 	[Export] public VBoxContainer ChoiceContainer;
 
 	[Export] public PackedScene ChoiceButtonScene;
