@@ -21,8 +21,14 @@ public partial class GameManager : Node
 	[ExportGroup("Overlay Flags")]
 	public bool IsJournalOpen {get; private set; } = false;
 	public bool IsInventoryOpen {get; private set; } = false;
-	public bool IsPlayerInputBlocked => CurrentState != GameState.Playing || IsJournalOpen || IsInventoryOpen;
+	private bool _interactionInputBlocked = false;
 
+	public bool IsPlayerInputBlocked =>
+		CurrentState != GameState.Playing ||
+		IsJournalOpen ||
+		IsInventoryOpen ||
+		_interactionInputBlocked;
+	
 	private Label _debugLabel;
 	// === TÍN HIỆU (SIGNALS) ===
 	[Signal] public delegate void GameStateChangedEventHandler(int newState);
@@ -61,6 +67,11 @@ public partial class GameManager : Node
 			GetTree().Root.CallDeferred("add_child", _debugLabel);
 		}
 		*/ 
+	}
+	
+	public void SetInteractionInputBlocked(bool blocked)
+	{
+		_interactionInputBlocked = blocked;
 	}
 // dưới là hàm debug
 /*  

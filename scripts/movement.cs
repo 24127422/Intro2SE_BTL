@@ -294,4 +294,21 @@ public partial class movement : CharacterBody2D
 			JournalUI.Instance.Visible = GameManager.Instance?.IsJournalOpen ?? newState;
 		}
 	}
+	public void FaceTowards(Vector2 targetPosition)
+	{
+		Vector2 dir = (targetPosition - GlobalPosition).Normalized();
+
+		string newDirection;
+
+		if (Mathf.Abs(dir.X) > Mathf.Abs(dir.Y))
+			newDirection = dir.X > 0 ? "E" : "W";
+		else
+			newDirection = dir.Y > 0 ? "S" : "N";
+
+		_lastDirection = newDirection;
+
+		_sprite.Play("Idle_" + _lastDirection);
+
+		EmitSignal(SignalName.FacingDirectionChanged, _lastDirection);
+	}
 }
