@@ -6,6 +6,7 @@ public partial class PlayerStats : Node
 	// === Singleton — cần thiết vì Inventory.UseItem() gọi thẳng
 	// PlayerStats.Instance?.Consume(...) khi dùng item tiêu hao. ===
 	public static PlayerStats Instance { get; private set; }
+	
 
 	[Export] public StatsControl MyStatsControl;
 
@@ -30,7 +31,7 @@ public partial class PlayerStats : Node
 
 	[Export] public float StaminaDrainRate = 2f;
 	[Export] public float StaminaRegenRate = 2f;
-
+	
 	private movement _player;
 	private bool _staminaExhausted = false;
 
@@ -38,7 +39,7 @@ public partial class PlayerStats : Node
 	// của người chơi. Enemy.cs phụ thuộc trực tiếp vào field này — KHÔNG được xóa
 	// khi nâng cấp PlayerStats, nếu không Enemy.cs sẽ lỗi build ngược lại. ===
 	public float HealthPercent => maxHealth > 0 ? currHealth / maxHealth * 100f : 100f;
-
+	public float SanityPercent => maxSanity > 0 ? currSanity / maxSanity * 100f : 100f;
 	// === Dùng bởi Save_utils.CaptureCurrentGame() để đóng gói snapshot lưu game ===
 	public float GetCurrentHealth() => currHealth;
 	public float GetCurrentHunger() => currHunger;

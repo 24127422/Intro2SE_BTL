@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://c4u36ggqanrnf"]
+
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="1_data"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_line"]
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="2_u1x8b"]
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "Tất cả các bộ phận đã được lắp đủ. Đèn nguồn nhấp nháy một nhịp... rồi một nhịp nữa, như mạch đập."
+NextLineIndex = 1
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "Màn hình sáng lên. Trên đó không phải là màn hình khởi động Windows quen thuộc — mà là một gương mặt, đang cố mở mắt."
+
+[resource]
+script = ExtResource("1_data")
+DialogueName = "computer_complete"
+Lines = Array[ExtResource("2_line")]([SubResource("Line_1"), SubResource("Line_2")])

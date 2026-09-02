@@ -4,20 +4,36 @@ using System.Text;
 
 public partial class ComputerAssemblyStation : Area2D
 {
+	// === 7 bộ phận "thân xác" bắt buộc: Case, Mainboard, PSU, CPU, Tản nhiệt, RAM, GPU ===
 	[Export] public Godot.Collections.Array<AssemblyPart> RequiredParts { get; set; } = new();
 
 	[Export(PropertyHint.MultilineText)]
 	public string IntroText { get; set; } = "";
 
-	[Export] public DialogueData CompleteDialogue { get; set; }
+	// === Khe ROM: 1 ROM thật + N ROM giả. Người chơi chỉ có thể lắp ROM nào đang có
+	// trong túi đồ — ROM nào lắp trước sẽ bị tiêu hao ngay (không rút ra lắp lại được),
+	// nên chỉ nên để người chơi tìm thấy 1 trong 3 ROM ở mỗi lượt chơi để giữ độ căng thẳng. ===
+	[ExportGroup("Khe ROM")]
+	[Export] public Godot.Collections.Array<Item> ValidRoms { get; set; } = new();
+	[Export] public Item CorrectRom { get; set; }
+	[Export] public DialogueData GoodEndingDialogue { get; set; }
+	[Export] public DialogueData BadEndingDialogue { get; set; }
+
+	// === Màn hình đổi hình theo kết quả — chỉ cần gán 2 texture, không cần logic phức tạp ===
+	[ExportGroup("Màn hình")]
+	[Export] public Texture2D ScreenGoodTexture { get; set; }
+	[Export] public Texture2D ScreenBadTexture { get; set; }
 
 	[Export] public Item RewardItem { get; set; }
 	[Export] public int RewardQuantity { get; set; } = 1;
 
 	private readonly HashSet<Item> _inserted = new();
+	public bool BodyComplete { get; private set; } = false;
 	public bool IsAssembled { get; private set; } = false;
+	private bool _romWasCorrect = false;
 
 	private Label _promptLabel;
+	private Sprite2D _screenSprite;
 	private bool _isPlayerInRange = false;
 	private bool _hasShownIntro = false;
 
@@ -25,6 +41,7 @@ public partial class ComputerAssemblyStation : Area2D
 	{
 		_promptLabel = GetNode<Label>("Label");
 		_promptLabel.Visible = false;
+		_screenSprite = GetNodeOrNull<Sprite2D>("Sprite2D");
 
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
@@ -51,10 +68,12 @@ public partial class ComputerAssemblyStation : Area2D
 
 	public override void _Process(double delta)
 	{
-		if (_isPlayerInRange && !DialogueUI.Instance.IsTalking && !_promptLabel.Visible)
+		bool otherUiOpen = DialogueUI.Instance.IsTalking || (RomSlotUI.Instance?.IsOpen ?? false);
+
+		if (_isPlayerInRange && !otherUiOpen && !_promptLabel.Visible)
 			_promptLabel.Visible = true;
 
-		if (!_isPlayerInRange || DialogueUI.Instance.IsTalking) return;
+		if (!_isPlayerInRange || otherUiOpen) return;
 		if (!Input.IsActionJustPressed("interact")) return;
 
 		_promptLabel.Visible = false;
@@ -65,12 +84,26 @@ public partial class ComputerAssemblyStation : Area2D
 	{
 		if (IsAssembled)
 		{
-			if (CompleteDialogue != null)
-				DialogueUI.Instance.StartDialogue(CompleteDialogue, null);
+			var dlg = _romWasCorrect ? GoodEndingDialogue : BadEndingDialogue;
+			if (dlg != null)
+				DialogueUI.Instance.StartDialogue(dlg, null);
 			return;
 		}
 
-		//Lắp mọi linh kiện đang mang theo
+		if (!BodyComplete)
+		{
+			TryInsertBodyParts();
+			return;
+		}
+
+		// Không tự quét túi đồ nữa — mở panel để người chơi TỰ kéo đúng ROM họ chọn vào khe.
+		RomSlotUI.Instance?.Open(this);
+	}
+
+	// ---------------- Lắp 7 bộ phận thân xác ----------------
+
+	private void TryInsertBodyParts()
+	{
 		var justInserted = new List<string>();
 		foreach (var part in RequiredParts)
 		{
@@ -85,7 +118,6 @@ public partial class ComputerAssemblyStation : Area2D
 			}
 		}
 
-		// kiểm tra đã đủ hết chưa
 		bool complete = true;
 		var stillMissing = new List<string>();
 		foreach (var part in RequiredParts)
@@ -100,18 +132,60 @@ public partial class ComputerAssemblyStation : Area2D
 
 		if (complete)
 		{
-			CompleteAssembly();
+			BodyComplete = true;
+			ShowBodyCompleteDialogue();
 			return;
 		}
 
 		ShowProgressDialogue(justInserted, stillMissing);
 	}
 
-	private void CompleteAssembly()
+	// ---------------- Lắp ROM (thật hoặc giả) — gọi từ RomSlotUI khi người chơi thả ROM vào khe ----------------
+
+	private void ShowBodyCompleteDialogue()
 	{
+		var line = new DialogueLine
+		{
+			SpeakerName = "Máy tính cũ",
+			Text = "Mọi bộ phận đã lắp đủ. Chỉ còn thiếu duy nhất một ROM để khởi động.\n\nNhấn E lần nữa để chọn ROM.",
+			NextLineIndex = -1,
+		};
+
+		var dyn = new DialogueData
+		{
+			Lines = new Godot.Collections.Array<DialogueLine> { line },
+			StartLineIndex = 0,
+		};
+
+		DialogueUI.Instance.StartDialogue(dyn, null);
+	}
+
+	// Trả về false nếu chưa sẵn sàng nhận ROM hoặc item thả vào không nằm trong ValidRoms.
+	// KHÔNG tự trừ item khỏi túi đồ — việc đó do RomSlotUI.TryHandleDrop() xử lý sau khi
+	// hàm này trả về true, để tránh trừ nhầm khi item không hợp lệ.
+	public bool TryInsertSpecificRom(Item rom)
+	{
+		if (!BodyComplete || IsAssembled) return false;
+		if (rom == null) return false;
+
+		bool isValid = false;
+		foreach (var validRom in ValidRoms)
+		{
+			if (validRom == rom) { isValid = true; break; }
+		}
+		if (!isValid) return false;
+
+		_romWasCorrect = (rom == CorrectRom);
 		IsAssembled = true;
 
-		if (RewardItem != null)
+		if (_screenSprite != null)
+		{
+			var tex = _romWasCorrect ? ScreenGoodTexture : ScreenBadTexture;
+			if (tex != null)
+				_screenSprite.Texture = tex;
+		}
+
+		if (_romWasCorrect && RewardItem != null)
 		{
 			if (RewardItem.IsDocument)
 				DocumentJournal.Instance?.UnlockDocument(RewardItem);
@@ -119,9 +193,14 @@ public partial class ComputerAssemblyStation : Area2D
 				Inventory.Instance.AddItem(RewardItem, RewardQuantity);
 		}
 
-		if (CompleteDialogue != null)
-			DialogueUI.Instance.StartDialogue(CompleteDialogue, null);
+		var dlg = _romWasCorrect ? GoodEndingDialogue : BadEndingDialogue;
+		if (dlg != null)
+			DialogueUI.Instance.StartDialogue(dlg, null);
+
+		return true;
 	}
+
+	// ---------------- Dialogue tiến trình lắp thân xác ----------------
 
 	private void ShowProgressDialogue(List<string> justInserted, List<string> stillMissing)
 	{

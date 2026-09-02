@@ -8,6 +8,8 @@ public partial class InventoryUI : Control
 
 	private List<InventorySlot> _slotNodes = new();
 	private Inventory _inventory;
+	private float _sanityCheckTimer = 0f;
+	private const float SanityCheckInterval = 0.4f;
 
 	public override void _Ready()
 	{
@@ -25,7 +27,16 @@ public partial class InventoryUI : Control
 		RefreshUI();
 	}
 
-	// QUAN TRỌNG: Phải hủy đăng ký sự kiện khi Node này bị xóa khỏi Scene Tree để tránh rò rỉ bộ nhớ và crash game
+		public override void _Process(double delta)
+	{
+		_sanityCheckTimer += (float)delta;
+		if (_sanityCheckTimer >= SanityCheckInterval)
+		{
+			_sanityCheckTimer = 0f;
+			RefreshUI();
+		}
+	}
+
 	public override void _ExitTree()
 	{
 		if (_inventory != null)

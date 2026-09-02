@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://da3yufd7gt4gj"]
+
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="1_data"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_line"]
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="2_o84af"]
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "ROM không khớp. Đèn nguồn chớp loạn, rồi màn hình vỡ ra thành nhiễu trắng đen."
+NextLineIndex = 1
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "Có một gương mặt trên màn hình — nhưng nó không phải cha. Nó đang nhìn mình, và nó biết mình đã chọn sai."
+
+[resource]
+script = ExtResource("1_data")
+DialogueName = "computer_bad_ending"
+Lines = Array[ExtResource("2_line")]([SubResource("Line_1"), SubResource("Line_2")])

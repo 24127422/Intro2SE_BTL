@@ -13,13 +13,23 @@
 [ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="11_v8vuo"]
 [ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_fu8xo"]
 [ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
-[ext_resource type="Resource" uid="uid://cj43hgtfguvkd" path="res://Items/lantern.tres" id="16_tah4c"]
-[ext_resource type="PackedScene" path="res://tscn/computer_assembly.tscn" id="17_1jpnp"]
+[ext_resource type="PackedScene" uid="uid://bpc30o5mj8wlg" path="res://tscn/computer_assembly.tscn" id="17_1jpnp"]
+[ext_resource type="Resource" uid="uid://cav1yxgyga408" path="res://Document/Giao thức truyền tải_Final.tres" id="17_c4efu"]
 [ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
 [ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
 [ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
 [ext_resource type="Script" uid="uid://cym5jm7hyhvsk" path="res://scripts/Toilet.cs" id="19_qachy"]
 [ext_resource type="AudioStream" uid="uid://nhltgv1dw3bg" path="res://soundeffect/pee_sound.mp3" id="20_5kcdt"]
+[ext_resource type="Resource" path="res://Items/pc_parts/Cooler.tres" id="20_h2dlj"]
+[ext_resource type="Resource" path="res://Items/pc_parts/Case.tres" id="21_c4efu"]
+[ext_resource type="Resource" path="res://Items/pc_parts/GPU.tres" id="22_qn3f3"]
+[ext_resource type="Resource" path="res://Items/pc_parts/Mainboard.tres" id="24_hhpva"]
+[ext_resource type="Resource" path="res://Items/pc_parts/CPU.tres" id="25_48vri"]
+[ext_resource type="Resource" path="res://Items/pc_parts/PSU.tres" id="26_nfclw"]
+[ext_resource type="Resource" path="res://Items/pc_parts/RAM.tres" id="27_lg388"]
+[ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_1.tres" id="28_knfee"]
+[ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_2.tres" id="29_n5hae"]
+[ext_resource type="Resource" path="res://Items/pc_parts/ROM_That.tres" id="30_n72rg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -1380,8 +1390,9 @@ NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
 
 [node name="Enemy" parent="." unique_id=378890957 instance=ExtResource("17_tah4c")]
-position = Vector2(235.99998, -34.999996)
+position = Vector2(1032.9999, 286.99997)
 ChaseSpeed = 180.0
+TacticalRequestInterval = 10.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1193340879]
 
@@ -1390,16 +1401,10 @@ StaminaProgressBarPath = null
 StaminaValueLabelPath = null
 StaminaNameLabelPath = null
 
-[node name="binhcuuhoa" parent="." unique_id=1399356506 instance=ExtResource("18_qachy")]
-position = Vector2(11, 7)
-ItemData = ExtResource("16_tah4c")
-
-[node name="Caphe" parent="." unique_id=1823116340 instance=ExtResource("18_qachy")]
-position = Vector2(-133, 6)
-ItemData = ExtResource("16_tah4c")
-
 [node name="ComputerAssemblyStation" parent="." unique_id=1645148345 instance=ExtResource("17_1jpnp")]
-position = Vector2(38, -78)
+position = Vector2(0, -81)
+IntroText = "Một cái xác máy tính rỗng ruột nằm trên bàn. Có lẽ nếu lắp đủ từng bộ phận, nó  sẽ sống lại."
+RewardItem = ExtResource("17_c4efu")
 
 [node name="Toilet" type="Area2D" parent="." unique_id=189723585]
 position = Vector2(2101, 49)
@@ -1488,3 +1493,43 @@ shape = SubResource("RectangleShape2D_e7cww")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet4" unique_id=1727953383]
 stream = ExtResource("20_5kcdt")
 volume_db = 9.862
+
+[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("18_qachy")]
+position = Vector2(-103, -25)
+ItemData = ExtResource("20_h2dlj")
+
+[node name="ItemPickup2" parent="." unique_id=855842711 instance=ExtResource("18_qachy")]
+position = Vector2(-97, 22)
+ItemData = ExtResource("21_c4efu")
+
+[node name="ItemPickup3" parent="." unique_id=1599397758 instance=ExtResource("18_qachy")]
+position = Vector2(-23, 23)
+ItemData = ExtResource("22_qn3f3")
+
+[node name="ItemPickup4" parent="." unique_id=856133928 instance=ExtResource("18_qachy")]
+position = Vector2(-220, 47)
+ItemData = ExtResource("24_hhpva")
+
+[node name="ItemPickup5" parent="." unique_id=1974197301 instance=ExtResource("18_qachy")]
+position = Vector2(-203, 142)
+ItemData = ExtResource("25_48vri")
+
+[node name="ItemPickup6" parent="." unique_id=918429506 instance=ExtResource("18_qachy")]
+position = Vector2(-187, -36)
+ItemData = ExtResource("26_nfclw")
+
+[node name="ItemPickup7" parent="." unique_id=760458754 instance=ExtResource("18_qachy")]
+position = Vector2(-245, 203)
+ItemData = ExtResource("27_lg388")
+
+[node name="ItemPickup8" parent="." unique_id=1697316433 instance=ExtResource("18_qachy")]
+position = Vector2(-208, 301)
+ItemData = ExtResource("28_knfee")
+
+[node name="ItemPickup9" parent="." unique_id=1131780442 instance=ExtResource("18_qachy")]
+position = Vector2(-113, 308)
+ItemData = ExtResource("29_n5hae")
+
+[node name="ItemPickup10" parent="." unique_id=1578726053 instance=ExtResource("18_qachy")]
+position = Vector2(29, 331)
+ItemData = ExtResource("30_n72rg")

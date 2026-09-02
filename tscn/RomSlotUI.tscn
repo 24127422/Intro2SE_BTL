@@ -1,0 +1,140 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/RomSlotUI.cs" id="1_romui"]
+[ext_resource type="Script" path="res://scripts/RomDropTarget.cs" id="2_dropzone"]
+[ext_resource type="PackedScene" path="res://tscn/InventorySlot.tscn" id="3_slotscene"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.1, 0.1, 0.12, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.6, 0.15, 0.15, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.08, 0.08, 0.09, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.32, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 24
+content_margin_top = 20
+content_margin_right = 24
+content_margin_bottom = 20
+
+[node name="RomSlotUI" type="CanvasLayer" node_paths=PackedStringArray("Overlay", "DropPanel", "SlotIcon", "HintLabel", "CancelButton", "InventorySlotsContainer")]
+layer = 30
+script = ExtResource("1_romui")
+Overlay = NodePath("Overlay")
+DropPanel = NodePath("CenterContainer/MainPanel/OuterVBox/Columns/RightCol/DropPanel")
+SlotIcon = NodePath("CenterContainer/MainPanel/OuterVBox/Columns/RightCol/DropPanel/SlotIcon")
+HintLabel = NodePath("CenterContainer/MainPanel/OuterVBox/HintLabel")
+CancelButton = NodePath("CenterContainer/MainPanel/OuterVBox/CancelButton")
+InventorySlotsContainer = NodePath("CenterContainer/MainPanel/OuterVBox/Columns/LeftCol/InventorySlotsContainer")
+SlotScene = ExtResource("3_slotscene")
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.65)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MainPanel" type="Panel" parent="CenterContainer"]
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="OuterVBox" type="VBoxContainer" parent="CenterContainer/MainPanel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="HintLabel" type="Label" parent="CenterContainer/MainPanel/OuterVBox"]
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 15
+text = "Kéo 1 ROM từ dải ô bên trái vào khe bên phải"
+
+[node name="Columns" type="HBoxContainer" parent="CenterContainer/MainPanel/OuterVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="LeftCol" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterVBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="LeftLabel" type="Label" parent="CenterContainer/MainPanel/OuterVBox/Columns/LeftCol"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+text = "Túi đồ"
+
+[node name="InventorySlotsContainer" type="GridContainer" parent="CenterContainer/MainPanel/OuterVBox/Columns/LeftCol"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="RightCol" type="VBoxContainer" parent="CenterContainer/MainPanel/OuterVBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="RightLabel" type="Label" parent="CenterContainer/MainPanel/OuterVBox/Columns/RightCol"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+text = "Khe ROM"
+
+[node name="DropPanel" type="Panel" parent="CenterContainer/MainPanel/OuterVBox/Columns/RightCol"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("2_dropzone")
+
+[node name="SlotIcon" type="TextureRect" parent="CenterContainer/MainPanel/OuterVBox/Columns/RightCol/DropPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CancelButton" type="Button" parent="CenterContainer/MainPanel/OuterVBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Huỷ (thoát)"

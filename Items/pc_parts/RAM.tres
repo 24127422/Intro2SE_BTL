@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Item" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/Item.cs" id="1_script"]
+[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/ram.png" id="2_icon"]
+[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/ram_horror.png" id="3_horror"]
+
+[resource]
+script = ExtResource("1_script")
+ItemName = "Thanh RAM"
+Icon = ExtResource("2_icon")
+HorrorIcon = ExtResource("3_horror")
+Description = "Những đường mạch mảnh như dây thần kinh, chằng chịt và dễ đứt."
+Thought = "Chạm nhẹ một cái là toàn thân giật lên."
+IsConsumable = false
+IsDocument = false
+MaxStackSize = 1

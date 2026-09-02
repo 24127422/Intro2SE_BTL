@@ -27,30 +27,31 @@ public partial class InventorySlot : Panel
 		return _inventory;
 	}
 
-	public void UpdateSlot(InventorySlotData data)
+public void UpdateSlot(InventorySlotData data)
+{
+	_data = data;
+ 
+	if (_icon == null) return;
+ 
+	if (data == null || data.IsEmpty)
 	{
-		_data = data;
-		
-		if (_icon == null) return;
-
-		if (data == null || data.IsEmpty)
+		_icon.Texture = null;
+		_icon.Visible = false;
+		if (_quantityLabel != null) _quantityLabel.Visible = false;
+	}
+	else
+	{
+		float sanity = PlayerStats.Instance?.SanityPercent ?? 100f;
+		_icon.Texture = data.Item.GetDisplayIcon(sanity);
+		_icon.Visible = _icon.Texture != null;
+ 
+		if (_quantityLabel != null)
 		{
-			_icon.Texture = null;
-			_icon.Visible = false;
-			if (_quantityLabel != null) _quantityLabel.Visible = false;
-		}
-		else
-		{
-			_icon.Texture = data.Item.Icon;
-			_icon.Visible = _icon.Texture != null;
-			
-			if (_quantityLabel != null)
-			{
-				_quantityLabel.Visible = data.Quantity > 1;
-				_quantityLabel.Text = data.Quantity.ToString();
-			}
+			_quantityLabel.Visible = data.Quantity > 1;
+			_quantityLabel.Text = data.Quantity.ToString();
 		}
 	}
+}
 
 	private void OnGuiInput(InputEvent @event)
 	{

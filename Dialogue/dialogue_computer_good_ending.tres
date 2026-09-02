@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DialogueData" format=3 uid="uid://53etug1ggwkv"]
+
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="1_data"]
+[ext_resource type="Script" uid="uid://c6p2ebdpxdk06" path="res://scripts/DialogueLine.cs" id="2_line"]
+[ext_resource type="Script" uid="uid://cbn1ph0pfpkcp" path="res://scripts/DialogueChoice.cs" id="2_vw2ft"]
+
+[sub_resource type="Resource" id="Line_1"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "ROM khớp hoàn toàn. Đèn nguồn nhấp nháy một nhịp... rồi một nhịp nữa, như mạch đập thật sự."
+NextLineIndex = 1
+
+[sub_resource type="Resource" id="Line_2"]
+script = ExtResource("2_line")
+SpeakerName = "Máy tính cũ"
+Text = "Màn hình sáng lên. Đó là gương mặt cha, đang cố mở mắt — và lần này, ông ấy thật sự nhận ra mình."
+
+[resource]
+script = ExtResource("1_data")
+DialogueName = "computer_good_ending"
+Lines = Array[ExtResource("2_line")]([SubResource("Line_1"), SubResource("Line_2")])

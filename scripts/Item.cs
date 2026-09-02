@@ -6,6 +6,7 @@ public partial class Item : Resource
 	[ExportGroup("General Info")]
 	[Export] public string ItemName { get; set; } = "";
 	[Export] public Texture2D Icon { get; set; } 
+	[Export] public Texture2D HorrorIcon { get; set; }
 	[Export(PropertyHint.MultilineText)] public string Description { get; set; } = "";
 	[Export(PropertyHint.MultilineText)] public string Thought { get; set; }
 	
@@ -36,4 +37,11 @@ public partial class Item : Resource
 	[Export] public Texture2D TextureSouth { get; set; }
 	[Export] public Texture2D TextureEast { get; set; }
 	[Export] public Texture2D TextureWest { get; set; }
+	
+	public Texture2D GetDisplayIcon(float sanityPercent, float threshold = 40f)
+	{
+		if (HorrorIcon != null && sanityPercent <= threshold)
+			return HorrorIcon;
+		return Icon;
+	}
 }
