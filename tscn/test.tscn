@@ -22,10 +22,10 @@
 [ext_resource type="AudioStream" uid="uid://nhltgv1dw3bg" path="res://soundeffect/pee_sound.mp3" id="20_5kcdt"]
 [ext_resource type="Resource" path="res://Items/pc_parts/Cooler.tres" id="20_h2dlj"]
 [ext_resource type="Resource" path="res://Items/pc_parts/Case.tres" id="21_c4efu"]
-[ext_resource type="Resource" path="res://Items/pc_parts/GPU.tres" id="22_qn3f3"]
+[ext_resource type="Resource" uid="uid://lxsokrjobn4k" path="res://Items/pc_parts/GPU.tres" id="22_qn3f3"]
 [ext_resource type="Resource" path="res://Items/pc_parts/Mainboard.tres" id="24_hhpva"]
 [ext_resource type="Resource" path="res://Items/pc_parts/CPU.tres" id="25_48vri"]
-[ext_resource type="Resource" path="res://Items/pc_parts/PSU.tres" id="26_nfclw"]
+[ext_resource type="Resource" uid="uid://c5fsrj4hkx6q4" path="res://Items/pc_parts/PSU.tres" id="26_nfclw"]
 [ext_resource type="Resource" path="res://Items/pc_parts/RAM.tres" id="27_lg388"]
 [ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_1.tres" id="28_knfee"]
 [ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_2.tres" id="29_n5hae"]
@@ -1397,9 +1397,6 @@ TacticalRequestInterval = 10.0
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1193340879]
 
 [node name="StatsControl" parent="CanvasLayer" unique_id=1526490129 instance=ExtResource("18_1jpnp")]
-StaminaProgressBarPath = null
-StaminaValueLabelPath = null
-StaminaNameLabelPath = null
 
 [node name="ComputerAssemblyStation" parent="." unique_id=1645148345 instance=ExtResource("17_1jpnp")]
 position = Vector2(0, -81)

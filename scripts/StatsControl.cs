@@ -7,7 +7,8 @@ public enum ResourceType
 	Hunger,
 	Thirst,
 	Sanity,
-	Stamina
+	Stamina,
+	Speed
 }
 
 public partial class StatsControl : Control

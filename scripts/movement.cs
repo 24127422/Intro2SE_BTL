@@ -69,6 +69,7 @@ public partial class movement : CharacterBody2D
 			//_sprite.SpeedScale = Input.IsActionPressed("sprint") ? 1.5f : 1.0f;
 
 			bool wantsSprint = Input.IsActionPressed("sprint") && (_playerStats?.CanSprint ?? true);
+			float speedBonus = _playerStats?.GetFlatBonus(ResourceType.Speed) ?? 0f;
 			float currentSpeed = wantsSprint ? RunSpeed : Speed;
 			_sprite.SpeedScale = wantsSprint ? 1.5f : 1.0f;
 

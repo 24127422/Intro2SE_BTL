@@ -1,6 +1,6 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
 public partial class PlayerStats : Node
 {
 	// === Singleton — cần thiết vì Inventory.UseItem() gọi thẳng
@@ -35,6 +35,7 @@ public partial class PlayerStats : Node
 	private movement _player;
 	private bool _staminaExhausted = false;
 
+	private List<StatModifier> _activeModifiers = new();
 	// === Getter đọc-only cho Enemy Tactical AI (EnemyNeuralPolicy) lấy % máu thật
 	// của người chơi. Enemy.cs phụ thuộc trực tiếp vào field này — KHÔNG được xóa
 	// khi nâng cấp PlayerStats, nếu không Enemy.cs sẽ lỗi build ngược lại. ===
@@ -87,6 +88,49 @@ public partial class PlayerStats : Node
 		}
 	}
 
+	public void AddModifier(StatModifier modifier)
+    {
+        _activeModifiers.RemoveAll(m => m.Source == modifier.Source);
+        modifier.TimeRemaining = modifier.Duration;
+        _activeModifiers.Add(modifier);
+    }
+
+    public void RemoveModifiersFromSource(string source)
+    {
+        _activeModifiers.RemoveAll(m => m.Source == source);
+    }
+
+    private float GetRateMultiplier(ResourceType type)
+    {
+        float multiplier = 1f;
+        foreach (var mod in _activeModifiers)
+            if (mod.Target == type)
+                multiplier *= mod.RateMultiplier;
+        return multiplier;
+    }
+
+    public float GetFlatBonus(ResourceType type)
+    {
+        float bonus = 0f;
+        foreach (var mod in _activeModifiers)
+            if (mod.Target == type)
+                bonus += mod.FlatBonus;
+        return bonus;
+    }
+
+    private void UpdateModifiers(double delta)
+    {
+        for (int i = _activeModifiers.Count - 1; i >= 0; i--)
+        {
+            var mod = _activeModifiers[i];
+            if (mod.Duration > 0f)
+            {
+                mod.TimeRemaining -= (float)delta;
+                if (mod.TimeRemaining <= 0f)
+                    _activeModifiers.RemoveAt(i);
+            }
+        }
+    }
 	public override void _Process(double delta)
 {
 	if (_player != null && _player.IsDead)
@@ -127,7 +171,8 @@ public partial class PlayerStats : Node
 
 	if (currSanity > 0)
 	{
-		currSanity = Mathf.Max(0, currSanity - (float)delta * SanityDecreaseRate);
+		float sanityRate = SanityDecreaseRate * GetRateMultiplier(ResourceType.Sanity);
+		currSanity = Mathf.Max(0, currSanity - (float)delta * sanityRate);
 		MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
 	}
 	else

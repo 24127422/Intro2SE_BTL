@@ -38,6 +38,15 @@ public partial class Item : Resource
 	[Export] public Texture2D TextureEast { get; set; }
 	[Export] public Texture2D TextureWest { get; set; }
 	
+	[ExportGroup("Buff Effects")]
+	[Export] public ResourceType BuffTarget { get; set; } = ResourceType.Stamina;
+	[Export] public float BuffRateMultiplier { get; set; } = 1f;
+	[Export] public float BuffFlatBonus { get; set; } = 0f;
+	[Export] public float BuffDuration { get; set; } = 0f;
+
+	[ExportGroup("Hold Effects")]
+	[Export] public bool DrainsSanityWhileHeld { get; set; } = false;
+	[Export] public float HeldSanityDrainMultiplier { get; set; } = 1f;
 	public Texture2D GetDisplayIcon(float sanityPercent, float threshold = 40f)
 	{
 		if (HorrorIcon != null && sanityPercent <= threshold)

@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Item" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://c5fsrj4hkx6q4"]
 
-[ext_resource type="Script" path="res://scripts/Item.cs" id="1_script"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/psu.png" id="2_icon"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/psu_horror.png" id="3_horror"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dpks5ju6dybdn" path="res://Image/icons/pc_parts/psu.png" id="2_icon"]
+[ext_resource type="Texture2D" uid="uid://cti7oak8axkrx" path="res://Image/icons/pc_parts/psu_horror.png" id="3_horror"]
 
 [resource]
 script = ExtResource("1_script")
@@ -11,6 +11,6 @@ Icon = ExtResource("2_icon")
 HorrorIcon = ExtResource("3_horror")
 Description = "Một khối kim loại nặng trịch, thứ duy nhất bơm sự sống vào cả cỗ máy."
 Thought = "Nó vẫn còn ấm, như thể vừa ngừng đập."
-IsConsumable = false
-IsDocument = false
 MaxStackSize = 1
+DrainsSanityWhileHeld = true
+HeldSanityDrainMultiplier = 1.25

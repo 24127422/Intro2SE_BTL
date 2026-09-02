@@ -88,6 +88,11 @@ public partial class PlayerHand : Node2D
 
 	private void UpdateHeldItem()
 	{
+		if (_currentActiveItem != null && _currentActiveItem.DrainsSanityWhileHeld)
+		{
+			PlayerStats.Instance?.RemoveModifiersFromSource($"Held_{_currentActiveItem.ItemName}");
+		}
+
 		if (_currentHeldNode != null && GodotObject.IsInstanceValid(_currentHeldNode))
 		{
 			_currentHeldNode.QueueFree();
@@ -109,6 +114,18 @@ public partial class PlayerHand : Node2D
 
 		Item item = activeSlot.Item;
 		_currentActiveItem = item;
+
+		if (item.DrainsSanityWhileHeld)
+		{
+			PlayerStats.Instance?.AddModifier(new StatModifier
+			{
+				Source = $"Held_{item.ItemName}",
+				Target = ResourceType.Sanity,
+				RateMultiplier = item.HeldSanityDrainMultiplier,
+				Duration = -1f
+			});
+
+		}
 
 		if (item.HandModel != null)
 		{

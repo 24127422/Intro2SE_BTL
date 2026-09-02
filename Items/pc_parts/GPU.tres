@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Item" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://lxsokrjobn4k"]
 
-[ext_resource type="Script" path="res://scripts/Item.cs" id="1_script"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/gpu.png" id="2_icon"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/gpu_horror.png" id="3_horror"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bdh76q0mo8q1d" path="res://Image/icons/pc_parts/gpu.png" id="2_icon"]
+[ext_resource type="Texture2D" uid="uid://ckok1kiw88ucv" path="res://Image/icons/pc_parts/gpu_horror.png" id="3_horror"]
 
 [resource]
 script = ExtResource("1_script")
@@ -11,6 +11,6 @@ Icon = ExtResource("2_icon")
 HorrorIcon = ExtResource("3_horror")
 Description = "Thứ xử lý mọi hình ảnh trước khi chúng được nhìn thấy. Một cặp mắt bằng kim loại."
 Thought = "Nó nhìn mình. Mình chắc chắn là nó vừa nhìn mình."
-IsConsumable = false
-IsDocument = false
 MaxStackSize = 1
+DrainsSanityWhileHeld = true
+HeldSanityDrainMultiplier = 1.25

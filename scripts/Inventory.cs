@@ -190,8 +190,20 @@ public void DropItem(int index, int amount = 1)
 				thirstAmount: slot.Item.RestoreThirst,
 				sanityAmount: slot.Item.RestoreSanity,
 				healthAmount: slot.Item.RestoreHealth
-				);
-			
+			);
+
+			if (slot.Item.BuffDuration > 0f)
+			{
+				PlayerStats.Instance?.AddModifier(new StatModifier
+				{
+					Source = $"Buff_{slot.Item.ItemName}",
+					Target = slot.Item.BuffTarget,
+					RateMultiplier = slot.Item.BuffRateMultiplier,
+					FlatBonus = slot.Item.BuffFlatBonus,
+					Duration = slot.Item.BuffDuration
+				});
+			}
+
 			RemoveAt(index, 1);
 		}
 	}
