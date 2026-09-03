@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://dnvwl2fpw74fk" path="res://tscn/Save.tscn" id="2_eank3"]
 [ext_resource type="Texture2D" uid="uid://d1xac4ncoviav" path="res://Image/Text/cooltext513351907137790.png" id="3_5g577"]
 [ext_resource type="Texture2D" uid="uid://ccm3ajcuit1e8" path="res://Image/Text/cooltext513353245267368.png" id="3_udlf0"]
-[ext_resource type="Texture2D" uid="uid://y480wcq2l0lt" path="res://Image/X.tres" id="4_ca2gr"]
 [ext_resource type="Theme" uid="uid://b24oxgps7hfdo" path="res://Image/Button_default.tres" id="4_t4j7j"]
 [ext_resource type="Texture2D" uid="uid://n38x3d3dsinj" path="res://Image/Text/cooltext513353196298497.png" id="4_ydsj6"]
 [ext_resource type="Texture2D" uid="uid://bofhbkx2uj8w0" path="res://Image/Text/cooltext513353224420332.png" id="5_ydsj6"]
@@ -137,20 +136,4 @@ offset_top = 5.0
 offset_right = -34.04001
 offset_bottom = -9.016003
 texture = ExtResource("5_ydsj6")
-expand_mode = 1
-
-[node name="ExitButton" type="Button" parent="MenuPanel" unique_id=1074107283]
-layout_mode = 0
-offset_left = 195.0
-offset_top = -3.0
-offset_right = 225.0
-offset_bottom = 25.0
-
-[node name="TextureRect" type="TextureRect" parent="MenuPanel/ExitButton" unique_id=729494479]
-layout_mode = 0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 30.0
-offset_bottom = 29.0
-texture = ExtResource("4_ca2gr")
 expand_mode = 1

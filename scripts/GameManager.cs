@@ -56,8 +56,8 @@ public partial class GameManager : Node
 
 		LoadSettings();
 		ApplySettings();
-
-		StartGame();
+		SetState(GameState.MainMenu);
+	
 
 		// dưới là hàm dùng để debug, tắt comment để vào mode debug.
 		/* if (OS.IsDebugBuild())
@@ -123,6 +123,7 @@ public partial class GameManager : Node
 
 	public void StartGame()
 	{
+		ResetGameplayInputState();
 		SetState(GameState.Playing);
 	}
 
@@ -172,9 +173,20 @@ public partial class GameManager : Node
 	}
 	public void SetState(GameState newState)
 	{
+		if (newState == GameState.MainMenu)
+			ResetGameplayInputState();
+
 		CurrentState = newState;
 		GetTree().Paused = (newState == GameState.Paused);
 		EmitSignal(SignalName.GameStateChanged, (int)CurrentState);
+	}
+
+	private void ResetGameplayInputState()
+	{
+		IsJournalOpen = false;
+		IsInventoryOpen = false;
+		_interactionInputBlocked = false;
+		JournalUI.Instance?.Hide();
 	}
 
 	#endregion

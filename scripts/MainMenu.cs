@@ -8,6 +8,7 @@ public partial class MainMenu : CanvasLayer
     private Button _optionsButton;
     private Button _loadButton;
     private Button _quitButton;
+    private bool _sceneChangeRequested;
 
     public override void _Ready()
     {
@@ -22,7 +23,6 @@ public partial class MainMenu : CanvasLayer
             _loadButton.Name = "LoadButton";
             _loadButton.Text = "Load Game";
             _loadButton.CustomMinimumSize = new Vector2(0, 56);
-            _loadButton.Pressed += OnLoadPressed;
 
             var box = GetNodeOrNull<VBoxContainer>("Panel/VBox");
             if (box != null)
@@ -46,13 +46,22 @@ public partial class MainMenu : CanvasLayer
 
     private void OnStartPressed()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.SetState(GameManager.GameState.Playing);
-        }
+        if (_sceneChangeRequested)
+            return;
 
+        _sceneChangeRequested = true;
         GetTree().Paused = false;
-        GetTree().ChangeSceneToFile("res://tscn/test.tscn");
+
+        CallDeferred(nameof(ChangeToGameScene));
+    }
+
+    private void ChangeToGameScene()
+    {
+        // 1. Chuyển scene trước
+        GetTree().ChangeSceneToFile(MainScenePath);
+        
+        // 2. Kích hoạt trạng thái Playing sau khi scene bắt đầu nạp
+        GameManager.Instance?.StartGame();
     }
 
     private void OnLoadPressed()

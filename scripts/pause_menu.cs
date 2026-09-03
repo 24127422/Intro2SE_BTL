@@ -15,6 +15,7 @@ public partial class pause_menu : CanvasLayer
 
     private CanvasLayer saveLoadMenuInstance;
     private Node gameManager;
+    private bool _sceneChangeRequested;
 
     public override void _Ready()
     {
@@ -93,6 +94,10 @@ public partial class pause_menu : CanvasLayer
 
     private void _OnQuitPressed()
     {
+        if (_sceneChangeRequested)
+            return;
+
+        _sceneChangeRequested = true;
         GetTree().Paused = false;
         Hide();
 
@@ -101,6 +106,11 @@ public partial class pause_menu : CanvasLayer
             GameManager.Instance.SetState(GameManager.GameState.MainMenu);
         }
 
+        CallDeferred(nameof(ChangeToMainMenu));
+    }
+
+    private void ChangeToMainMenu()
+    {
         GetTree().ChangeSceneToFile("res://tscn/main_menu.tscn");
     }
 

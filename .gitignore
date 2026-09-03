@@ -41,5 +41,5 @@ Thumbs.db
 *.x86_64
 *.app
 *.zip
-
+env
 .env

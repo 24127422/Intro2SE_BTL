@@ -150,6 +150,14 @@ public partial class movement : CharacterBody2D
 		_playerStats = GetNode<PlayerStats>("PlayerStats2");
 	}
 
+	public override void _ExitTree()
+	{
+		if (Instance == this)
+		{
+			Instance = null;
+		}
+	}
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
