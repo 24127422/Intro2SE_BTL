@@ -22,7 +22,7 @@ public partial class Door : Sprite2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body is CharacterBody2D player)
+		if (body is CharacterBody2D player && player.Name == "Player")
 		{
 			_player = player;
 			_isPlayerInRange = true;
