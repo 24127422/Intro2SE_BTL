@@ -9,6 +9,7 @@ public partial class Item : Resource
 	[Export] public Texture2D HorrorIcon { get; set; }
 	[Export(PropertyHint.MultilineText)] public string Description { get; set; } = "";
 	[Export(PropertyHint.MultilineText)] public string Thought { get; set; }
+	public bool ThoughtShown { get; set; } = false;
 	
 	[ExportGroup("Item Settings")]
 	[Export] public bool IsConsumable { get; set; } = false; 
@@ -22,11 +23,9 @@ public partial class Item : Resource
 	[Export] public float RestoreSanity { get; set; } = 0f;
 	[Export] public float RestoreHealth { get; set; } = 0f;
 
-	// === TÍNH NĂNG TÀI LIỆU (DOCUMENT) ===
 	[ExportGroup("Document Details")]
 	[Export] public string Author { get; set; } = "Unknown";
 	[Export] public string Date { get; set; } = "";
-	/// <summary> Danh sách các trang văn bản của tài liệu </summary>
 	[Export(PropertyHint.MultilineText)] 
 	public Godot.Collections.Array<string> Pages { get; set; } = new();
 	[Export] public Texture2D DocumentImage { get; set; }
