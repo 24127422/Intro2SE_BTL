@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public sealed class SaveGameData
 {
-    public string FormatVersion { get; set; } = "1.0";
+    public string FormatVersion { get; set; } = "2.0";
     public string SaveTime { get; set; } = "";
     public string ScenePath { get; set; } = "";
 

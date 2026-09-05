@@ -7,6 +7,7 @@ public partial class Save_utils : Node
 {
     private string save_directory = "user://saves/";
     private SaveGameData _queuedLoadData;
+    private string _queuedLoadScenePath = "";
 
     public override void _Ready()
     {
@@ -18,8 +19,15 @@ public partial class Save_utils : Node
     {
         if (_queuedLoadData != null && GetTree() != null && GetTree().CurrentScene != null)
         {
+            if (!string.IsNullOrWhiteSpace(_queuedLoadScenePath)
+                && GetTree().CurrentScene.SceneFilePath != _queuedLoadScenePath)
+            {
+                return;
+            }
+
             ApplySaveData(_queuedLoadData);
             _queuedLoadData = null;
+            _queuedLoadScenePath = "";
         }
     }
 
@@ -227,6 +235,7 @@ public partial class Save_utils : Node
     public void QueueLoadData(SaveGameData data)
     {
         _queuedLoadData = data;
+        _queuedLoadScenePath = data?.ScenePath ?? "";
     }
 
     public SaveGameData GetQueuedLoadData() => _queuedLoadData;
@@ -247,45 +256,54 @@ public partial class Save_utils : Node
         var player = FindNode<movement>(scene);
         if (player != null)
         {
-            player.GlobalPosition = new Vector2(data.Player.X, data.Player.Y);
-            player.SetFacingDirection(data.Player.FacingDirection);
+            var playerData = data.Player ?? new PlayerSaveSnapshot();
+            player.GlobalPosition = new Vector2(playerData.X, playerData.Y);
+            player.SetFacingDirection(playerData.FacingDirection);
         }
 
         var playerStats = FindNode<PlayerStats>(scene);
         if (playerStats != null)
         {
-            playerStats.ApplySnapshot(data.Player);
+            playerStats.ApplySnapshot(data.Player ?? new PlayerSaveSnapshot());
         }
 
         var inventory = Inventory.Instance;
         if (inventory != null)
         {
             inventory.Slots.Clear();
-            for (int i = 0; i < data.Inventory.Slots.Count; i++)
+            var savedSlots = data.Inventory?.Slots;
+            if (savedSlots != null)
             {
-                var slotData = data.Inventory.Slots[i];
-                var slot = new InventorySlotData();
-
-                if (!string.IsNullOrWhiteSpace(slotData.ItemPath))
+                for (int i = 0; i < savedSlots.Count; i++)
                 {
-                    var item = ResourceLoader.Load<Item>(slotData.ItemPath);
-                    slot.Item = item;
-                    slot.Quantity = Mathf.Max(0, slotData.Quantity);
-                    slot.CurrentDurability = slotData.CurrentDurability;
-                    slot.IsActive = slotData.IsActive;
-                }
+                    var slotData = savedSlots[i];
+                    var slot = new InventorySlotData();
 
-                inventory.Slots.Add(slot);
+                    if (slotData != null && !string.IsNullOrWhiteSpace(slotData.ItemPath))
+                    {
+                        var item = ResourceLoader.Load<Item>(slotData.ItemPath);
+                        slot.Item = item;
+                        slot.Quantity = Mathf.Max(0, slotData.Quantity);
+                        slot.CurrentDurability = slotData.CurrentDurability;
+                        slot.IsActive = slotData.IsActive;
+                    }
+
+                    inventory.Slots.Add(slot);
+                }
             }
 
-            inventory.ActiveSlotIndex = Mathf.Clamp(data.Inventory.ActiveSlotIndex, 0, inventory.Slots.Count - 1);
+            while (inventory.Slots.Count < inventory.MaxSlots)
+                inventory.Slots.Add(new InventorySlotData());
+
+            int activeSlotIndex = data.Inventory?.ActiveSlotIndex ?? 0;
+            inventory.ActiveSlotIndex = Mathf.Clamp(activeSlotIndex, 0, inventory.MaxSlots - 1);
             inventory.EmitSignal(Inventory.SignalName.InventoryChanged);
         }
 
         var journal = DocumentJournal.Instance;
         if (journal != null)
         {
-            journal.RestoreUnlockedDocuments(data.Journal.UnlockedDocumentPaths);
+            journal.RestoreUnlockedDocuments(data.Journal?.UnlockedDocumentPaths ?? new List<string>());
         }
     }
 

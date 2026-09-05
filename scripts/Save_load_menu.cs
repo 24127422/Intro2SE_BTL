@@ -219,7 +219,10 @@ public partial class Save_load_menu : CanvasLayer
                 GetTree().Paused = false;
 
                 if (saveUtil != null)
+                {
+                    data.ScenePath = scenePath;
                     saveUtil.QueueLoadData(data);
+                }
 
                 CallDeferred(nameof(ChangeToScene), scenePath);
             }
@@ -282,10 +285,10 @@ public partial class Save_load_menu : CanvasLayer
                 $"Save slot: save_{slot_index}",
                 $"Created: {data.SaveTime}",
                 $"Scene: {data.ScenePath}",
-                $"Health: {data.Player.Health:F0} | Hunger: {data.Player.Hunger:F0} | Thirst: {data.Player.Thirst:F0} | Sanity: {data.Player.Sanity:F0}",
-                $"Position: X={data.Player.X:F1}, Y={data.Player.Y:F1}",
-                $"Inventory slots: {data.Inventory.Slots.Count} | Journal records: {data.Journal.UnlockedDocumentPaths.Count}",
-                $"Ground items: {data.GroundItems.Count}"
+                $"Health: {data.Player?.Health ?? 0f:F0} | Hunger: {data.Player?.Hunger ?? 0f:F0} | Thirst: {data.Player?.Thirst ?? 0f:F0} | Sanity: {data.Player?.Sanity ?? 0f:F0}",
+                $"Position: X={data.Player?.X ?? 0f:F1}, Y={data.Player?.Y ?? 0f:F1}",
+                $"Inventory slots: {data.Inventory?.Slots?.Count ?? 0} | Journal records: {data.Journal?.UnlockedDocumentPaths?.Count ?? 0}",
+                $"Ground items: {data.GroundItems?.Count ?? 0}"
             }
         );
     }
