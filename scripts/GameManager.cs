@@ -124,6 +124,8 @@ public partial class GameManager : Node
 	public void StartGame()
 	{
 		ResetGameplayInputState();
+		Inventory.Instance?.ResetForNewGame();
+		DocumentJournal.Instance?.ResetForNewGame();
 		SetState(GameState.Playing);
 	}
 

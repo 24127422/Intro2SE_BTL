@@ -153,6 +153,8 @@ public partial class Save_utils : Node
             snapshot.Player.Hunger = playerStats.GetCurrentHunger();
             snapshot.Player.Thirst = playerStats.GetCurrentThirst();
             snapshot.Player.Sanity = playerStats.GetCurrentSanity();
+            snapshot.Player.Stamina = playerStats.GetCurrentStamina();
+            snapshot.Player.ActiveModifiers = playerStats.GetActiveModifierSnapshots();
         }
 
         var player = FindNode<movement>(scene);
@@ -160,6 +162,7 @@ public partial class Save_utils : Node
         {
             snapshot.Player.X = player.GlobalPosition.X;
             snapshot.Player.Y = player.GlobalPosition.Y;
+            snapshot.Player.FacingDirection = player.FacingDirection;
         }
 
         var inventory = Inventory.Instance;
@@ -189,6 +192,35 @@ public partial class Save_utils : Node
             snapshot.Journal.UnlockedDocumentPaths = journal.GetUnlockedDocumentPaths();
         }
 
+        if (scene != null)
+        {
+            foreach (var pickup in FindNodes<ItemPickup>(scene))
+            {
+                if (pickup.ItemData == null || string.IsNullOrWhiteSpace(pickup.ItemData.ResourcePath))
+                    continue;
+
+                snapshot.GroundItems.Add(new GroundItemSaveSnapshot
+                {
+                    ItemPath = pickup.ItemData.ResourcePath,
+                    X = pickup.GlobalPosition.X,
+                    Y = pickup.GlobalPosition.Y,
+                    Durability = pickup.Durability
+                });
+            }
+
+            foreach (var station in FindNodes<ComputerAssemblyStation>(scene))
+            {
+                snapshot.ComputerStations.Add(new ComputerAssemblySaveSnapshot
+                {
+                    NodePath = scene.GetPathTo(station).ToString(),
+                    InsertedPartPaths = station.GetInsertedPartPaths(),
+                    BodyComplete = station.BodyComplete,
+                    IsAssembled = station.IsAssembled,
+                    RomWasCorrect = station.RomWasCorrect
+                });
+            }
+        }
+
         return snapshot;
     }
 
@@ -208,12 +240,15 @@ public partial class Save_utils : Node
         if (scene != null)
         {
             ClearItemPickups(scene);
+            RestoreItemPickups(scene, data.GroundItems);
+            RestoreComputerStations(scene, data.ComputerStations);
         }
 
         var player = FindNode<movement>(scene);
         if (player != null)
         {
             player.GlobalPosition = new Vector2(data.Player.X, data.Player.Y);
+            player.SetFacingDirection(data.Player.FacingDirection);
         }
 
         var playerStats = FindNode<PlayerStats>(scene);
@@ -277,6 +312,57 @@ public partial class Save_utils : Node
         }
     }
 
+    private void RestoreItemPickups(Node scene, IEnumerable<GroundItemSaveSnapshot> savedItems)
+    {
+        if (scene == null || savedItems == null)
+            return;
+
+        var pickupScene = GD.Load<PackedScene>("res://tscn/item_pickup.tscn");
+        if (pickupScene == null)
+        {
+            GD.PrintErr("[SaveUtil] Không tìm thấy scene item pickup để khôi phục item mặt đất.");
+            return;
+        }
+
+        foreach (var savedItem in savedItems)
+        {
+            if (savedItem == null || string.IsNullOrWhiteSpace(savedItem.ItemPath))
+                continue;
+
+            var item = ResourceLoader.Load<Item>(savedItem.ItemPath);
+            if (item == null)
+            {
+                GD.PrintErr("[SaveUtil] Không tải được item mặt đất: ", savedItem.ItemPath);
+                continue;
+            }
+
+            var pickup = pickupScene.Instantiate<ItemPickup>();
+            pickup.ItemData = item;
+            pickup.Durability = savedItem.Durability;
+            scene.AddChild(pickup);
+            pickup.GlobalPosition = new Vector2(savedItem.X, savedItem.Y);
+        }
+    }
+
+    private void RestoreComputerStations(Node scene, IEnumerable<ComputerAssemblySaveSnapshot> savedStations)
+    {
+        if (scene == null || savedStations == null)
+            return;
+
+        foreach (var savedStation in savedStations)
+        {
+            if (savedStation == null || string.IsNullOrWhiteSpace(savedStation.NodePath))
+                continue;
+
+            var station = scene.GetNodeOrNull<ComputerAssemblyStation>(savedStation.NodePath);
+            station?.ApplySaveState(
+                savedStation.InsertedPartPaths,
+                savedStation.BodyComplete,
+                savedStation.IsAssembled,
+                savedStation.RomWasCorrect);
+        }
+    }
+
     private T FindNode<T>(Node root) where T : Node
     {
         if (root == null)
@@ -298,6 +384,28 @@ public partial class Save_utils : Node
         }
 
         return null;
+    }
+
+    private List<T> FindNodes<T>(Node root) where T : Node
+    {
+        var matches = new List<T>();
+        if (root == null)
+            return matches;
+
+        var queue = new Queue<Node>();
+        queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (current is T match)
+                matches.Add(match);
+
+            foreach (Node child in current.GetChildren())
+                queue.Enqueue(child);
+        }
+
+        return matches;
     }
 }
 

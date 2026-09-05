@@ -17,6 +17,7 @@ public partial class Save_load_menu : CanvasLayer
     private Button quick_save_button;
     private PanelContainer info_panel;
     private Label info_label;
+    private bool _sceneChangeRequested;
 
     public override void _Ready()
     {
@@ -82,7 +83,6 @@ public partial class Save_load_menu : CanvasLayer
             quick_save_button.Name = "SaveGameButton";
             quick_save_button.Text = "Save Game";
             quick_save_button.CustomMinimumSize = new Vector2(120, 40);
-            quick_save_button.Pressed += _OnQuickSavePressed;
 
             var hdr = GetNodeOrNull<HBoxContainer>("UIContainer/HeaderBox");
             if (hdr != null)
@@ -95,7 +95,18 @@ public partial class Save_load_menu : CanvasLayer
         if (overlay != null)
             overlay.Connect("gui_input", new Callable(this, nameof(_OnOverlayGuiInput)));
 
+        GetTree().SceneChanged += _OnSceneChanged;
+
         OpenMenu(mode);
+    }
+
+    public override void _ExitTree()
+    {
+        if (quick_save_button != null)
+            quick_save_button.Pressed -= _OnQuickSavePressed;
+
+        if (GetTree() != null)
+            GetTree().SceneChanged -= _OnSceneChanged;
     }
 
     public void OpenMenu(Mode p_mode)
@@ -187,6 +198,9 @@ public partial class Save_load_menu : CanvasLayer
         }
         else if (mode == Mode.LOAD)
         {
+            if (_sceneChangeRequested)
+                return;
+
             SaveGameData data = null;
             if (saveUtil != null)
                 data = saveUtil.ReadSlot(slot_index);
@@ -199,6 +213,7 @@ public partial class Save_load_menu : CanvasLayer
                 if (string.IsNullOrWhiteSpace(scenePath))
                     scenePath = "res://tscn/test.tscn";
 
+                _sceneChangeRequested = true;
                 CloseMenu();
                 GameManager.Instance?.SetState(GameManager.GameState.Playing);
                 GetTree().Paused = false;
@@ -206,7 +221,7 @@ public partial class Save_load_menu : CanvasLayer
                 if (saveUtil != null)
                     saveUtil.QueueLoadData(data);
 
-                GetTree().ChangeSceneToFile(scenePath);
+                CallDeferred(nameof(ChangeToScene), scenePath);
             }
             else
             {
@@ -269,7 +284,8 @@ public partial class Save_load_menu : CanvasLayer
                 $"Scene: {data.ScenePath}",
                 $"Health: {data.Player.Health:F0} | Hunger: {data.Player.Hunger:F0} | Thirst: {data.Player.Thirst:F0} | Sanity: {data.Player.Sanity:F0}",
                 $"Position: X={data.Player.X:F1}, Y={data.Player.Y:F1}",
-                $"Inventory slots: {data.Inventory.Slots.Count} | Journal records: {data.Journal.UnlockedDocumentPaths.Count}"
+                $"Inventory slots: {data.Inventory.Slots.Count} | Journal records: {data.Journal.UnlockedDocumentPaths.Count}",
+                $"Ground items: {data.GroundItems.Count}"
             }
         );
     }
@@ -284,6 +300,17 @@ public partial class Save_load_menu : CanvasLayer
     {
         Hide();
         EmitSignal("menu_closed");
+    }
+
+    private void ChangeToScene(string scenePath)
+    {
+        GetTree().ChangeSceneToFile(scenePath);
+    }
+
+    private void _OnSceneChanged()
+    {
+        _sceneChangeRequested = false;
+        Hide();
     }
 }
 

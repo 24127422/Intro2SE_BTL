@@ -11,6 +11,17 @@ public partial class movement : CharacterBody2D
 	private string _lastDirection = "S";
 	[Signal] public delegate void FacingDirectionChangedEventHandler(string direction);
 	public string FacingDirection => _lastDirection;
+
+	public void SetFacingDirection(string direction)
+	{
+		if (direction != "N" && direction != "S" && direction != "E" && direction != "W")
+			return;
+
+		_lastDirection = direction;
+		if (_sprite != null)
+			_sprite.Play("Idle_" + _lastDirection);
+		EmitSignal(SignalName.FacingDirectionChanged, _lastDirection);
+	}
 	private bool _isFlashing = false;
 	private PlayerStats _playerStats;
 	public static movement Instance { get; private set; }

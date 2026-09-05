@@ -46,6 +46,17 @@ public partial class Inventory : Node
 			Slots.Add(new InventorySlotData());
 	}
 
+	public void ResetForNewGame()
+	{
+		Slots.Clear();
+		for (int i = 0; i < MaxSlots; i++)
+			Slots.Add(new InventorySlotData());
+
+		_activeSlotIndex = 0;
+		EmitSignal(SignalName.InventoryChanged);
+		EmitSignal(SignalName.ActiveSlotChanged, _activeSlotIndex);
+	}
+
 	
 	public bool AddItem(Item item, int amount = 1, float? initialDurability = null)
 {

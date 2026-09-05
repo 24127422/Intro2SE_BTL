@@ -200,6 +200,52 @@ public partial class ComputerAssemblyStation : Area2D
 		return true;
 	}
 
+	public List<string> GetInsertedPartPaths()
+	{
+		var paths = new List<string>();
+		foreach (var item in _inserted)
+		{
+			if (item != null && !string.IsNullOrWhiteSpace(item.ResourcePath))
+				paths.Add(item.ResourcePath);
+		}
+
+		return paths;
+	}
+
+	public bool RomWasCorrect => _romWasCorrect;
+
+	public void ApplySaveState(IEnumerable<string> insertedPartPaths, bool bodyComplete, bool isAssembled, bool romWasCorrect)
+	{
+		_inserted.Clear();
+		if (insertedPartPaths != null)
+		{
+			foreach (var path in insertedPartPaths)
+			{
+				if (string.IsNullOrWhiteSpace(path))
+					continue;
+
+				var item = ResourceLoader.Load<Item>(path);
+				if (item != null)
+					_inserted.Add(item);
+			}
+		}
+
+		BodyComplete = bodyComplete;
+		IsAssembled = isAssembled;
+		_romWasCorrect = romWasCorrect;
+		UpdateScreenTexture();
+	}
+
+	private void UpdateScreenTexture()
+	{
+		if (_screenSprite == null || !IsAssembled)
+			return;
+
+		var texture = _romWasCorrect ? ScreenGoodTexture : ScreenBadTexture;
+		if (texture != null)
+			_screenSprite.Texture = texture;
+	}
+
 	// ---------------- Dialogue tiến trình lắp thân xác ----------------
 
 	private void ShowProgressDialogue(List<string> justInserted, List<string> stillMissing)

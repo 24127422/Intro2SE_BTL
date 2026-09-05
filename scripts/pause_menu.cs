@@ -56,6 +56,8 @@ public partial class pause_menu : CanvasLayer
         {
             gameManager.Connect("GameStateChanged", Callable.From<int>(_OnGameStateChanged));
         }
+
+        GetTree().SceneChanged += _OnSceneChanged;
     }
 
     public override void _ExitTree()
@@ -63,6 +65,9 @@ public partial class pause_menu : CanvasLayer
         if (resume_button != null) resume_button.Pressed -= _OnResumePressed;
         if (save_button != null) save_button.Pressed -= _OnSavePressed;
         if (quit_button != null) quit_button.Pressed -= _OnQuitPressed;
+
+        if (GetTree() != null)
+            GetTree().SceneChanged -= _OnSceneChanged;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -112,6 +117,12 @@ public partial class pause_menu : CanvasLayer
     private void ChangeToMainMenu()
     {
         GetTree().ChangeSceneToFile("res://tscn/main_menu.tscn");
+    }
+
+    private void _OnSceneChanged()
+    {
+        _sceneChangeRequested = false;
+        Hide();
     }
 
     private void _OnGameStateChanged(int newState)

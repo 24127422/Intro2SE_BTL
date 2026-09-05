@@ -46,6 +46,26 @@ public partial class PlayerStats : Node
 	public float GetCurrentHunger() => currHunger;
 	public float GetCurrentThirst() => currThirst;
 	public float GetCurrentSanity() => currSanity;
+	public float GetCurrentStamina() => currStamina;
+
+	public List<StatModifierSaveSnapshot> GetActiveModifierSnapshots()
+	{
+		var snapshots = new List<StatModifierSaveSnapshot>();
+		foreach (var modifier in _activeModifiers)
+		{
+			snapshots.Add(new StatModifierSaveSnapshot
+			{
+				Source = modifier.Source,
+				Target = (int)modifier.Target,
+				RateMultiplier = modifier.RateMultiplier,
+				FlatBonus = modifier.FlatBonus,
+				Duration = modifier.Duration,
+				TimeRemaining = modifier.TimeRemaining
+			});
+		}
+
+		return snapshots;
+	}
 
 	// === Dùng bởi movement.cs để quyết định có cho sprint hay không ===
 	public bool CanSprint => currStamina > 0 && !_staminaExhausted;
@@ -59,11 +79,31 @@ public partial class PlayerStats : Node
 		currHunger = Mathf.Clamp(snapshot.Hunger, 0f, maxHunger);
 		currThirst = Mathf.Clamp(snapshot.Thirst, 0f, maxThirst);
 		currSanity = Mathf.Clamp(snapshot.Sanity, 0f, maxSanity);
+		currStamina = Mathf.Clamp(snapshot.Stamina, 0f, maxStamina);
+		_staminaExhausted = currStamina <= 0f;
+
+		_activeModifiers.Clear();
+		if (snapshot.ActiveModifiers != null)
+		{
+			foreach (var savedModifier in snapshot.ActiveModifiers)
+			{
+				_activeModifiers.Add(new StatModifier
+				{
+					Source = savedModifier.Source,
+					Target = (ResourceType)savedModifier.Target,
+					RateMultiplier = savedModifier.RateMultiplier,
+					FlatBonus = savedModifier.FlatBonus,
+					Duration = savedModifier.Duration,
+					TimeRemaining = savedModifier.TimeRemaining
+				});
+			}
+		}
 
 		MyStatsControl?.SetValue(ResourceType.Health, (int)currHealth, (int)maxHealth);
 		MyStatsControl?.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
 		MyStatsControl?.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
 		MyStatsControl?.SetValue(ResourceType.Sanity, (int)currSanity, (int)maxSanity);
+		MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
 	}
 
 	public override void _Ready()

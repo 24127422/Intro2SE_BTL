@@ -54,6 +54,12 @@ public partial class DocumentJournal : Node
 		EmitSignal(SignalName.JournalChanged);
 	}
 
+	public void ResetForNewGame()
+	{
+		_unlocked.Clear();
+		EmitSignal(SignalName.JournalChanged);
+	}
+
 	public void UnlockDocument(Item item)
 	{
 		if (item == null || !item.IsDocument) return;
