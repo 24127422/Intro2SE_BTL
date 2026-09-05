@@ -3,7 +3,7 @@ using Godot;
 public partial class ItemPickup : Area2D
 {
 	[Export] public Item ItemData { get; set; }
-	
+
 	public float? Durability { get; set; } = null;
 
 	private Label _promptLabel;
@@ -63,7 +63,7 @@ public partial class ItemPickup : Area2D
 				if (DocumentJournal.Instance != null)
 				{
 					DocumentJournal.Instance.UnlockDocument(ItemData);
-					QueueFree(); 
+					QueueFree();
 				}
 				return;
 			}
@@ -73,11 +73,40 @@ public partial class ItemPickup : Area2D
 				GD.PrintErr("[LỖI] Autoload 'Inventory' chưa được thiết lập trong Project Settings!");
 				return;
 			}
-bool success = _inventory.AddItem(ItemData, 1, Durability);
+
+			bool success = _inventory.AddItem(ItemData, 1, Durability);
 			if (success)
 			{
+				ShowFirstThoughtIfAny(ItemData);
 				QueueFree();
 			}
 		}
+	}
+
+	// Hiện đúng 1 lần "suy nghĩ" đầu tiên của nhân vật khi nhặt 1 LOẠI item lần đầu tiên
+	// trong suốt phiên chơi (không phải mỗi lần nhặt thêm cùng loại đó).
+	// Dùng chung DialogueUI có sẵn — không cần UI mới, chỉ 1 dòng thoại không tên người nói.
+	private void ShowFirstThoughtIfAny(Item item)
+	{
+		if (item == null) return;
+		if (item.ThoughtShown) return;
+		if (string.IsNullOrWhiteSpace(item.Thought)) return;
+
+		item.ThoughtShown = true;
+
+		var line = new DialogueLine
+		{
+			SpeakerName = "",
+			Text = item.Thought,
+			NextLineIndex = -1,
+		};
+
+		var dyn = new DialogueData
+		{
+			Lines = new Godot.Collections.Array<DialogueLine> { line },
+			StartLineIndex = 0,
+		};
+
+		DialogueUI.Instance.StartDialogue(dyn, null);
 	}
 }

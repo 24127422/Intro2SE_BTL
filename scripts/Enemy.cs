@@ -52,13 +52,15 @@ public partial class Enemy : CharacterBody2D
 	[Export] public float TacticalRequestInterval = 120f;
 	private float _tacticalCooldown;
 
-	private List<EnemyPlanAction> _tacticalPlan = new();
-	private int _planIndex = 0;
-	private float _actionElapsed = 0f;
+	private List<EnemyPlanAction> _tacticalPlan = new(); // chỉ giữ để debug/log
 	private float _planElapsedTotal = 0f;
 	private float _planTotalDuration = 0f;
 	private Vector2 _planStartPosition;
+	private Vector2 _planTargetPosition; 
 	private bool _hasActivePlan = false;
+
+	private const float PlanArrivalThreshold = 10f;
+	private const float PlanTimeoutGraceMargin = 5f;
 
 	public string CurrentStateName => _state.ToString();
 
@@ -113,7 +115,7 @@ public partial class Enemy : CharacterBody2D
 		{
 			case State.Patrol:
 				if (_hasActivePlan)
-					ExecuteTacticalPlan((float)delta);
+					MoveTowardsPlanTarget((float)delta);
 				else
 					Patrol();
 				break;
@@ -171,9 +173,6 @@ public partial class Enemy : CharacterBody2D
 		PlayWalk();
 	}
 
-	// Gọi mỗi TacticalRequestInterval giây. Chỉ lập kế hoạch mới khi rảnh (không đang
-	// combat/chết/choáng) VÀ đã từng "thấy" player ít nhất 1 lần
-	// không có state player thì không có gì để dự đoán/đón đầu.
 	private async void RequestTacticalPlan()
 {
 	if (_state == State.Attack || _state == State.Dead || _state == State.Stunned) return;
@@ -211,10 +210,7 @@ public partial class Enemy : CharacterBody2D
 	AssignTacticalPlan(plan);
 }
 
-	// Được RequestTacticalPlan() gọi sau khi mạng dự đoán xong.
-	// Không áp dụng nếu quái đang giao tranh hoặc đang choáng — combat/stun luôn được
-	// ưu tiên hơn kế hoạch chiến thuật.
-	public void AssignTacticalPlan(List<EnemyPlanAction> plan)
+		public void AssignTacticalPlan(List<EnemyPlanAction> plan)
 	{
 		 if (_state == State.Attack || _state == State.Dead ||
 			 _state == State.Stunned || _state == State.Chase)
@@ -222,16 +218,34 @@ public partial class Enemy : CharacterBody2D
 		if (plan == null || plan.Count == 0) return;
 
 		_tacticalPlan = plan;
-		_planIndex = 0;
-		_actionElapsed = 0f;
 		_planElapsedTotal = 0f;
 		_planTotalDuration = TacticalPlanParser.TotalDuration(plan);
 		_planStartPosition = GlobalPosition;
+		_planTargetPosition = _planStartPosition + ComputePlanDisplacement(plan);
 		_hasActivePlan = true;
 
-		GD.Print($"[Enemy:{Name}] Nhận path mới — {plan.Count} bước, tổng {_planTotalDuration:F2}s: {FormatPlan(plan)}");
+		GD.Print($"[Enemy:{Name}] Nhận path mới — {plan.Count} bước, tổng {_planTotalDuration:F2}s, " +
+				 $"đích dự kiến {_planTargetPosition}: {FormatPlan(plan)}");
 
 		_state = State.Patrol;
+	}
+
+	private Vector2 ComputePlanDisplacement(List<EnemyPlanAction> plan)
+	{
+		Vector2 displacement = Vector2.Zero;
+		foreach (var action in plan)
+		{
+			Vector2 dir = action.Direction switch
+			{
+				'w' => Vector2.Up,
+				's' => Vector2.Down,
+				'a' => Vector2.Left,
+				'd' => Vector2.Right,
+				_ => Vector2.Zero, 
+			};
+			displacement += dir * WalkSpeed * action.Duration;
+		}
+		return displacement;
 	}
 
 	private string FormatPlan(List<EnemyPlanAction> plan)
@@ -242,88 +256,73 @@ public partial class Enemy : CharacterBody2D
 		return string.Join(" -> ", parts);
 	}
 
-	private void ExecuteTacticalPlan(float delta)
-{
-	_planElapsedTotal += delta;
-
-	// Kiểm tra hoàn thành trước — nếu plan đã chạy hết các bước thì không bao giờ rollback.
-	if (_planIndex >= _tacticalPlan.Count)
+	// Không đi theo TỪNG BƯỚC lệnh của AI nữa — mỗi frame chỉ hỏi "đích ở đâu"
+	// rồi tự chọn hướng đi hợp lý (né tường bằng wall-slide bên dưới). Nhờ vậy
+	// thứ tự AI đưa ra ('d w' hay 'w d') không còn quan trọng, quái luôn tìm
+	// được đường men tường để tới đích thay vì đứng im/kẹt cứng.
+	private void MoveTowardsPlanTarget(float delta)
 	{
-		_hasActivePlan = false;
-		PickPatrolPoint();
-		return;
-	}
+		_planElapsedTotal += delta;
 
-	const float RollbackGraceMargin = 5f;
-	if (_planElapsedTotal > _planTotalDuration + RollbackGraceMargin)
-	{
-		RollbackTacticalPlan();
-		return;
-	}
+		Vector2 toTarget = _planTargetPosition - GlobalPosition;
 
-	var action = _tacticalPlan[_planIndex];
+		if (toTarget.Length() <= PlanArrivalThreshold)
+		{
+			GD.Print($"[Enemy:{Name}] Đã tới đích kế hoạch.");
+			_hasActivePlan = false;
+			PickPatrolPoint();
+			return;
+		}
 
-	if (_actionElapsed <= 0f)
-	{
-		GD.Print($"[Enemy:{Name}] Đang đi hướng '{action.Direction}' trong {action.Duration:F2}s (bước {_planIndex + 1}/{_tacticalPlan.Count})");
-	}
+		if (_planElapsedTotal > _planTotalDuration + PlanTimeoutGraceMargin)
+		{
+			GD.Print($"[Enemy:{Name}] Kế hoạch quá thời gian dự tính (khả năng kẹt vật cản) -> huỷ, giữ nguyên vị trí hiện tại.");
+			_hasActivePlan = false;
+			PickPatrolPoint();
+			return;
+		}
 
-	_actionElapsed += delta;
+		Vector2 desiredDir = toTarget.Normalized();
+		Vector2 moveDir = ResolveMoveDirection(desiredDir);
 
-	Vector2 dir = action.Direction switch
-	{
-		'w' => Vector2.Up,
-		's' => Vector2.Down,
-		'a' => Vector2.Left,
-		'd' => Vector2.Right,
-		_ => Vector2.Zero,
-	};
-
-	if (dir == Vector2.Zero)
-	{
-		Velocity = Vector2.Zero;
-		PlayIdle();
-	}
-	else
-	{
-		UpdateDirection(dir);
-
-		if (TestMove(GlobalTransform, dir))
+		if (moveDir == Vector2.Zero)
 		{
 			Velocity = Vector2.Zero;
 			PlayIdle();
+			return;
 		}
-		else
-		{
-			Velocity = dir * WalkSpeed;
-			PlayWalk();
-		}
+
+		UpdateDirection(moveDir);
+		Velocity = moveDir * WalkSpeed;
+		PlayWalk();
 	}
 
-	if (_actionElapsed >= action.Duration)
+	// Thử đi thẳng tới đích trước; nếu bị chặn thì trượt theo từng trục riêng
+	private Vector2 ResolveMoveDirection(Vector2 desiredDir)
 	{
-		_actionElapsed = 0f;
-		_planIndex++;
-	}
-}
+		if (!TestMove(GlobalTransform, desiredDir))
+			return desiredDir;
 
-	private void RollbackTacticalPlan()
-	{
-		GD.Print("[Enemy] Kế hoạch chiến thuật vượt thời gian dự tính -> rollback vị trí.");
-		GlobalPosition = _planStartPosition;
-		Velocity = Vector2.Zero;
-		_tacticalPlan.Clear();
-		_planIndex = 0;
-		_hasActivePlan = false;
-		PickPatrolPoint();
+		Vector2 horizontal = new Vector2(desiredDir.X, 0f);
+		Vector2 vertical = new Vector2(0f, desiredDir.Y);
+
+		bool canHorizontal = horizontal.LengthSquared() > 0.0001f && !TestMove(GlobalTransform, horizontal.Normalized());
+		bool canVertical = vertical.LengthSquared() > 0.0001f && !TestMove(GlobalTransform, vertical.Normalized());
+
+		if (canHorizontal && canVertical)
+			return Mathf.Abs(desiredDir.X) >= Mathf.Abs(desiredDir.Y)
+				? horizontal.Normalized()
+				: vertical.Normalized();
+
+		if (canHorizontal) return horizontal.Normalized();
+		if (canVertical) return vertical.Normalized();
+
+		return Vector2.Zero; 
 	}
 
-	// Huỷ kế hoạch giữa chừng nhưng KHÔNG rollback vị trí — dùng khi combat (Chase/Attack)
-	// chen ngang, vì lúc đó "tua ngược" quái giữa giao tranh sẽ trông như lỗi hiển thị.
 	private void AbandonTacticalPlan()
 	{
 		_tacticalPlan.Clear();
-		_planIndex = 0;
 		_hasActivePlan = false;
 	}
 
