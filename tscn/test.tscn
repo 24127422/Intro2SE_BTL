@@ -1548,6 +1548,7 @@ zoom = Vector2(2.51, 2.51)
 [node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl")]
 script = ExtResource("7_qachy")
 MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
+SprintDecreaseRate = 2.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
 position = Vector2(-51, -41)

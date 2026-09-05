@@ -31,6 +31,8 @@ public partial class PlayerStats : Node
 
 	[Export] public float StaminaDrainRate = 2f;
 	[Export] public float StaminaRegenRate = 2f;
+
+	[Export] public float SprintDecreaseRate = 5f;
 	
 	private movement _player;
 	private bool _staminaExhausted = false;
@@ -189,7 +191,7 @@ public partial class PlayerStats : Node
 
 	if (currHunger > 0)
 	{
-		float hungerRate = HungerDecreaseRate * (isSprinting ? 5f : 1f);
+		float hungerRate = HungerDecreaseRate * (isSprinting ? SprintDecreaseRate : 1f);
 		currHunger = Mathf.Max(0, currHunger - (float)delta * hungerRate);
 		MyStatsControl?.SetValue(ResourceType.Hunger, (int)currHunger, (int)maxHunger);
 	}
@@ -200,7 +202,7 @@ public partial class PlayerStats : Node
 
 	if (currThirst > 0)
 	{
-		float thirstRate = ThirstDecreaseRate * (isSprinting ? 5f : 1f);
+		float thirstRate = ThirstDecreaseRate * (isSprinting ? SprintDecreaseRate : 1f);
 		currThirst = Mathf.Max(0, currThirst - (float)delta * thirstRate);
 		MyStatsControl?.SetValue(ResourceType.Thirst, (int)currThirst, (int)maxThirst);
 	}
