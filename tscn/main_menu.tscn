@@ -4,7 +4,6 @@
 [ext_resource type="Theme" uid="uid://b24oxgps7hfdo" path="res://Image/Button_default.tres" id="2_p6scp"]
 [ext_resource type="Texture2D" uid="uid://cfs5b48wuvdyo" path="res://Image/Text/flamingtext_com-279882357.png" id="3_olkwg"]
 [ext_resource type="Texture2D" uid="uid://b6qoaaa1gba2s" path="res://Image/Text/cooltext513351266653443.png" id="4_olkwg"]
-[ext_resource type="Texture2D" uid="uid://lq8aseb8loib" path="res://Image/Text/cooltext513351385964791.png" id="5_gwonb"]
 [ext_resource type="Texture2D" uid="uid://bll8kv0w8wwpa" path="res://Image/Text/cooltext513395385232780.png" id="5_olkwg"]
 [ext_resource type="Texture2D" uid="uid://dc3bm2avmdpy1" path="res://Image/Text/cooltext513351437544942.png" id="6_mtscv"]
 [ext_resource type="AudioStream" uid="uid://b53trenwts03s" path="res://soundeffect/MainMenu.ogg" id="8_gwonb"]
@@ -83,20 +82,6 @@ offset_top = 7.0
 offset_right = 297.0
 offset_bottom = 43.0
 texture = ExtResource("5_olkwg")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="OptionsButton" type="Button" parent="Panel/VBox" unique_id=1000000006]
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="Panel/VBox/OptionsButton" unique_id=1676572265]
-layout_mode = 0
-offset_left = 14.0
-offset_top = 7.0
-offset_right = 282.0
-offset_bottom = 43.0
-texture = ExtResource("5_gwonb")
 expand_mode = 1
 stretch_mode = 5
 
