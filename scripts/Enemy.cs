@@ -12,6 +12,9 @@ public partial class Enemy : CharacterBody2D
 
 	[Export] public PackedScene StunIndicatorScene;
 	[Export] public float StunDuration = 3f;
+	
+	[Export] public int PatrolDirectionSamples = 16;
+	[Export] public float PatrolProbeStep = 16f;
 
 	private bool _attacking = false;
 	private bool _canAttack = true;
@@ -337,8 +340,6 @@ public partial class Enemy : CharacterBody2D
 
 		Vector2 toPlayer = _player.GlobalPosition - GlobalPosition;
 
-		UpdateDirection(toPlayer.Normalized());
-
 		if (toPlayer.Length() <= 10f)
 		{
 			Velocity = Vector2.Zero;
@@ -346,16 +347,19 @@ public partial class Enemy : CharacterBody2D
 			return;
 		}
 
-		Vector2 dir = toPlayer.Normalized();
+		Vector2 desiredDir = toPlayer.Normalized();
 
-		if (TestMove(GlobalTransform, dir))
+		// Bị chặn hướng thẳng -> men theo trục ngang/dọc
+		Vector2 moveDir = ResolveMoveDirection(desiredDir);
+
+		if (moveDir == Vector2.Zero)
 		{
 			Velocity = Vector2.Zero;
 			PlayIdle();
 			return;
 		}
 
-		Velocity = dir * ChaseSpeed;
+		Velocity = moveDir * ChaseSpeed;
 		PlayWalk();
 	}
 
@@ -468,10 +472,19 @@ public partial class Enemy : CharacterBody2D
 
 	private void PickPatrolPoint()
 	{
-		float x = (float)(_rng.NextDouble() * PatrolDistance * 2 - PatrolDistance);
-		float y = (float)(_rng.NextDouble() * PatrolDistance * 2 - PatrolDistance);
+		Vector2 dir = PickWeightedRandomDirection(PatrolDirectionSamples, PatrolProbeStep, PatrolDistance);
 
-		_patrolTarget = _spawnPos + new Vector2(x, y);
+		if (dir == Vector2.Zero)
+		{
+			// Không hướng nào đi được (bị vây kín) -> đứng yên tại chỗ
+			_patrolTarget = GlobalPosition;
+			return;
+		}
+
+		float dist = ProbeClearDistance(dir, PatrolDistance, PatrolProbeStep);
+		dist = Mathf.Max(0f, dist - PatrolProbeStep * 0.5f); // lùi chút để không đi sát tường
+
+		_patrolTarget = GlobalPosition + dir * dist;
 	}
 
 	private void UpdateDirection(Vector2 dir)
@@ -601,5 +614,60 @@ public partial class Enemy : CharacterBody2D
 		
 		if (_playerStats != null)
 			_playerStats.TakeDamage(AttackDmg);
+	}
+	
+	// Đo xem đi theo hướng "dir" thì đi được bao xa trước khi đụng vật cản
+	private float ProbeClearDistance(Vector2 dir, float maxDistance, float step)
+	{
+		dir = dir.Normalized();
+		float traveled = 0f;
+		var transform = GlobalTransform;
+
+		while (traveled < maxDistance)
+		{
+			float moveStep = Mathf.Min(step, maxDistance - traveled);
+			Vector2 testOffset = dir * moveStep;
+
+			if (TestMove(transform, testOffset))
+				break;
+
+			transform.Origin += testOffset;
+			traveled += moveStep;
+		}
+
+		return traveled;
+	}
+	
+	private Vector2 PickWeightedRandomDirection(int sampleCount, float step, float maxDistance)
+	{
+		var candidates = new List<(Vector2 dir, float dist)>();
+
+		for (int i = 0; i < sampleCount; i++)
+		{
+			float angle = (float)(_rng.NextDouble() * Mathf.Tau);
+			Vector2 dir = Vector2.Right.Rotated(angle);
+
+			float dist = ProbeClearDistance(dir, maxDistance, step);
+			if (dist > step)
+				candidates.Add((dir, dist));
+		}
+
+		if (candidates.Count == 0)
+			return Vector2.Zero;
+
+		float totalWeight = 0f;
+		foreach (var c in candidates)
+			totalWeight += c.dist * c.dist;
+
+		float roll = (float)_rng.NextDouble() * totalWeight;
+		float cumulative = 0f;
+		foreach (var c in candidates)
+		{
+			cumulative += c.dist * c.dist;
+			if (roll <= cumulative)
+				return c.dir;
+		}
+
+		return candidates[^1].dir;
 	}
 }
