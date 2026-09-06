@@ -1963,6 +1963,50 @@ shape = SubResource("RectangleShape2D_e7cww")
 stream = ExtResource("20_5kcdt")
 volume_db = 9.862
 
+[node name="Toilet5" type="Area2D" parent="." unique_id=808852849]
+position = Vector2(2133.535, 3633.1)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("19_qachy")
+
+[node name="Label" type="Label" parent="Toilet5" unique_id=1600778065]
+offset_left = -66.00006
+offset_top = -10.0
+offset_right = -15.000061
+offset_bottom = 7.0
+theme_override_font_sizes/font_size = 12
+text = "[E] Pee"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Toilet5" unique_id=61744199]
+position = Vector2(0, 27)
+shape = SubResource("RectangleShape2D_e7cww")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet5" unique_id=1460068704]
+stream = ExtResource("20_5kcdt")
+volume_db = 9.862
+
+[node name="Toilet6" type="Area2D" parent="." unique_id=349057982]
+position = Vector2(2197.265, 3633.1)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("19_qachy")
+
+[node name="Label" type="Label" parent="Toilet6" unique_id=1888349858]
+offset_left = -66.00006
+offset_top = -10.0
+offset_right = -15.000061
+offset_bottom = 7.0
+theme_override_font_sizes/font_size = 12
+text = "[E] Pee"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Toilet6" unique_id=1827532994]
+position = Vector2(0, 27)
+shape = SubResource("RectangleShape2D_e7cww")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet6" unique_id=764805117]
+stream = ExtResource("20_5kcdt")
+volume_db = 9.862
+
 [node name="Toilet2" type="Area2D" parent="." unique_id=1416762683]
 position = Vector2(2165.37, 49)
 collision_layer = 2
@@ -2004,6 +2048,50 @@ position = Vector2(21.169922, 0.13000488)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet3" unique_id=1962010483]
+stream = ExtResource("20_5kcdt")
+volume_db = 9.862
+
+[node name="Toilet7" type="Area2D" parent="." unique_id=300997529]
+position = Vector2(2098.09, 3728.56)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("19_qachy")
+
+[node name="Label" type="Label" parent="Toilet7" unique_id=745656442]
+offset_left = -66.00006
+offset_top = -10.0
+offset_right = -15.000061
+offset_bottom = 7.0
+theme_override_font_sizes/font_size = 12
+text = "[E] Pee"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Toilet7" unique_id=1553651584]
+position = Vector2(21.169922, 0.13000488)
+shape = SubResource("RectangleShape2D_e7cww")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet7" unique_id=1212354432]
+stream = ExtResource("20_5kcdt")
+volume_db = 9.862
+
+[node name="Toilet8" type="Area2D" parent="." unique_id=2125680349]
+position = Vector2(2098.09, 3792.42)
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("19_qachy")
+
+[node name="Label" type="Label" parent="Toilet8" unique_id=2005057319]
+offset_left = -66.00006
+offset_top = -10.0
+offset_right = -15.000061
+offset_bottom = 7.0
+theme_override_font_sizes/font_size = 12
+text = "[E] Pee"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Toilet8" unique_id=1942186889]
+position = Vector2(21.169922, 0.13000488)
+shape = SubResource("RectangleShape2D_e7cww")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet8" unique_id=387773118]
 stream = ExtResource("20_5kcdt")
 volume_db = 9.862
 

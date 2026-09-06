@@ -404,7 +404,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2844s")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_E",
 "speed": 8.0
 }, {
@@ -433,7 +433,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qqblo")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_N",
 "speed": 8.0
 }, {
@@ -462,7 +462,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_to3hp")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_S",
 "speed": 8.0
 }, {
@@ -491,7 +491,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oskjw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_W",
 "speed": 8.0
 }, {
@@ -511,7 +511,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5ulf2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_E",
 "speed": 5.0
 }, {
@@ -531,7 +531,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yum6w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_N",
 "speed": 5.0
 }, {
@@ -551,7 +551,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_pv3y1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_S",
 "speed": 5.0
 }, {
@@ -571,7 +571,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h47xj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle_W",
 "speed": 5.0
 }, {
@@ -606,7 +606,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0wljr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_E",
 "speed": 8.0
 }, {
@@ -641,7 +641,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_jypwg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_N",
 "speed": 8.0
 }, {
@@ -676,7 +676,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8qpbr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_S",
 "speed": 8.0
 }, {
@@ -711,13 +711,13 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rixd3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Walk_W",
 "speed": 8.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tqw65"]
-radius = 81.615685
+radius = 183.76505
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7cww"]
 size = Vector2(28.200005, 30.400005)
@@ -746,14 +746,12 @@ debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
 [node name="DetectRange" type="Area2D" parent="." unique_id=705834095]
-visible = false
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRange" unique_id=694506727]
 shape = SubResource("CircleShape2D_tqw65")
 
 [node name="AttackRange" type="Area2D" parent="." unique_id=1863126251]
-visible = false
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1771236368]
