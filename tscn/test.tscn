@@ -33,6 +33,7 @@
 [ext_resource type="Resource" uid="uid://buf4ts8fv5eji" path="res://Items/pc_parts/ROM_Gia_2.tres" id="29_n5hae"]
 [ext_resource type="Resource" uid="uid://bk152rih8fmcc" path="res://Items/pc_parts/ROM_That.tres" id="30_n72rg"]
 [ext_resource type="Script" uid="uid://cgc67ijyyjnr8" path="res://scripts/ZoneTrigger.cs" id="33_lg388"]
+[ext_resource type="AudioStream" uid="uid://bdqcm3xd8h1mk" path="res://soundeffect/Ingame BGM.mp3" id="34_knfee"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -2453,3 +2454,9 @@ ZoneName = "room54"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room54" unique_id=69736365]
 position = Vector2(-16, -1.5)
 shape = SubResource("RectangleShape2D_ghua8")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=497682260]
+stream = ExtResource("34_knfee")
+volume_db = -9.579
+pitch_scale = 0.81
+autoplay = true

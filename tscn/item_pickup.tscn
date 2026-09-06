@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://btyekbe473mef"]
 
 [ext_resource type="Script" uid="uid://dxd4ytvbq6q28" path="res://scripts/ItemPickup.cs" id="1_im1t2"]
+[ext_resource type="AudioStream" uid="uid://17m7yvunkucw" path="res://soundeffect/pickup.ogg" id="2_h2cjk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ghomu"]
 radius = 36.38
@@ -29,3 +30,7 @@ offset_right = 59.0
 offset_bottom = -16.0
 grow_horizontal = 2
 text = "Nhấn e để nhặt"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=50305334]
+stream = ExtResource("2_h2cjk")
+volume_db = -19.158

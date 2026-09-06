@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://lq8aseb8loib" path="res://Image/Text/cooltext513351385964791.png" id="5_gwonb"]
 [ext_resource type="Texture2D" uid="uid://bll8kv0w8wwpa" path="res://Image/Text/cooltext513395385232780.png" id="5_olkwg"]
 [ext_resource type="Texture2D" uid="uid://dc3bm2avmdpy1" path="res://Image/Text/cooltext513351437544942.png" id="6_mtscv"]
+[ext_resource type="AudioStream" uid="uid://b53trenwts03s" path="res://soundeffect/MainMenu.ogg" id="8_gwonb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ns3c0"]
 texture = ExtResource("3_olkwg")
@@ -113,6 +114,12 @@ offset_bottom = 44.0
 texture = ExtResource("6_mtscv")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=2603739]
+stream = ExtResource("8_gwonb")
+volume_db = -20.07
+pitch_scale = 0.77
+autoplay = true
 
 [connection signal="mouse_entered" from="Panel/VBox/StartButton" to="Panel/VBox/StartButton" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Panel/VBox/StartButton" to="Panel/VBox/StartButton" method="_on_mouse_exited"]
