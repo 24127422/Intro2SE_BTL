@@ -7,7 +7,7 @@ public partial class Inventory : Node
 {
 	public static Inventory Instance { get; private set; }
 
-	[Export] public int MaxSlots { get; set; } = 5;
+	[Export] public int MaxSlots { get; set; } = 10;
 
 	public List<InventorySlotData> Slots { get; private set; } = new();
 
@@ -46,6 +46,7 @@ public partial class Inventory : Node
 			Slots.Add(new InventorySlotData());
 	}
 
+	// Dùng khi bắt đầu game mới / Retry sau Game Over — dọn sạch túi đồ cũ.
 	public void ResetForNewGame()
 	{
 		Slots.Clear();
@@ -57,62 +58,58 @@ public partial class Inventory : Node
 		EmitSignal(SignalName.ActiveSlotChanged, _activeSlotIndex);
 	}
 
-	
 	public bool AddItem(Item item, int amount = 1, float? initialDurability = null)
-{
-	if (item == null || amount <= 0) return false;
-
-	int remaining = amount;
-
-	// Bước 1: dồn vào các stack đã có sẵn item này (nếu stack được)
-	if (item.MaxStackSize > 1)
 	{
-		foreach (var slot in Slots)
+		if (item == null || amount <= 0) return false;
+
+		int remaining = amount;
+
+		if (item.MaxStackSize > 1)
 		{
-			if (remaining <= 0) break;
-			if (slot.Item == item && slot.Quantity < item.MaxStackSize)
+			foreach (var slot in Slots)
 			{
-				int space = item.MaxStackSize - slot.Quantity;
-				int addAmount = Mathf.Min(space, remaining);
-				slot.Quantity += addAmount;
-				remaining -= addAmount;
+				if (remaining <= 0) break;
+				if (slot.Item == item && slot.Quantity < item.MaxStackSize)
+				{
+					int space = item.MaxStackSize - slot.Quantity;
+					int addAmount = Mathf.Min(space, remaining);
+					slot.Quantity += addAmount;
+					remaining -= addAmount;
+				}
 			}
 		}
-	}
 
-	// Bước 2: nhét phần còn lại vào các ô trống
-	while (remaining > 0)
-	{
-		var emptySlot = Slots.Find(s => s.IsEmpty);
-		if (emptySlot == null)
+		while (remaining > 0)
 		{
-			int actuallyAdded = amount - remaining;
-			if (actuallyAdded > 0)
+			var emptySlot = Slots.Find(s => s.IsEmpty);
+			if (emptySlot == null)
 			{
-				EmitSignal(SignalName.ItemAdded, item, actuallyAdded);
-				EmitSignal(SignalName.InventoryChanged);
+				int actuallyAdded = amount - remaining;
+				if (actuallyAdded > 0)
+				{
+					EmitSignal(SignalName.ItemAdded, item, actuallyAdded);
+					EmitSignal(SignalName.InventoryChanged);
+				}
+				GD.Print("Túi đồ đã đầy!");
+				return false;
 			}
-			GD.Print("Túi đồ đã đầy!");
-			return false;
+
+			int stackSize = item.MaxStackSize > 1 ? item.MaxStackSize : 1;
+			int addAmount = Mathf.Min(stackSize, remaining);
+			emptySlot.Item = item;
+			emptySlot.Quantity = addAmount;
+
+			if (item is PrimaryItem)
+				emptySlot.CurrentDurability = initialDurability;
+
+			remaining -= addAmount;
 		}
 
-		int stackSize = item.MaxStackSize > 1 ? item.MaxStackSize : 1;
-		int addAmount = Mathf.Min(stackSize, remaining);
-		emptySlot.Item = item;
-		emptySlot.Quantity = addAmount;
-
-		if (item is PrimaryItem)
-			emptySlot.CurrentDurability = initialDurability;
-
-		remaining -= addAmount;
+		EmitSignal(SignalName.ItemAdded, item, amount);
+		EmitSignal(SignalName.InventoryChanged);
+		return true;
 	}
 
-	EmitSignal(SignalName.ItemAdded, item, amount);
-	EmitSignal(SignalName.InventoryChanged);
-	return true;
-}
-
-	// Xóa 1 loại item ra khỏi túi (bất kể ở ô nào), theo số lượng
 	public bool RemoveItem(Item item, int amount = 1)
 	{
 		int remaining = amount;
@@ -137,7 +134,6 @@ public partial class Inventory : Node
 		return success;
 	}
 
-	// Xóa item tại 1 vị trí cụ thể (dùng khi vứt đồ từ UI)
 	public void RemoveAt(int index, int amount = 1)
 	{
 		if (index < 0 || index >= Slots.Count) return;
@@ -153,21 +149,21 @@ public partial class Inventory : Node
 		EmitSignal(SignalName.InventoryChanged);
 	}
 
-public void DropItem(int index, int amount = 1)
-{
-	if (index < 0 || index >= Slots.Count) return;
-	var slot = Slots[index];
-	if (slot.IsEmpty) return;
+	public void DropItem(int index, int amount = 1)
+	{
+		if (index < 0 || index >= Slots.Count) return;
+		var slot = Slots[index];
+		if (slot.IsEmpty) return;
 
-	var item = slot.Item;
-	int dropAmount = Mathf.Min(slot.Quantity, amount);
+		var item = slot.Item;
+		int dropAmount = Mathf.Min(slot.Quantity, amount);
 
-	float durability = slot.CurrentDurability
-		?? (item is PrimaryItem primary ? primary.MaxDurability : 0f);
+		float durability = slot.CurrentDurability
+			?? (item is PrimaryItem primary ? primary.MaxDurability : 0f);
 
-	RemoveAt(index, dropAmount); 
-	EmitSignal(SignalName.ItemDropped, item, dropAmount, durability);
-}
+		RemoveAt(index, dropAmount);
+		EmitSignal(SignalName.ItemDropped, item, dropAmount, durability);
+	}
 
 	public void UseItem(int index)
 	{
@@ -175,8 +171,6 @@ public void DropItem(int index, int amount = 1)
 		var slot = Slots[index];
 		if (slot.IsEmpty) return;
 
-		// DỤNG CỤ CHÍNH (đèn pin, bình cứu hỏa...): bật/tắt thay vì tiêu hao.
-		// Dùng CHUNG 1 nhánh cho MỌI loại PrimaryItem, không if/else riêng từng item.
 		if (slot.Item is PrimaryItem primary)
 		{
 			float current = slot.CurrentDurability ?? primary.MaxDurability;
@@ -188,11 +182,10 @@ public void DropItem(int index, int amount = 1)
 
 			bool nextActive = primary.IsToggleable ? !slot.IsActive : true;
 			SetSlotActive(index, nextActive);
-			return; // dụng cụ chính không bị xóa khỏi túi khi dùng
+			return;
 		}
 
 		GD.Print($"Sử dụng: {slot.Item.ItemName}");
-		// TODO: gọi logic riêng của từng item tiêu hao ở đây (hồi máu, buff, mở khóa...)
 
 		if (slot.Item.IsConsumable)
 		{
@@ -201,27 +194,12 @@ public void DropItem(int index, int amount = 1)
 				thirstAmount: slot.Item.RestoreThirst,
 				sanityAmount: slot.Item.RestoreSanity,
 				healthAmount: slot.Item.RestoreHealth
-			);
-
-			if (slot.Item.BuffDuration > 0f)
-			{
-				PlayerStats.Instance?.AddModifier(new StatModifier
-				{
-					Source = $"Buff_{slot.Item.ItemName}",
-					Target = slot.Item.BuffTarget,
-					RateMultiplier = slot.Item.BuffRateMultiplier,
-					FlatBonus = slot.Item.BuffFlatBonus,
-					Duration = slot.Item.BuffDuration
-				});
-			}
+				);
 
 			RemoveAt(index, 1);
 		}
 	}
 
-	// Bật/tắt trạng thái Active của 1 ô — dùng cho PrimaryItem (đèn pin, bình cứu hỏa...).
-	// Cũng được PrimaryItemController gọi khi tự động tắt lúc hết năng lượng.
-	// Trả về false nếu ô rỗng hoặc item ở ô đó không phải PrimaryItem.
 	public bool SetSlotActive(int index, bool active)
 	{
 		if (index < 0 || index >= Slots.Count) return false;
@@ -236,7 +214,6 @@ public void DropItem(int index, int amount = 1)
 		return true;
 	}
 
-	// Hoán đổi 2 ô cho nhau (dùng khi kéo-thả sắp xếp lại túi đồ)
 	public void SwapSlots(int indexA, int indexB)
 	{
 		if (indexA < 0 || indexA >= Slots.Count) return;
@@ -247,7 +224,6 @@ public void DropItem(int index, int amount = 1)
 		EmitSignal(SignalName.InventoryChanged);
 	}
 
-	// Kiểm tra túi có đủ số lượng item này không (hữu ích cho crafting, quest...)
 	public bool HasItem(Item item, int amount = 1)
 	{
 		int total = 0;

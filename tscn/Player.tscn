@@ -414,7 +414,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 4
-columns = 5
+columns = 10
 
 [node name="PrimaryItemBarUI" type="Control" parent="CanvasLayer" unique_id=2001000006 node_paths=PackedStringArray("Bar", "NameLabel")]
 layout_mode = 3

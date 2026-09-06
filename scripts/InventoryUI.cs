@@ -8,6 +8,7 @@ public partial class InventoryUI : Control
 
 	private List<InventorySlot> _slotNodes = new();
 	private Inventory _inventory;
+
 	private float _sanityCheckTimer = 0f;
 	private const float SanityCheckInterval = 0.4f;
 
@@ -20,14 +21,13 @@ public partial class InventoryUI : Control
 			return;
 		}
 
-		// Đăng ký sự kiện cập nhật UI
 		_inventory.InventoryChanged += RefreshUI;
 		_inventory.ActiveSlotChanged += OnActiveSlotChanged;
 		BuildSlots();
 		RefreshUI();
 	}
 
-		public override void _Process(double delta)
+	public override void _Process(double delta)
 	{
 		_sanityCheckTimer += (float)delta;
 		if (_sanityCheckTimer >= SanityCheckInterval)
@@ -61,8 +61,10 @@ public partial class InventoryUI : Control
 
 		foreach (Node child in SlotContainer.GetChildren())
 			child.QueueFree();
-			
+
 		_slotNodes.Clear();
+
+		SlotContainer.Columns = Mathf.Max(1, _inventory.Slots.Count);
 
 		for (int i = 0; i < _inventory.Slots.Count; i++)
 		{
@@ -71,6 +73,22 @@ public partial class InventoryUI : Control
 			slotNode.SlotIndex = i;
 			_slotNodes.Add(slotNode);
 		}
+
+		CallDeferred(nameof(UpdatePanelSize));
+	}
+
+	private void UpdatePanelSize()
+	{
+		if (SlotContainer == null) return;
+
+		Vector2 needed = SlotContainer.GetCombinedMinimumSize();
+		const float padding = 8f;
+
+		float halfWidth = (needed.X + padding) / 2f;
+		OffsetLeft = -halfWidth;
+		OffsetRight = halfWidth;
+
+		OffsetTop = -(needed.Y + padding);
 	}
 
 	private void RefreshUI()
@@ -86,6 +104,7 @@ public partial class InventoryUI : Control
 			}
 		}
 	}
+
 	private void OnActiveSlotChanged(int newIndex)
 	{
 		for (int i = 0; i < _slotNodes.Count; i++)

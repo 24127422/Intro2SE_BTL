@@ -51,10 +51,6 @@ offset_bottom = 172.0
 mouse_filter = 1
 theme_override_font_sizes/normal_font_size = 18
 text = "Nội dung thoại..."
-bbcode_enabled = false
-autowrap_mode = 3
-scroll_active = true
-scroll_follow = true
 
 [node name="ChoiceContainer" type="VBoxContainer" parent="Panel" unique_id=1402351313]
 layout_mode = 1
