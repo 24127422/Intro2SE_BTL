@@ -113,6 +113,9 @@ public partial class Save_load_menu : CanvasLayer
     {
         mode = p_mode;
         Show();
+        if (quick_save_button != null)
+            quick_save_button.Visible = mode == Mode.SAVE;
+
         if (title_label != null)
         {
             title_label.Text = "";
@@ -254,6 +257,12 @@ public partial class Save_load_menu : CanvasLayer
         }
 
         int nextSlot = saveUtil.GetNextAvailableSlotIndex();
+        if (nextSlot < 1)
+        {
+            GD.PrintErr("[SaveMenu] Đã đầy 20 save slot, không ghi đè save cũ.");
+            return;
+        }
+
         var data = saveUtil.CaptureCurrentGame();
         bool success = saveUtil.WriteSlot(nextSlot, data);
         if (success)

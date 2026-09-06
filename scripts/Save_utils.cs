@@ -51,7 +51,7 @@ public partial class Save_utils : Node
                 return i;
         }
 
-        return 1;
+        return -1;
     }
 
     public bool WriteSlot(int slotIndex, SaveGameData data)
@@ -312,21 +312,26 @@ public partial class Save_utils : Node
         if (root == null)
             return;
 
+        var pickups = new List<ItemPickup>();
         var queue = new Queue<Node>();
         queue.Enqueue(root);
 
         while (queue.Count > 0)
         {
             var current = queue.Dequeue();
+            if (current is ItemPickup pickup)
+                pickups.Add(pickup);
+
             foreach (Node child in current.GetChildren())
             {
                 queue.Enqueue(child);
             }
+        }
 
-            if (current is ItemPickup pickup)
-            {
-                pickup.QueueFree();
-            }
+        foreach (var pickup in pickups)
+        {
+            if (GodotObject.IsInstanceValid(pickup))
+                pickup.Free();
         }
     }
 
