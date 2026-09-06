@@ -45,7 +45,7 @@ public partial class GameOverUI : CanvasLayer
 	private void OnRetryPressed()
 	{
 		GetTree().Paused = false;
-		GameManager.Instance?.SetState(GameManager.GameState.Playing);
+		GameManager.Instance?.StartGame();
 		GetTree().ReloadCurrentScene();
 	}
 
