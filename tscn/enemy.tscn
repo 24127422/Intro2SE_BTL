@@ -717,7 +717,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tqw65"]
-radius = 183.76505
+radius = 129.68884
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7cww"]
 size = Vector2(28.200005, 30.400005)
@@ -729,6 +729,7 @@ WalkSpeed = 50.0
 ChaseSpeed = 150.0
 PatrolDistance = 400.0
 StunIndicatorScene = ExtResource("2_omnov")
+ZoneRouteFirstDelay = 30.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1932434850]
 position = Vector2(3.0517585e-06, 7.629394e-07)

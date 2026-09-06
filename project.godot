@@ -28,6 +28,9 @@ PauseMenu="*uid://c0fu2ut5t8ek8"
 GroqConfig="*uid://cc7xdywv7pc2v"
 GameOverUI="*uid://kpll3i3uve1s"
 RomSlotUi="*res://tscn/RomSlotUI.tscn"
+ZoneStatsTracker="*uid://dyqh78qasfip1"
+ZoneRegistry="*uid://dyyc66tbsrk6g"
+TransitionRegistry="*uid://dkuan70nxsftr"
 
 [dotnet]
 

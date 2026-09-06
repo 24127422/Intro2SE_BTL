@@ -12,9 +12,24 @@ public partial class Enemy : CharacterBody2D
 
 	[Export] public PackedScene StunIndicatorScene;
 	[Export] public float StunDuration = 3f;
-	
+
 	[Export] public int PatrolDirectionSamples = 16;
 	[Export] public float PatrolProbeStep = 16f;
+
+	// === Zone patrol route (Groq) ===
+	[Export] public float ZoneRouteRequestInterval = 120f;
+	[Export] public float ZoneRouteFirstDelay = 15f;
+	[Export] public int ZonePatrolRouteLength = 4;
+	[Export] public float ZoneWaypointArrivalThreshold = 12f;
+	private float _zoneRouteCooldown;
+
+	private List<string> _currentZoneRoute = new();
+	private int _zoneRouteIndex = 0;
+	private bool _hasZoneRoute = false;
+
+	// Đang đứng chờ Door.cs tự dịch chuyển (đã đi tới cửa/cầu thang, không tự bước tiếp nữa)
+	private bool _awaitingDoorTeleport = false;
+	public bool IsAwaitingDoorTeleport => _awaitingDoorTeleport;
 
 	private bool _attacking = false;
 	private bool _canAttack = true;
@@ -36,6 +51,16 @@ public partial class Enemy : CharacterBody2D
 
 	private float _stunTimeRemaining = 0f;
 	private StunIndicator _activeStunIndicator;
+	
+	private string _lastUsedTransitionName = null;
+	private string _pendingDoorTransitionName = null;
+	
+	// Sau khi vừa được Door.cs teleport vào 1 zone, enemy bắt buộc phải tự đi bộ
+	// tới waypoint riêng của chính zone đó trước, rồi mới được xét hop kế tiếp
+	// trong route. Tránh việc enemy đứng nguyên tại điểm hạ cánh sát mép cửa
+	// (dễ bị coi là còn trong vùng Area2D của cửa vừa dùng và bị kéo ngược lại).
+	private bool _awaitingZoneArrival = false;
+	private string _pendingZoneArrivalName = null;
 
 	private enum State
 	{
@@ -47,23 +72,8 @@ public partial class Enemy : CharacterBody2D
 	}
 
 	private State _state = State.Patrol;
-	
+
 	private PlayerStats _playerStats;
-
-	// train_tactical_ai.py + EnemyNeuralPolicy.cs). KHÔNG cần gọi API/HTTP/GDExtension
-	// nào cả — forward pass chạy inline ngay trong Enemy, mỗi TacticalRequestInterval giây. ===
-	[Export] public float TacticalRequestInterval = 120f;
-	private float _tacticalCooldown;
-
-	private List<EnemyPlanAction> _tacticalPlan = new(); // chỉ giữ để debug/log
-	private float _planElapsedTotal = 0f;
-	private float _planTotalDuration = 0f;
-	private Vector2 _planStartPosition;
-	private Vector2 _planTargetPosition; 
-	private bool _hasActivePlan = false;
-
-	private const float PlanArrivalThreshold = 10f;
-	private const float PlanTimeoutGraceMargin = 5f;
 
 	public string CurrentStateName => _state.ToString();
 
@@ -83,14 +93,14 @@ public partial class Enemy : CharacterBody2D
 		_sprite.AnimationFinished += OnAnimationFinished;
 
 		_spawnPos = GlobalPosition;
-		
+
 		PickPatrolPoint();
 
-		_tacticalCooldown = TacticalRequestInterval;
+		_zoneRouteCooldown = ZoneRouteFirstDelay;
 	}
 
 	public override void _PhysicsProcess(double delta)
-	{	
+	{
 		if (_player != null && _player.IsDead)
 		{
 			_player = null;
@@ -103,22 +113,22 @@ public partial class Enemy : CharacterBody2D
 				PickPatrolPoint();
 			}
 		}
-		
+
 		if (_player != null)
 			UpdateLookAtPlayer();
 
-		_tacticalCooldown -= (float)delta;
-		if (_tacticalCooldown <= 0f)
+		_zoneRouteCooldown -= (float)delta;
+		if (_zoneRouteCooldown <= 0f)
 		{
-			_tacticalCooldown = TacticalRequestInterval;
-			RequestTacticalPlan();
+			_zoneRouteCooldown = ZoneRouteRequestInterval;
+			RequestZonePatrolRoute();
 		}
 
 		switch (_state)
 		{
 			case State.Patrol:
-				if (_hasActivePlan)
-					MoveTowardsPlanTarget((float)delta);
+				if (_hasZoneRoute)
+					MoveAlongZoneRoute();
 				else
 					Patrol();
 				break;
@@ -145,7 +155,6 @@ public partial class Enemy : CharacterBody2D
 
 		MoveAndSlide();
 	}
-
 
 	private void Patrol()
 	{
@@ -176,157 +185,248 @@ public partial class Enemy : CharacterBody2D
 		PlayWalk();
 	}
 
-	private async void RequestTacticalPlan()
-{
-	if (_state == State.Attack || _state == State.Dead || _state == State.Stunned) return;
+	// === ZONE PATROL ROUTE (gọi Groq, fallback thống kê nếu lỗi) ===
 
-	var player = movement.Instance;
-	if (player == null || !GodotObject.IsInstanceValid(player) || player.IsDead) return;
-
-	var playerStats = player.GetNodeOrNull<PlayerStats>("PlayerStats2");
-
-	Vector2 rel = player.GlobalPosition - GlobalPosition;
-	float dist = rel.Length();
-	float hpPercent = playerStats != null ? playerStats.HealthPercent : 100f;
-
-	bool wasPatrol = _state == State.Patrol;
-	bool wasChase = _state == State.Chase;
-
-	var plan = await GroqTacticalAI.RequestPlanAsync(
-		relX: rel.X, relY: rel.Y,
-		playerVelX: player.Velocity.X, playerVelY: player.Velocity.Y,
-		dist: dist, hpPercent: hpPercent,
-		isPatrol: wasPatrol, isChase: wasChase
-	);
-
-	if (!GodotObject.IsInstanceValid(this)) return;
-	if (_state == State.Attack || _state == State.Dead || _state == State.Stunned) return;
-
-	if (plan == null || plan.Count == 0)
+	private async void RequestZonePatrolRoute()
 	{
-		plan = EnemyNeuralPolicy.Predict(
-			rel.X, rel.Y, player.Velocity.X, player.Velocity.Y,
-			dist, hpPercent, wasPatrol, wasChase
-		);
-	}
+		if (_state != State.Patrol) return;
 
-	AssignTacticalPlan(plan);
-}
+		string currentZone = ZoneRegistry.Instance?.GetNearestZone(GlobalPosition);
+		if (currentZone == null) return;
 
-		public void AssignTacticalPlan(List<EnemyPlanAction> plan)
-	{
-		 if (_state == State.Attack || _state == State.Dead ||
-			 _state == State.Stunned || _state == State.Chase)
-		return;
-		if (plan == null || plan.Count == 0) return;
+		var stats = ZoneStatsTracker.Instance?.GetStats() ?? new Dictionary<string, float>();
 
-		_tacticalPlan = plan;
-		_planElapsedTotal = 0f;
-		_planTotalDuration = TacticalPlanParser.TotalDuration(plan);
-		_planStartPosition = GlobalPosition;
-		_planTargetPosition = _planStartPosition + ComputePlanDisplacement(plan);
-		_hasActivePlan = true;
+		var route = await GroqZoneRouteAI.RequestRouteAsync(currentZone, stats, ZonePatrolRouteLength);
 
-		GD.Print($"[Enemy:{Name}] Nhận path mới — {plan.Count} bước, tổng {_planTotalDuration:F2}s, " +
-				 $"đích dự kiến {_planTargetPosition}: {FormatPlan(plan)}");
+		if (!GodotObject.IsInstanceValid(this)) return;
+		if (_state != State.Patrol) return;
 
-		_state = State.Patrol;
-	}
-
-	private Vector2 ComputePlanDisplacement(List<EnemyPlanAction> plan)
-	{
-		Vector2 displacement = Vector2.Zero;
-		foreach (var action in plan)
+		if (route == null || route.Count < 2)
 		{
-			Vector2 dir = action.Direction switch
-			{
-				'w' => Vector2.Up,
-				's' => Vector2.Down,
-				'a' => Vector2.Left,
-				'd' => Vector2.Right,
-				_ => Vector2.Zero, 
-			};
-			displacement += dir * WalkSpeed * action.Duration;
+			route = ZonePatrolPlanner.GenerateRoute(currentZone, stats, ZonePatrolRouteLength, _rng);
+			GD.Print($"[Enemy:{Name}] Groq fail -> fallback route thống kê: {string.Join(" -> ", route)}");
 		}
-		return displacement;
-	}
-
-	private string FormatPlan(List<EnemyPlanAction> plan)
-	{
-		var parts = new List<string>();
-		foreach (var action in plan)
-			parts.Add($"{action.Direction}({action.Duration:F2}s)");
-		return string.Join(" -> ", parts);
-	}
-
-	// Không đi theo TỪNG BƯỚC lệnh của AI nữa — mỗi frame chỉ hỏi "đích ở đâu"
-	// rồi tự chọn hướng đi hợp lý (né tường bằng wall-slide bên dưới). Nhờ vậy
-	// thứ tự AI đưa ra ('d w' hay 'w d') không còn quan trọng, quái luôn tìm
-	// được đường men tường để tới đích thay vì đứng im/kẹt cứng.
-	private void MoveTowardsPlanTarget(float delta)
-	{
-		_planElapsedTotal += delta;
-
-		Vector2 toTarget = _planTargetPosition - GlobalPosition;
-
-		if (toTarget.Length() <= PlanArrivalThreshold)
+		else
 		{
-			GD.Print($"[Enemy:{Name}] Đã tới đích kế hoạch.");
-			_hasActivePlan = false;
-			PickPatrolPoint();
-			return;
+			GD.Print($"[Enemy:{Name}] Route từ Groq: {string.Join(" -> ", route)}");
 		}
 
-		if (_planElapsedTotal > _planTotalDuration + PlanTimeoutGraceMargin)
-		{
-			GD.Print($"[Enemy:{Name}] Kế hoạch quá thời gian dự tính (khả năng kẹt vật cản) -> huỷ, giữ nguyên vị trí hiện tại.");
-			_hasActivePlan = false;
-			PickPatrolPoint();
-			return;
-		}
+		if (route.Count < 2) return;
 
-		Vector2 desiredDir = toTarget.Normalized();
-		Vector2 moveDir = ResolveMoveDirection(desiredDir);
+		_currentZoneRoute = route;
+		_zoneRouteIndex = 1;
+		_hasZoneRoute = true;
+		_awaitingDoorTeleport = false;
+		_lastUsedTransitionName = null;
+		_pendingDoorTransitionName = null;
+		_awaitingZoneArrival = false;
+		_pendingZoneArrivalName = null;
+	}
 
-		if (moveDir == Vector2.Zero)
+	// Tên transition (door/stair) cần dùng cho bước hiện tại (từ zone[i-1] -> zone[i]).
+	// Null nghĩa là 2 zone đi bộ trực tiếp được, không cần qua cửa/cầu thang.
+	private string GetCurrentHopTransitionName()
+	{
+		if (_zoneRouteIndex <= 0 || _zoneRouteIndex >= _currentZoneRoute.Count) return null;
+		string from = _currentZoneRoute[_zoneRouteIndex - 1];
+		string to = _currentZoneRoute[_zoneRouteIndex];
+		return ZoneGraph.GetTransitionName(from, to);
+	}
+
+	// Vị trí cần đi tới cho bước hiện tại: hoặc là cửa/cầu thang, hoặc là waypoint của zone đích
+	private Vector2? GetCurrentHopTargetPosition(string transitionName)
+	{
+		if (_zoneRouteIndex >= _currentZoneRoute.Count) return null;
+
+		if (transitionName != null)
+			return TransitionRegistry.Instance?.GetWaypoint(transitionName);
+
+		return ZoneRegistry.Instance?.GetWaypoint(_currentZoneRoute[_zoneRouteIndex]);
+	}
+
+	private void MoveAlongZoneRoute()
+	{
+		if (_awaitingDoorTeleport)
 		{
 			Velocity = Vector2.Zero;
 			PlayIdle();
 			return;
 		}
 
+		// Bắt buộc đi vào tới waypoint riêng của zone vừa teleport vào, trước khi
+		// được phép xét hop kế tiếp trong route (kể cả hop đó có cần qua cửa khác
+		// hay không). Đảm bảo enemy luôn thực sự rời khỏi vùng cửa vừa dùng.
+		if (_awaitingZoneArrival)
+		{
+			Vector2? zoneWaypoint = ZoneRegistry.Instance?.GetWaypoint(_pendingZoneArrivalName);
+
+			if (zoneWaypoint == null)
+			{
+				_awaitingZoneArrival = false;
+				_pendingZoneArrivalName = null;
+				AdvanceZoneRouteHop();
+				return;
+			}
+
+			Vector2 toZoneWaypoint = zoneWaypoint.Value - GlobalPosition;
+
+			if (toZoneWaypoint.Length() <= ZoneWaypointArrivalThreshold)
+			{
+				_awaitingZoneArrival = false;
+				_pendingZoneArrivalName = null;
+				AdvanceZoneRouteHop();
+				return;
+			}
+
+			Vector2 arrivalMoveDir = ResolveMoveDirection(toZoneWaypoint.Normalized());
+			if (arrivalMoveDir == Vector2.Zero) { Velocity = Vector2.Zero; PlayIdle(); return; }
+
+			UpdateDirection(arrivalMoveDir);
+			Velocity = arrivalMoveDir * WalkSpeed;
+			PlayWalk();
+			return;
+		}
+
+		string transitionName = GetCurrentHopTransitionName();
+
+		bool isImmediateUTurn = transitionName != null && transitionName == _lastUsedTransitionName;
+		if (transitionName != null)
+			_lastUsedTransitionName = null;
+
+		if (isImmediateUTurn)
+		{
+			GD.Print($"[Enemy:{Name}] Route boomerang qua cửa '{transitionName}' -> huỷ route, patrol random.");
+			_hasZoneRoute = false;
+			PickPatrolPoint();
+			return;
+		}
+
+		Vector2? targetPos = GetCurrentHopTargetPosition(transitionName);
+
+		if (targetPos == null)
+		{
+			_hasZoneRoute = false;
+			PickPatrolPoint();
+			return;
+		}
+
+		Vector2 toTarget = targetPos.Value - GlobalPosition;
+
+		if (toTarget.Length() <= ZoneWaypointArrivalThreshold)
+		{
+			if (transitionName != null)
+			{
+				_awaitingDoorTeleport = true;
+				_pendingDoorTransitionName = transitionName;
+				Velocity = Vector2.Zero;
+				PlayIdle();
+				return;
+			}
+
+			AdvanceZoneRouteHop();
+			return;
+		}
+
+		Vector2 moveDir = ResolveMoveDirection(toTarget.Normalized());
+		if (moveDir == Vector2.Zero) { Velocity = Vector2.Zero; PlayIdle(); return; }
+
 		UpdateDirection(moveDir);
 		Velocity = moveDir * WalkSpeed;
 		PlayWalk();
 	}
 
+	private void AdvanceZoneRouteHop()
+	{
+		_zoneRouteIndex++;
+		if (_zoneRouteIndex >= _currentZoneRoute.Count)
+		{
+			_hasZoneRoute = false;
+			PickPatrolPoint();
+		}
+	}
+
+	// Được Door.cs gọi ngược lại sau khi đã dịch chuyển enemy qua cửa/cầu thang xong
+	public void OnDoorTeleported()
+	{
+		_awaitingDoorTeleport = false;
+		_lastUsedTransitionName = _pendingDoorTransitionName;
+		_pendingDoorTransitionName = null;
+
+		string arrivedZone = (_zoneRouteIndex >= 0 && _zoneRouteIndex < _currentZoneRoute.Count)
+			? _currentZoneRoute[_zoneRouteIndex]
+			: null;
+
+		if (arrivedZone != null && ZoneRegistry.Instance?.GetWaypoint(arrivedZone) != null)
+		{
+			_pendingZoneArrivalName = arrivedZone;
+			_awaitingZoneArrival = true;
+		}
+		else
+		{
+			AdvanceZoneRouteHop();
+		}
+	}
+
+	private void AbandonZoneRoute()
+	{
+		_hasZoneRoute = false;
+		_awaitingDoorTeleport = false;
+		_lastUsedTransitionName = null;
+		_pendingDoorTransitionName = null;
+		_awaitingZoneArrival = false;
+		_pendingZoneArrivalName = null;
+	}
+	
+	private int _avoidSide = 0;
+	
+	private static readonly float[] _avoidAngleMagnitudesDeg =
+	{
+		15f, 30f, 45f, 60f, 75f, 90f, 105f, 120f, 135f, 150f, 165f, 180f
+	};
+
 	// Thử đi thẳng tới đích trước; nếu bị chặn thì trượt theo từng trục riêng
 	private Vector2 ResolveMoveDirection(Vector2 desiredDir)
 	{
+		desiredDir = desiredDir.Normalized();
+
+		// Đi thẳng được -> luôn ưu tiên, đồng thời huỷ trạng thái đang né.
 		if (!TestMove(GlobalTransform, desiredDir))
+		{
+			_avoidSide = 0;
 			return desiredDir;
+		}
 
-		Vector2 horizontal = new Vector2(desiredDir.X, 0f);
-		Vector2 vertical = new Vector2(0f, desiredDir.Y);
+		// Đang né về 1 phía rồi thì ưu tiên tiếp tục đúng phía đó trước
+		// (không xét phía ngược lại) để không bị giật qua lại.
+		if (_avoidSide != 0)
+		{
+			foreach (float mag in _avoidAngleMagnitudesDeg)
+			{
+				Vector2 candidate = desiredDir.Rotated(Mathf.DegToRad(mag * _avoidSide));
+				if (!TestMove(GlobalTransform, candidate))
+					return candidate;
+			}
 
-		bool canHorizontal = horizontal.LengthSquared() > 0.0001f && !TestMove(GlobalTransform, horizontal.Normalized());
-		bool canVertical = vertical.LengthSquared() > 0.0001f && !TestMove(GlobalTransform, vertical.Normalized());
+			// Phía đang né bị bịt hoàn toàn -> bỏ khoá, quét lại từ đầu (có thể đổi phía)
+			_avoidSide = 0;
+		}
 
-		if (canHorizontal && canVertical)
-			return Mathf.Abs(desiredDir.X) >= Mathf.Abs(desiredDir.Y)
-				? horizontal.Normalized()
-				: vertical.Normalized();
+		// Chưa né phía nào (hoặc vừa mất phía cũ) -> quét cả 2 phía, phía nào thoáng
+		// trước ở mức lệch nhỏ nhất thì chọn và khoá luôn phía đó.
+		foreach (float mag in _avoidAngleMagnitudesDeg)
+		{
+			foreach (int side in new[] { 1, -1 })
+			{
+				Vector2 candidate = desiredDir.Rotated(Mathf.DegToRad(mag * side));
+				if (!TestMove(GlobalTransform, candidate))
+				{
+					_avoidSide = side;
+					return candidate;
+				}
+			}
+		}
 
-		if (canHorizontal) return horizontal.Normalized();
-		if (canVertical) return vertical.Normalized();
-
-		return Vector2.Zero; 
-	}
-
-	private void AbandonTacticalPlan()
-	{
-		_tacticalPlan.Clear();
-		_hasActivePlan = false;
+		return Vector2.Zero;
 	}
 
 	private void Chase()
@@ -349,7 +449,6 @@ public partial class Enemy : CharacterBody2D
 
 		Vector2 desiredDir = toPlayer.Normalized();
 
-		// Bị chặn hướng thẳng -> men theo trục ngang/dọc
 		Vector2 moveDir = ResolveMoveDirection(desiredDir);
 
 		if (moveDir == Vector2.Zero)
@@ -364,8 +463,8 @@ public partial class Enemy : CharacterBody2D
 	}
 
 	private async void StartAttack()
-	{	
-		if (_state == State.Stunned) return; // an toàn: không đánh khi đang choáng
+	{
+		if (_state == State.Stunned) return;
 
 		if (_player == null || _player.IsDead)
 		{
@@ -384,15 +483,15 @@ public partial class Enemy : CharacterBody2D
 		_state = State.Attack;
 
 		_sprite.Play("Attack_" + _lastDirection);
-		
+
 		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
 		DamagePlayer();
-			
+
 		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
 		DamagePlayer();
 
 		await ToSignal(_sprite, AnimatedSprite2D.SignalName.AnimationFinished);
-		
+
 		PlayIdle();
 
 		await ToSignal(GetTree().CreateTimer(AttackCooldown),
@@ -401,8 +500,6 @@ public partial class Enemy : CharacterBody2D
 		_attacking = false;
 		_canAttack = true;
 
-		// Nếu bị bình cứu hỏa xịt choáng ngay trong lúc đang hồi chiêu ở trên, để
-		// EndStun() tự quyết định state tiếp theo, không ghi đè state ở đây nữa.
 		if (_state == State.Stunned)
 			return;
 
@@ -431,8 +528,8 @@ public partial class Enemy : CharacterBody2D
 
 	private void BeginStun()
 	{
-		if (_hasActivePlan)
-			AbandonTacticalPlan();
+		if (_hasZoneRoute)
+			AbandonZoneRoute();
 
 		_attacking = false;
 		_state = State.Stunned;
@@ -452,12 +549,10 @@ public partial class Enemy : CharacterBody2D
 	private void EndStun()
 	{
 		_stunTimeRemaining = 0f;
-		_activeStunIndicator = null; // StunIndicator tự QueueFree() khi hết thời gian của chính nó
+		_activeStunIndicator = null;
 
 		if (_player != null && !_player.IsDead)
 		{
-			// Đặt về Chase TRƯỚC khi gọi StartAttack(), vì StartAttack() tự early-return
-			// nếu thấy _state vẫn còn là State.Stunned.
 			_state = State.Chase;
 			if (_playerInAttackRange)
 				StartAttack();
@@ -469,20 +564,18 @@ public partial class Enemy : CharacterBody2D
 		}
 	}
 
-
 	private void PickPatrolPoint()
 	{
 		Vector2 dir = PickWeightedRandomDirection(PatrolDirectionSamples, PatrolProbeStep, PatrolDistance);
 
 		if (dir == Vector2.Zero)
 		{
-			// Không hướng nào đi được (bị vây kín) -> đứng yên tại chỗ
 			_patrolTarget = GlobalPosition;
 			return;
 		}
 
 		float dist = ProbeClearDistance(dir, PatrolDistance, PatrolProbeStep);
-		dist = Mathf.Max(0f, dist - PatrolProbeStep * 0.5f); // lùi chút để không đi sát tường
+		dist = Mathf.Max(0f, dist - PatrolProbeStep * 0.5f);
 
 		_patrolTarget = GlobalPosition + dir * dist;
 	}
@@ -518,9 +611,8 @@ public partial class Enemy : CharacterBody2D
 			_player = player;
 			_playerStats = player.GetNode<PlayerStats>("PlayerStats2");
 
-			// === MỚI: combat luôn được ưu tiên hơn kế hoạch AI ngoài ===
-			if (_hasActivePlan)
-				AbandonTacticalPlan();
+			if (_hasZoneRoute)
+				AbandonZoneRoute();
 
 			if (_state != State.Attack && _state != State.Stunned)
 				_state = State.Chase;
@@ -542,10 +634,6 @@ public partial class Enemy : CharacterBody2D
 		}
 	}
 
-	//----------------------------------------------------------
-	// ATTACK RANGE
-	//----------------------------------------------------------
-
 	private void OnAttackBodyEntered(Node2D body)
 	{
 		if (body != _player)
@@ -564,10 +652,6 @@ public partial class Enemy : CharacterBody2D
 
 		_playerInAttackRange = false;
 	}
-
-	//----------------------------------------------------------
-	// ATTACK LOOP
-	//----------------------------------------------------------
 
 	private void OnAnimationFinished()
 	{
@@ -590,7 +674,7 @@ public partial class Enemy : CharacterBody2D
 			_state = State.Chase;
 		}
 	}
-	
+
 	private void UpdateLookAtPlayer()
 	{
 		if (_player == null)
@@ -600,23 +684,22 @@ public partial class Enemy : CharacterBody2D
 
 		UpdateDirection(dir);
 	}
-	
+
 	private void DamagePlayer()
-	{	
+	{
 		if (_state == State.Stunned)
 			return;
 
 		if (_player == null || _player.IsDead)
 			return;
-			
+
 		if (!_playerInAttackRange)
 			return;
-		
+
 		if (_playerStats != null)
 			_playerStats.TakeDamage(AttackDmg);
 	}
-	
-	// Đo xem đi theo hướng "dir" thì đi được bao xa trước khi đụng vật cản
+
 	private float ProbeClearDistance(Vector2 dir, float maxDistance, float step)
 	{
 		dir = dir.Normalized();
@@ -637,7 +720,7 @@ public partial class Enemy : CharacterBody2D
 
 		return traveled;
 	}
-	
+
 	private Vector2 PickWeightedRandomDirection(int sampleCount, float step, float maxDistance)
 	{
 		var candidates = new List<(Vector2 dir, float dist)>();
@@ -669,5 +752,22 @@ public partial class Enemy : CharacterBody2D
 		}
 
 		return candidates[^1].dir;
+	}
+	
+	public void NotifyEnteredDoorZone(string transitionName)
+	{
+		if (_state != State.Patrol || !_hasZoneRoute) return;
+		if (GetCurrentHopTransitionName() != transitionName) return;
+
+		_awaitingDoorTeleport = true;
+		Velocity = Vector2.Zero;
+	}
+	
+	public void NotifyExitedDoorZone(string transitionName)
+	{
+		if (!_awaitingDoorTeleport) return;
+		if (GetCurrentHopTransitionName() != transitionName) return;
+
+		_awaitingDoorTeleport = false;
 	}
 }
