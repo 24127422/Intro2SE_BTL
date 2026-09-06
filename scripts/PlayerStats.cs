@@ -33,7 +33,9 @@ public partial class PlayerStats : Node
 	[Export] public float StaminaRegenRate = 2f;
 
 	[Export] public float SprintDecreaseRate = 5f;
-	
+	[Export] public ColorRect SanityOverlay;
+	[Export] public float SanityDistortionThreshold = 30f;
+
 	private movement _player;
 	private bool _staminaExhausted = false;
 
@@ -173,6 +175,25 @@ public partial class PlayerStats : Node
 			}
 		}
 	}
+
+	private void UpdateSanityDistortion()
+	{
+		if (SanityOverlay == null) return;
+
+		var material = SanityOverlay.Material as ShaderMaterial;
+		if (material == null) return;
+
+		if (currSanity < SanityDistortionThreshold)
+		{
+			float intensity = 1f - (currSanity / SanityDistortionThreshold);
+			material.SetShaderParameter("distortion_strength", intensity);
+		}
+		else
+		{
+			material.SetShaderParameter("distortion_strength", 0f);
+		}
+	}
+
 	public override void _Process(double delta)
 {
 	if (_player != null && _player.IsDead)
@@ -242,6 +263,7 @@ public partial class PlayerStats : Node
 	}
 
 	MyStatsControl?.SetValue(ResourceType.Stamina, (int)currStamina, (int)maxStamina);
+	UpdateSanityDistortion();
 }
 
 	public void TakeDamage(float amount)
