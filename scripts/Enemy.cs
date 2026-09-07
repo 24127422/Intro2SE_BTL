@@ -38,6 +38,7 @@ public partial class Enemy : CharacterBody2D
 
 	private bool _attacking = false;
 	private bool _canAttack = true;
+	private int _attackRunId = 0;
 
 	private AnimatedSprite2D _sprite;
 	private Area2D _detectRange;
@@ -481,6 +482,8 @@ public partial class Enemy : CharacterBody2D
 		if (_attacking || !_canAttack)
 			return;
 
+		int runId = ++_attackRunId;
+
 		_attacking = true;
 		_canAttack = false;
 
@@ -490,17 +493,21 @@ public partial class Enemy : CharacterBody2D
 		_sprite.Play("Attack_" + _lastDirection);
 
 		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+		if (runId != _attackRunId) return; // đã bị huỷ giữa chừng (vd. bị stun) -> dừng luôn, không đánh giá gì thêm
 		DamagePlayer();
 
 		await ToSignal(GetTree().CreateTimer(0.4f), SceneTreeTimer.SignalName.Timeout);
+		if (runId != _attackRunId) return;
 		DamagePlayer();
 
 		await ToSignal(_sprite, AnimatedSprite2D.SignalName.AnimationFinished);
+		if (runId != _attackRunId) return;
 
 		PlayIdle();
 
 		await ToSignal(GetTree().CreateTimer(AttackCooldown),
 					   SceneTreeTimer.SignalName.Timeout);
+		if (runId != _attackRunId) return;
 
 		_attacking = false;
 		_canAttack = true;
@@ -545,7 +552,10 @@ public partial class Enemy : CharacterBody2D
 		if (_hasZoneRoute)
 			AbandonZoneRoute();
 
+		_attackRunId++;
 		_attacking = false;
+		_canAttack = true;
+
 		_state = State.Stunned;
 		_stunTimeRemaining = StunDuration;
 

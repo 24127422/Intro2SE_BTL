@@ -720,7 +720,7 @@ animations = [{
 radius = 129.68884
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7cww"]
-size = Vector2(28.200005, 30.400005)
+size = Vector2(55.20001, 52.800003)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=378890957]
 scale = Vector2(1.25, 1.25)
@@ -756,6 +756,6 @@ shape = SubResource("CircleShape2D_tqw65")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRange" unique_id=1771236368]
-position = Vector2(-2.1000001, 6.399999)
+position = Vector2(1.2000011, -4.7999988)
 scale = Vector2(0.99999976, 0.99999976)
 shape = SubResource("RectangleShape2D_e7cww")
