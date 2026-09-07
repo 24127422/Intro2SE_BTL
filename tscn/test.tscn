@@ -2305,6 +2305,16 @@ z_index = 10
 position = Vector2(1525, 4627)
 ItemData = ExtResource("32_bmqj7")
 
+[node name="ItemPickup21" parent="." unique_id=664996942 instance=ExtResource("18_qachy")]
+z_index = 10
+position = Vector2(7130, 3698)
+ItemData = ExtResource("32_bmqj7")
+
+[node name="ItemPickup22" parent="." unique_id=619662459 instance=ExtResource("18_qachy")]
+z_index = 10
+position = Vector2(7194, 1470)
+ItemData = ExtResource("32_bmqj7")
+
 [node name="ItemPickup13" parent="." unique_id=484759677 instance=ExtResource("18_qachy")]
 z_index = 10
 position = Vector2(310, -116)
