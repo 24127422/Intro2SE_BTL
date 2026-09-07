@@ -93,7 +93,10 @@ public partial class Save_load_menu : CanvasLayer
             quick_save_button.Pressed += _OnQuickSavePressed;
 
         if (overlay != null)
-            overlay.Connect("gui_input", new Callable(this, nameof(_OnOverlayGuiInput)));
+        {
+            overlay.MouseFilter = Control.MouseFilterEnum.Stop;
+            overlay.GuiInput += _OnOverlayGuiInput;
+        }
 
         GetTree().SceneChanged += _OnSceneChanged;
 
@@ -104,6 +107,9 @@ public partial class Save_load_menu : CanvasLayer
     {
         if (quick_save_button != null)
             quick_save_button.Pressed -= _OnQuickSavePressed;
+
+        if (overlay != null)
+            overlay.GuiInput -= _OnOverlayGuiInput;
 
         if (GetTree() != null)
             GetTree().SceneChanged -= _OnSceneChanged;
