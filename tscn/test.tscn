@@ -40,6 +40,9 @@
 [ext_resource type="Resource" uid="uid://d338ptfah3mhr" path="res://Items/Binh_cuu_hoa.tres" id="34_8sjqu"]
 [ext_resource type="AudioStream" uid="uid://bdqcm3xd8h1mk" path="res://soundeffect/Ingame BGM.mp3" id="34_knfee"]
 [ext_resource type="Resource" uid="uid://cfm1w3dahqf0j" path="res://Items/Ca_Phe_Sua.tres" id="35_sl2pq"]
+[ext_resource type="Resource" uid="uid://bxr54u4l3tgdc" path="res://Document/Vesper HOS Tài trợ y tế.tres" id="40_1hwdm"]
+[ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="40_sl2pq"]
+[ext_resource type="Resource" uid="uid://ctijmfqlpg5vh" path="res://Document/Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn.tres" id="41_to3hp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -2323,6 +2326,21 @@ ItemData = ExtResource("29_n5hae")
 z_index = 10
 position = Vector2(4503, 3538)
 ItemData = ExtResource("30_n72rg")
+
+[node name="ItemPickup16" parent="." unique_id=1849937616 instance=ExtResource("18_qachy")]
+z_index = 10
+position = Vector2(4309, 3732)
+ItemData = ExtResource("40_sl2pq")
+
+[node name="ItemPickup17" parent="." unique_id=1205463437 instance=ExtResource("18_qachy")]
+z_index = 10
+position = Vector2(1302, 1047)
+ItemData = ExtResource("40_1hwdm")
+
+[node name="ItemPickup18" parent="." unique_id=642687114 instance=ExtResource("18_qachy")]
+z_index = 10
+position = Vector2(4117, 3637)
+ItemData = ExtResource("41_to3hp")
 
 [node name="hallway6_n" type="Area2D" parent="." unique_id=1617518138]
 visible = false
