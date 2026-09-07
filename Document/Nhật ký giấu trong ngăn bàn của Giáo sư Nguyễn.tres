@@ -1,7 +1,6 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://ctijmfqlpg5vh"]
 
-[ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_awiax"]
-[ext_resource type="Texture2D" uid="uid://cj32gsmpfgq17" path="res://Image/Document_image/Burned_Document.png" id="1_ucbt5"]
+[ext_resource type="Texture2D" uid="uid://cyly30a5eqqpu" path="res://Image/Document_image/Document.png" id="1_awiax"]
 [ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_ucbt5"]
 
 [resource]
@@ -13,5 +12,4 @@ Description = "12/2016 - Con bé đã yếu đi nhiều. Bác sĩ nói nếu kh�
 3/2017 - Con bé vẫn không qua khỏi. Vesper nói \"chi phí vượt ngân sách phê duyệt\". Tôi đã đánh đổi tất cả để đổi lấy một lời hứa suông.
 9/2026 - Thằng bé vào được vòng học bổng rồi. Trời ơi, tôi đang làm gì với cuộc đời nó vậy..."
 IsDocument = true
-DocumentImage = ExtResource("1_ucbt5")
 metadata/_custom_type_script = "uid://brw8kiqnoijs6"
