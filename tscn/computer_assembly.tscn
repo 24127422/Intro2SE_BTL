@@ -1,57 +1,50 @@
 [gd_scene format=3 uid="uid://bpc30o5mj8wlg"]
 
-[ext_resource type="Script" path="res://scripts/ComputerAssemblyStation.cs" id="1_asm01"]
-[ext_resource type="Script" path="res://scripts/AssemblyPart.cs" id="2_part"]
-[ext_resource type="Resource" path="res://Items/pc_parts/Case.tres" id="3_case"]
-[ext_resource type="Resource" path="res://Items/pc_parts/Mainboard.tres" id="4_mainboard"]
-[ext_resource type="Resource" path="res://Items/pc_parts/PSU.tres" id="5_psu"]
-[ext_resource type="Resource" path="res://Items/pc_parts/CPU.tres" id="6_cpu"]
-[ext_resource type="Resource" path="res://Items/pc_parts/Cooler.tres" id="7_cooler"]
-[ext_resource type="Resource" path="res://Items/pc_parts/RAM.tres" id="8_ram"]
-[ext_resource type="Resource" path="res://Items/pc_parts/GPU.tres" id="9_gpu"]
-[ext_resource type="Resource" path="res://Items/pc_parts/ROM_That.tres" id="10_rom_that"]
-[ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_1.tres" id="11_rom_gia1"]
-[ext_resource type="Resource" path="res://Items/pc_parts/ROM_Gia_2.tres" id="12_rom_gia2"]
-[ext_resource type="Resource" path="res://Dialogue/dialogue_computer_good_ending.tres" id="13_good"]
-[ext_resource type="Resource" path="res://Dialogue/dialogue_computer_bad_ending.tres" id="14_bad"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/monitor.png" id="15_screen_good"]
-[ext_resource type="Texture2D" path="res://Image/icons/pc_parts/monitor_horror.png" id="16_screen_bad"]
-[ext_resource type="Script" path="res://scripts/Item.cs" id="17_item_type"]
+[ext_resource type="Script" uid="uid://blkd5wmgx5tlt" path="res://scripts/ComputerAssemblyStation.cs" id="1_asm01"]
+[ext_resource type="Script" uid="uid://b8ljy0o46ero7" path="res://scripts/AssemblyPart.cs" id="2_part"]
+[ext_resource type="Resource" uid="uid://bkooely1y5g3h" path="res://Items/pc_parts/Case.tres" id="3_case"]
+[ext_resource type="Resource" uid="uid://7mbpllyx807i" path="res://Items/pc_parts/Mainboard.tres" id="4_mainboard"]
+[ext_resource type="Resource" uid="uid://c5fsrj4hkx6q4" path="res://Items/pc_parts/PSU.tres" id="5_psu"]
+[ext_resource type="Resource" uid="uid://70rrlr3uv371" path="res://Items/pc_parts/CPU.tres" id="6_cpu"]
+[ext_resource type="Resource" uid="uid://bsl0xl3j814im" path="res://Items/pc_parts/Cooler.tres" id="7_cooler"]
+[ext_resource type="Resource" uid="uid://dwgf4a6g662su" path="res://Items/pc_parts/RAM.tres" id="8_ram"]
+[ext_resource type="Resource" uid="uid://lxsokrjobn4k" path="res://Items/pc_parts/GPU.tres" id="9_gpu"]
+[ext_resource type="Resource" uid="uid://bk152rih8fmcc" path="res://Items/pc_parts/ROM_That.tres" id="10_rom_that"]
+[ext_resource type="Resource" uid="uid://bkgffw4abpias" path="res://Items/pc_parts/ROM_Gia_1.tres" id="11_rom_gia1"]
+[ext_resource type="Resource" uid="uid://buf4ts8fv5eji" path="res://Items/pc_parts/ROM_Gia_2.tres" id="12_rom_gia2"]
+[ext_resource type="Resource" uid="uid://53etug1ggwkv" path="res://Dialogue/dialogue_computer_good_ending.tres" id="13_good"]
+[ext_resource type="Resource" uid="uid://da3yufd7gt4gj" path="res://Dialogue/dialogue_computer_bad_ending.tres" id="14_bad"]
+[ext_resource type="Texture2D" uid="uid://3i2lu8fpsp8i" path="res://Image/icons/pc_parts/monitor.png" id="15_screen_good"]
+[ext_resource type="Texture2D" uid="uid://5pwx8ipqatnx" path="res://Image/icons/pc_parts/monitor_horror.png" id="16_screen_bad"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="17_item_type"]
 
 [sub_resource type="Resource" id="Part_case"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("3_case")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_mainboard"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("4_mainboard")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_psu"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("5_psu")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_cpu"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("6_cpu")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_cooler"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("7_cooler")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_ram"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("8_ram")
-RequiredQuantity = 1
 
 [sub_resource type="Resource" id="Part_gpu"]
 script = ExtResource("2_part")
 RequiredItem = ExtResource("9_gpu")
-RequiredQuantity = 1
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_asm01"]
 size = Vector2(48, 32)
@@ -62,7 +55,7 @@ collision_mask = 3
 script = ExtResource("1_asm01")
 RequiredParts = Array[ExtResource("2_part")]([SubResource("Part_case"), SubResource("Part_mainboard"), SubResource("Part_psu"), SubResource("Part_cpu"), SubResource("Part_cooler"), SubResource("Part_ram"), SubResource("Part_gpu")])
 IntroText = "Một cái xác máy tính rỗng ruột nằm trên bàn. Có lẽ nếu lắp đủ từng bộ phận, nó — hay ông ấy — sẽ sống lại."
-ValidRoms = Array[ExtResource("17_item_type")]([ExtResource("10_rom_that"), ExtResource("11_rom_gia1"), ExtResource("12_rom_gia2")])
+ValidRoms = Array[ExtResource("17_item_type")]([ExtResource("11_rom_gia1"), ExtResource("12_rom_gia2")])
 CorrectRom = ExtResource("10_rom_that")
 GoodEndingDialogue = ExtResource("13_good")
 BadEndingDialogue = ExtResource("14_bad")
