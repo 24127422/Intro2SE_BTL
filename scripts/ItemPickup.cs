@@ -63,6 +63,7 @@ public partial class ItemPickup : Area2D
 				if (DocumentJournal.Instance != null)
 				{
 					DocumentJournal.Instance.UnlockDocument(ItemData);
+					PickupNotificationUI.Instance?.ShowPickup(ItemData.ItemName);
 					QueueFree();
 				}
 				return;
@@ -77,15 +78,13 @@ public partial class ItemPickup : Area2D
 			bool success = _inventory.AddItem(ItemData, 1, Durability);
 			if (success)
 			{
+				PickupNotificationUI.Instance?.ShowPickup(ItemData.ItemName);
 				ShowFirstThoughtIfAny(ItemData);
 				QueueFree();
 			}
 		}
 	}
 
-	// Hiện đúng 1 lần "suy nghĩ" đầu tiên của nhân vật khi nhặt 1 LOẠI item lần đầu tiên
-	// trong suốt phiên chơi (không phải mỗi lần nhặt thêm cùng loại đó).
-	// Dùng chung DialogueUI có sẵn — không cần UI mới, chỉ 1 dòng thoại không tên người nói.
 	private void ShowFirstThoughtIfAny(Item item)
 	{
 		if (item == null) return;

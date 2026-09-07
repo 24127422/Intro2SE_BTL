@@ -1,50 +1,50 @@
-[gd_scene format=3 uid="uid://6cchto4352iv"]
+[gd_scene format=3 uid="uid://dqb3o7dfocpvl"]
 
-[ext_resource type="Texture2D" uid="uid://4h8x3k2vimql" path="res://Image/tileset/wall.png" id="2_lk7i6"]
-[ext_resource type="Texture2D" uid="uid://onxyq4y1syi6" path="res://Image/tileset/floor.png" id="2_mk0xd"]
-[ext_resource type="PackedScene" uid="uid://dntm7np5abesg" path="res://tscn/Player.tscn" id="3_epypp"]
-[ext_resource type="Texture2D" uid="uid://dxcjbasggjvn5" path="res://Image/tileset/Inside_C.png" id="3_g4xt8"]
-[ext_resource type="Texture2D" uid="uid://cn8qem1n5nmnd" path="res://Image/tileset/Inside_D.png" id="4_751um"]
-[ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_rba67"]
-[ext_resource type="Script" uid="uid://d2olej58ox6cc" path="res://scripts/Door.cs" id="6_1jpnp"]
-[ext_resource type="Texture2D" uid="uid://c84cfd8sd2n2l" path="res://Image/tileset/toilet.png" id="6_48vri"]
-[ext_resource type="Script" uid="uid://dvm12gihyngd8" path="res://scripts/PlayerStats.cs" id="7_qachy"]
-[ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="9_lco2r"]
-[ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="10_pu6gk"]
-[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="11_v8vuo"]
-[ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_fu8xo"]
-[ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_tah4c"]
-[ext_resource type="PackedScene" uid="uid://bpc30o5mj8wlg" path="res://tscn/computer_assembly.tscn" id="17_1jpnp"]
-[ext_resource type="Shader" uid="uid://b6k2onfuaw7yd" path="res://shaders/sanity_distortion.gdshader" id="17_bmqj7"]
-[ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="17_tah4c"]
-[ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="18_1jpnp"]
-[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="18_qachy"]
-[ext_resource type="Script" uid="uid://cym5jm7hyhvsk" path="res://scripts/Toilet.cs" id="19_qachy"]
-[ext_resource type="AudioStream" uid="uid://nhltgv1dw3bg" path="res://soundeffect/pee_sound.mp3" id="20_5kcdt"]
-[ext_resource type="Resource" uid="uid://bsl0xl3j814im" path="res://Items/pc_parts/Cooler.tres" id="20_h2dlj"]
-[ext_resource type="Resource" uid="uid://bkooely1y5g3h" path="res://Items/pc_parts/Case.tres" id="21_c4efu"]
-[ext_resource type="Resource" uid="uid://lxsokrjobn4k" path="res://Items/pc_parts/GPU.tres" id="22_qn3f3"]
-[ext_resource type="Resource" uid="uid://7mbpllyx807i" path="res://Items/pc_parts/Mainboard.tres" id="24_hhpva"]
-[ext_resource type="Resource" uid="uid://70rrlr3uv371" path="res://Items/pc_parts/CPU.tres" id="25_48vri"]
-[ext_resource type="Resource" uid="uid://c5fsrj4hkx6q4" path="res://Items/pc_parts/PSU.tres" id="26_nfclw"]
-[ext_resource type="Resource" uid="uid://dwgf4a6g662su" path="res://Items/pc_parts/RAM.tres" id="27_lg388"]
-[ext_resource type="Resource" uid="uid://bkgffw4abpias" path="res://Items/pc_parts/ROM_Gia_1.tres" id="28_knfee"]
-[ext_resource type="Resource" uid="uid://buf4ts8fv5eji" path="res://Items/pc_parts/ROM_Gia_2.tres" id="29_n5hae"]
-[ext_resource type="Resource" uid="uid://yivsdc07hlbj" path="res://Items/Banh_Mi.tres" id="29_sdkuh"]
-[ext_resource type="Resource" uid="uid://bk152rih8fmcc" path="res://Items/pc_parts/ROM_That.tres" id="30_n72rg"]
-[ext_resource type="Resource" uid="uid://dq0d42ajjjkbv" path="res://Items/Kho_ga_ba_mia.tres" id="32_bmqj7"]
-[ext_resource type="Resource" uid="uid://cj43hgtfguvkd" path="res://Items/lantern.tres" id="33_cvp7j"]
-[ext_resource type="Script" uid="uid://cgc67ijyyjnr8" path="res://scripts/ZoneTrigger.cs" id="33_lg388"]
-[ext_resource type="Resource" uid="uid://d338ptfah3mhr" path="res://Items/Binh_cuu_hoa.tres" id="34_8sjqu"]
-[ext_resource type="AudioStream" uid="uid://bdqcm3xd8h1mk" path="res://soundeffect/Ingame BGM.mp3" id="34_knfee"]
-[ext_resource type="Resource" uid="uid://cfm1w3dahqf0j" path="res://Items/Ca_Phe_Sua.tres" id="35_sl2pq"]
-[ext_resource type="Resource" uid="uid://bxr54u4l3tgdc" path="res://Document/Vesper HOS Tài trợ y tế.tres" id="40_1hwdm"]
-[ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="40_sl2pq"]
-[ext_resource type="Resource" uid="uid://ctijmfqlpg5vh" path="res://Document/Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn.tres" id="41_to3hp"]
-[ext_resource type="Resource" uid="uid://bptks0xupxkbp" path="res://Items/pill.tres" id="44_1hwdm"]
+[ext_resource type="Texture2D" uid="uid://onxyq4y1syi6" path="res://Image/tileset/floor.png" id="1_btrm4"]
+[ext_resource type="Texture2D" uid="uid://4h8x3k2vimql" path="res://Image/tileset/wall.png" id="2_m3tuy"]
+[ext_resource type="Texture2D" uid="uid://dxcjbasggjvn5" path="res://Image/tileset/Inside_C.png" id="3_xeeo8"]
+[ext_resource type="Texture2D" uid="uid://cn8qem1n5nmnd" path="res://Image/tileset/Inside_D.png" id="4_e1ebk"]
+[ext_resource type="Texture2D" uid="uid://dvkmoslygj7fj" path="res://Image/tileset/Inside_E.png" id="5_30meb"]
+[ext_resource type="Texture2D" uid="uid://c84cfd8sd2n2l" path="res://Image/tileset/toilet.png" id="6_cmobu"]
+[ext_resource type="Script" uid="uid://d2olej58ox6cc" path="res://scripts/Door.cs" id="7_2eroh"]
+[ext_resource type="PackedScene" uid="uid://dntm7np5abesg" path="res://tscn/Player.tscn" id="8_3t68b"]
+[ext_resource type="Script" uid="uid://dvm12gihyngd8" path="res://scripts/PlayerStats.cs" id="9_u7kha"]
+[ext_resource type="PackedScene" uid="uid://d214fgwnotgub" path="res://tscn/NPC.tscn" id="10_v8q3y"]
+[ext_resource type="Texture2D" uid="uid://bog0jgcvmino6" path="res://Image/character3 - Copy.png" id="11_s3vwo"]
+[ext_resource type="Script" uid="uid://crmwjvqh2qdb8" path="res://scripts/DialogueData.cs" id="12_mtk7c"]
+[ext_resource type="Resource" uid="uid://drbm60236avms" path="res://Dialogue/dialogue_npc_stage1.tres" id="13_em2wa"]
+[ext_resource type="Resource" uid="uid://dhm7athdked3d" path="res://Dialogue/dialogue_npc_stage2.tres" id="14_y67qt"]
+[ext_resource type="PackedScene" uid="uid://dig2gig04vkyy" path="res://tscn/enemy.tscn" id="15_1rxpy"]
+[ext_resource type="PackedScene" uid="uid://muclvtfywlor" path="res://tscn/StatsControl.tscn" id="16_qxlv8"]
+[ext_resource type="Shader" uid="uid://b6k2onfuaw7yd" path="res://shaders/sanity_distortion.gdshader" id="17_oe4td"]
+[ext_resource type="PackedScene" uid="uid://bpc30o5mj8wlg" path="res://tscn/computer_assembly.tscn" id="18_51w2c"]
+[ext_resource type="Script" uid="uid://cym5jm7hyhvsk" path="res://scripts/Toilet.cs" id="21_pkaoo"]
+[ext_resource type="AudioStream" uid="uid://nhltgv1dw3bg" path="res://soundeffect/pee_sound.mp3" id="22_kxxth"]
+[ext_resource type="PackedScene" uid="uid://btyekbe473mef" path="res://tscn/item_pickup.tscn" id="23_e2ld7"]
+[ext_resource type="Resource" uid="uid://bsl0xl3j814im" path="res://Items/pc_parts/Cooler.tres" id="24_oshmp"]
+[ext_resource type="Resource" uid="uid://bkooely1y5g3h" path="res://Items/pc_parts/Case.tres" id="25_om2qb"]
+[ext_resource type="Resource" uid="uid://lxsokrjobn4k" path="res://Items/pc_parts/GPU.tres" id="26_ltg8y"]
+[ext_resource type="Resource" uid="uid://7mbpllyx807i" path="res://Items/pc_parts/Mainboard.tres" id="27_6gthm"]
+[ext_resource type="Resource" uid="uid://70rrlr3uv371" path="res://Items/pc_parts/CPU.tres" id="28_3fn6d"]
+[ext_resource type="Resource" uid="uid://c5fsrj4hkx6q4" path="res://Items/pc_parts/PSU.tres" id="29_kppkq"]
+[ext_resource type="Resource" uid="uid://yivsdc07hlbj" path="res://Items/Banh_Mi.tres" id="30_6gvgr"]
+[ext_resource type="Resource" uid="uid://dwgf4a6g662su" path="res://Items/pc_parts/RAM.tres" id="31_1gmxs"]
+[ext_resource type="Resource" uid="uid://bkgffw4abpias" path="res://Items/pc_parts/ROM_Gia_1.tres" id="32_q4c4c"]
+[ext_resource type="Resource" uid="uid://dq0d42ajjjkbv" path="res://Items/Kho_ga_ba_mia.tres" id="33_wclgu"]
+[ext_resource type="Resource" uid="uid://cj43hgtfguvkd" path="res://Items/lantern.tres" id="34_ymewl"]
+[ext_resource type="Resource" uid="uid://d338ptfah3mhr" path="res://Items/Binh_cuu_hoa.tres" id="35_c7p0q"]
+[ext_resource type="Resource" uid="uid://cfm1w3dahqf0j" path="res://Items/Ca_Phe_Sua.tres" id="36_p3i33"]
+[ext_resource type="Resource" uid="uid://buf4ts8fv5eji" path="res://Items/pc_parts/ROM_Gia_2.tres" id="37_s2pdf"]
+[ext_resource type="Resource" uid="uid://bk152rih8fmcc" path="res://Items/pc_parts/ROM_That.tres" id="38_nuqaq"]
+[ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="39_j2qo1"]
+[ext_resource type="Resource" uid="uid://bxr54u4l3tgdc" path="res://Document/Vesper HOS Tài trợ y tế.tres" id="40_g3jut"]
+[ext_resource type="Resource" uid="uid://ctijmfqlpg5vh" path="res://Document/Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn.tres" id="41_t6hml"]
+[ext_resource type="Resource" uid="uid://bptks0xupxkbp" path="res://Items/pill.tres" id="42_cuttg"]
+[ext_resource type="Script" uid="uid://cgc67ijyyjnr8" path="res://scripts/ZoneTrigger.cs" id="43_ekynm"]
+[ext_resource type="AudioStream" uid="uid://bdqcm3xd8h1mk" path="res://soundeffect/Ingame BGM.mp3" id="44_2kml1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
-texture = ExtResource("2_mk0xd")
+texture = ExtResource("1_btrm4")
 texture_region_size = Vector2i(48, 48)
 0:0/0 = 0
 1:0/0 = 0
@@ -376,7 +376,7 @@ texture_region_size = Vector2i(48, 48)
 5:47/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rv6e7"]
-texture = ExtResource("2_lk7i6")
+texture = ExtResource("2_m3tuy")
 texture_region_size = Vector2i(48, 48)
 0:4/0 = 0
 0:5/0 = 0
@@ -454,7 +454,7 @@ texture_region_size = Vector2i(48, 48)
 0:12/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0le7i"]
-texture = ExtResource("3_g4xt8")
+texture = ExtResource("3_xeeo8")
 texture_region_size = Vector2i(48, 48)
 0:0/0 = 0
 0:0/0/z_index = 1
@@ -934,7 +934,7 @@ texture_region_size = Vector2i(48, 48)
 14:11/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q0d4n"]
-texture = ExtResource("4_751um")
+texture = ExtResource("4_e1ebk")
 texture_region_size = Vector2i(48, 48)
 0:0/0 = 0
 1:0/0 = 0
@@ -1099,7 +1099,7 @@ texture_region_size = Vector2i(48, 48)
 2:5/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f4wch"]
-texture = ExtResource("5_rba67")
+texture = ExtResource("5_30meb")
 texture_region_size = Vector2i(49, 48)
 use_texture_padding = false
 0:0/0 = 0
@@ -1194,7 +1194,7 @@ use_texture_padding = false
 1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24, -0.4626503, 24, -0.4626522, 24, 24, -24, 24)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nfclw"]
-texture = ExtResource("6_48vri")
+texture = ExtResource("6_cmobu")
 texture_region_size = Vector2i(48, 48)
 
 [sub_resource type="TileSet" id="TileSet_bmk48"]
@@ -1211,11 +1211,11 @@ sources/5 = SubResource("TileSetAtlasSource_nfclw")
 size = Vector2(95.074554, 47.3134)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tqw65"]
-atlas = ExtResource("5_rba67")
+atlas = ExtResource("5_30meb")
 region = Rect2(403.9383, 634.4752, 50.315857, 84.68628)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_htemk"]
-shader = ExtResource("17_bmqj7")
+shader = ExtResource("17_oe4td")
 shader_parameter/distortion_strength = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e7cww"]
@@ -1287,7 +1287,7 @@ layer_5/tile_data = PackedInt32Array(2359331, 720898, 1610612742, 2424867, 58982
 [node name="stair_6_down" type="Sprite2D" parent="." unique_id=1558808392 node_paths=PackedStringArray("TargetPoint")]
 position = Vector2(-42, 195.635)
 scale = Vector2(0.67, 0.67)
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../stair_5_up/Area2D/CollisionShape2D")
 TransitionName = "stair_6_down"
 
@@ -1312,7 +1312,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-198.00002, -125)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_65_in/Area2D/CollisionShape2D")
 TransitionName = "door_65"
 
@@ -1336,7 +1336,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(1142, 1276)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_65/Area2D/CollisionShape2D")
 TransitionName = "door_65_in"
 
@@ -1360,7 +1360,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(91.99999, -124.99999)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_64_in/Area2D/CollisionShape2D")
 TransitionName = "door_64"
 
@@ -1384,7 +1384,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(3928, 284)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_64/Area2D/CollisionShape2D")
 TransitionName = "door_64_in"
 
@@ -1408,7 +1408,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(442, -124)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_63_in/Area2D/CollisionShape2D")
 TransitionName = "door_63"
 
@@ -1432,7 +1432,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(6744.9995, 252)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_63/Area2D/CollisionShape2D")
 TransitionName = "door_63_in"
 
@@ -1456,7 +1456,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-182, 410)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_60_in/Area2D/CollisionShape2D")
 TransitionName = "door_60"
 
@@ -1480,7 +1480,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-410, 1251.0001)
 scale = Vector2(0.66, 0.66)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_60/Area2D/CollisionShape2D")
 TransitionName = "door_60_in"
 
@@ -1504,7 +1504,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(105, 411.99997)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_61_in/Area2D/CollisionShape2D")
 TransitionName = "door_61"
 
@@ -1528,7 +1528,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(6809, 1317)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_61/Area2D/CollisionShape2D")
 TransitionName = "door_61_in"
 
@@ -1552,7 +1552,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(454, 411)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_62_in/Area2D/CollisionShape2D")
 TransitionName = "door_62"
 
@@ -1576,7 +1576,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(3416, 1317)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_62/Area2D/CollisionShape2D")
 TransitionName = "door_62_in"
 
@@ -1600,7 +1600,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(990, 229)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_toilet6_in/Area2D/CollisionShape2D")
 TransitionName = "door_toilet6"
 
@@ -1624,7 +1624,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(2294, 284)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_toilet6/Area2D/CollisionShape2D")
 TransitionName = "door_toilet6_in"
 
@@ -1647,7 +1647,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 [node name="stair_5_up" type="Sprite2D" parent="." unique_id=738294075 node_paths=PackedStringArray("TargetPoint")]
 position = Vector2(-42, 3531.575)
 scale = Vector2(0.67, 0.67)
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../stair_6_down/Area2D/CollisionShape2D")
 TransitionName = "stair_5_up"
 
@@ -1677,7 +1677,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-163, 3462)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_55_in/Area2D/CollisionShape2D")
 TransitionName = "door_55"
 
@@ -1701,7 +1701,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(3959, 3869)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_55/Area2D/CollisionShape2D")
 TransitionName = "door_55_in"
 
@@ -1726,7 +1726,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(125, 3462)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_54_in/Area2D/CollisionShape2D")
 TransitionName = "door_54"
 
@@ -1750,7 +1750,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(6775.9995, 3838)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_54/Area2D/CollisionShape2D")
 TransitionName = "door_54_in"
 
@@ -1775,7 +1775,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(470, 3462)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_53_in/Area2D/CollisionShape2D")
 TransitionName = "door_53"
 
@@ -1799,7 +1799,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(1174, 4862)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_53/Area2D/CollisionShape2D")
 TransitionName = "door_53_in"
 
@@ -1824,7 +1824,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(124, 3998)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_51_in/Area2D/CollisionShape2D")
 TransitionName = "door_51"
 
@@ -1848,7 +1848,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(3448, 4903)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_51/Area2D/CollisionShape2D")
 TransitionName = "door_51_in"
 
@@ -1872,7 +1872,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(477, 3998)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_52_in/Area2D/CollisionShape2D")
 TransitionName = "door_52"
 
@@ -1896,7 +1896,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(6841, 4903)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_52/Area2D/CollisionShape2D")
 TransitionName = "door_52_in"
 
@@ -1920,7 +1920,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-172, 3997)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_50_in/Area2D/CollisionShape2D")
 TransitionName = "door_50"
 
@@ -1944,7 +1944,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(-394, 4839)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_50/Area2D/CollisionShape2D")
 TransitionName = "door_50_in"
 
@@ -1968,7 +1968,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(1005, 3813.9998)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_toilet5_in/Area2D/CollisionShape2D")
 TransitionName = "door_toilet5"
 
@@ -1992,7 +1992,7 @@ shape = SubResource("RectangleShape2D_tqw65")
 position = Vector2(2327, 3870)
 scale = Vector2(0.67, 0.67)
 texture = SubResource("AtlasTexture_tqw65")
-script = ExtResource("6_1jpnp")
+script = ExtResource("7_2eroh")
 TargetPoint = NodePath("../door_toilet5/Area2D/CollisionShape2D")
 TransitionName = "door_toilet5_in"
 
@@ -2013,7 +2013,7 @@ collision_mask = 3
 position = Vector2(-1.8179417e-06, -65.67148)
 shape = SubResource("RectangleShape2D_tqw65")
 
-[node name="Player" parent="." unique_id=1383524859 instance=ExtResource("3_epypp")]
+[node name="Player" parent="." unique_id=1383524859 instance=ExtResource("8_3t68b")]
 z_index = 1
 position = Vector2(-218, -56)
 scale = Vector2(0.25, 0.25)
@@ -2023,7 +2023,7 @@ collision_layer = 2
 zoom = Vector2(2, 2)
 
 [node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl", "SanityOverlay")]
-script = ExtResource("7_qachy")
+script = ExtResource("9_u7kha")
 MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
 HungerDecreaseRate = 0.25
 ThirstDecreaseRate = 0.25
@@ -2034,19 +2034,20 @@ SanityOverlay = NodePath("../../CanvasLayer/SanityUI")
 position = Vector2(-51, -41)
 color = Color(0.38, 0.38, 0.38, 1)
 
-[node name="Area2D2" parent="." unique_id=1836191731 instance=ExtResource("9_lco2r")]
+[node name="Area2D2" parent="." unique_id=1836191731 instance=ExtResource("10_v8q3y")]
 position = Vector2(-27, 18)
-NpcIcon = ExtResource("10_pu6gk")
-DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
+NpcIcon = ExtResource("11_s3vwo")
+DialogueStages = Array[ExtResource("12_mtk7c")]([ExtResource("13_em2wa"), ExtResource("14_y67qt")])
 
-[node name="Enemy" parent="." unique_id=378890957 instance=ExtResource("17_tah4c")]
+[node name="Enemy" parent="." unique_id=378890957 instance=ExtResource("15_1rxpy")]
 z_index = 1
 position = Vector2(1032.9999, 286.99997)
 ChaseSpeed = 180.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1193340879]
 
-[node name="StatsControl" parent="CanvasLayer" unique_id=1526490129 instance=ExtResource("18_1jpnp")]
+[node name="StatsControl" parent="CanvasLayer" unique_id=1526490129 instance=ExtResource("16_qxlv8")]
+metadata/_edit_use_anchors_ = true
 
 [node name="SanityUI" type="ColorRect" parent="CanvasLayer" unique_id=60587338]
 material = SubResource("ShaderMaterial_htemk")
@@ -2061,7 +2062,7 @@ mouse_filter = 2
 position = Vector2(2101, 49)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet" unique_id=2131864456]
 z_index = 100
@@ -2077,14 +2078,14 @@ position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet" unique_id=1059126133]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet5" type="Area2D" parent="." unique_id=808852849]
 position = Vector2(2133.535, 3633.1)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet5" unique_id=1600778065]
 z_index = 100
@@ -2100,14 +2101,14 @@ position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet5" unique_id=1460068704]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet6" type="Area2D" parent="." unique_id=349057982]
 position = Vector2(2197.265, 3633.1)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet6" unique_id=1888349858]
 z_index = 100
@@ -2123,14 +2124,14 @@ position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet6" unique_id=764805117]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet2" type="Area2D" parent="." unique_id=1416762683]
 position = Vector2(2165.37, 49)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet2" unique_id=1918071355]
 z_index = 100
@@ -2146,14 +2147,14 @@ position = Vector2(0, 27)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet2" unique_id=1298091741]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet3" type="Area2D" parent="." unique_id=595771902]
 position = Vector2(2066.83, 144.87)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet3" unique_id=1793698087]
 z_index = 100
@@ -2169,14 +2170,14 @@ position = Vector2(21.169922, 0.13000488)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet3" unique_id=1962010483]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet7" type="Area2D" parent="." unique_id=300997529]
 position = Vector2(2098.09, 3728.56)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet7" unique_id=745656442]
 z_index = 100
@@ -2192,14 +2193,14 @@ position = Vector2(21.169922, 0.13000488)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet7" unique_id=1212354432]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet8" type="Area2D" parent="." unique_id=2125680349]
 position = Vector2(2098.09, 3792.42)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet8" unique_id=2005057319]
 z_index = 100
@@ -2215,14 +2216,14 @@ position = Vector2(21.169922, 0.13000488)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet8" unique_id=387773118]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
 [node name="Toilet4" type="Area2D" parent="." unique_id=43358150]
 position = Vector2(2066.83, 207.815)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("19_qachy")
+script = ExtResource("21_pkaoo")
 
 [node name="Label" type="Label" parent="Toilet4" unique_id=821154506]
 z_index = 100
@@ -2238,123 +2239,123 @@ position = Vector2(21.169922, 0.13000488)
 shape = SubResource("RectangleShape2D_e7cww")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Toilet4" unique_id=1727953383]
-stream = ExtResource("20_5kcdt")
+stream = ExtResource("22_kxxth")
 volume_db = 9.862
 
-[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("18_qachy")]
+[node name="ItemPickup" parent="." unique_id=347758319 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(1398, 946)
-ItemData = ExtResource("20_h2dlj")
+ItemData = ExtResource("24_oshmp")
 
-[node name="ItemPickup2" parent="." unique_id=855842711 instance=ExtResource("18_qachy")]
+[node name="ItemPickup2" parent="." unique_id=855842711 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(3960, -56)
-ItemData = ExtResource("21_c4efu")
+ItemData = ExtResource("25_om2qb")
 
-[node name="ItemPickup3" parent="." unique_id=1599397758 instance=ExtResource("18_qachy")]
+[node name="ItemPickup3" parent="." unique_id=1599397758 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(3413, 1654)
-ItemData = ExtResource("22_qn3f3")
+ItemData = ExtResource("26_ltg8y")
 
-[node name="ItemPickup4" parent="." unique_id=856133928 instance=ExtResource("18_qachy")]
+[node name="ItemPickup4" parent="." unique_id=856133928 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(-11, 1283)
-ItemData = ExtResource("24_hhpva")
+ItemData = ExtResource("27_6gthm")
 
-[node name="ItemPickup5" parent="." unique_id=1974197301 instance=ExtResource("18_qachy")]
+[node name="ItemPickup5" parent="." unique_id=1974197301 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(2335, 43)
-ItemData = ExtResource("25_48vri")
+ItemData = ExtResource("28_3fn6d")
 
-[node name="ItemPickup6" parent="." unique_id=918429506 instance=ExtResource("18_qachy")]
+[node name="ItemPickup6" parent="." unique_id=918429506 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(99, 5255)
-ItemData = ExtResource("26_nfclw")
+ItemData = ExtResource("29_kppkq")
 
-[node name="ItemPickup15" parent="." unique_id=1647054110 instance=ExtResource("18_qachy")]
+[node name="ItemPickup15" parent="." unique_id=1647054110 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(-344, 4989)
-ItemData = ExtResource("29_sdkuh")
+ItemData = ExtResource("30_6gvgr")
 
-[node name="ItemPickup7" parent="." unique_id=760458754 instance=ExtResource("18_qachy")]
+[node name="ItemPickup7" parent="." unique_id=760458754 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(7029, 34)
-ItemData = ExtResource("27_lg388")
+ItemData = ExtResource("31_1gmxs")
 
-[node name="ItemPickup8" parent="." unique_id=1697316433 instance=ExtResource("18_qachy")]
+[node name="ItemPickup8" parent="." unique_id=1697316433 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(4471, 146)
-ItemData = ExtResource("28_knfee")
+ItemData = ExtResource("32_q4c4c")
 
-[node name="ItemPickup11" parent="." unique_id=112586748 instance=ExtResource("18_qachy")]
+[node name="ItemPickup11" parent="." unique_id=112586748 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(1525, 4627)
-ItemData = ExtResource("32_bmqj7")
+ItemData = ExtResource("33_wclgu")
 
-[node name="ItemPickup21" parent="." unique_id=664996942 instance=ExtResource("18_qachy")]
+[node name="ItemPickup21" parent="." unique_id=664996942 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(7130, 3698)
-ItemData = ExtResource("32_bmqj7")
+ItemData = ExtResource("33_wclgu")
 
-[node name="ItemPickup22" parent="." unique_id=619662459 instance=ExtResource("18_qachy")]
+[node name="ItemPickup22" parent="." unique_id=619662459 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(7194, 1470)
-ItemData = ExtResource("32_bmqj7")
+ItemData = ExtResource("33_wclgu")
 
-[node name="ItemPickup13" parent="." unique_id=484759677 instance=ExtResource("18_qachy")]
+[node name="ItemPickup13" parent="." unique_id=484759677 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(310, -116)
-ItemData = ExtResource("33_cvp7j")
+ItemData = ExtResource("34_ymewl")
 
-[node name="ItemPickup14" parent="." unique_id=682532765 instance=ExtResource("18_qachy")]
+[node name="ItemPickup14" parent="." unique_id=682532765 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(2324, 3652)
-ItemData = ExtResource("34_8sjqu")
+ItemData = ExtResource("35_c7p0q")
 
-[node name="ItemPickup12" parent="." unique_id=230273682 instance=ExtResource("18_qachy")]
+[node name="ItemPickup12" parent="." unique_id=230273682 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(3451, 5188)
-ItemData = ExtResource("35_sl2pq")
+ItemData = ExtResource("36_p3i33")
 
-[node name="ItemPickup9" parent="." unique_id=1131780442 instance=ExtResource("18_qachy")]
+[node name="ItemPickup9" parent="." unique_id=1131780442 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(7255, 4932)
-ItemData = ExtResource("29_n5hae")
+ItemData = ExtResource("37_s2pdf")
 
-[node name="ItemPickup10" parent="." unique_id=1578726053 instance=ExtResource("18_qachy")]
+[node name="ItemPickup10" parent="." unique_id=1578726053 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(4503, 3538)
-ItemData = ExtResource("30_n72rg")
+ItemData = ExtResource("38_nuqaq")
 
-[node name="ItemPickup16" parent="." unique_id=1849937616 instance=ExtResource("18_qachy")]
+[node name="ItemPickup16" parent="." unique_id=1849937616 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(4309, 3732)
-ItemData = ExtResource("40_sl2pq")
+ItemData = ExtResource("39_j2qo1")
 
-[node name="ItemPickup17" parent="." unique_id=1205463437 instance=ExtResource("18_qachy")]
+[node name="ItemPickup17" parent="." unique_id=1205463437 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(1302, 1047)
-ItemData = ExtResource("40_1hwdm")
+ItemData = ExtResource("40_g3jut")
 
-[node name="ItemPickup18" parent="." unique_id=642687114 instance=ExtResource("18_qachy")]
+[node name="ItemPickup18" parent="." unique_id=642687114 instance=ExtResource("23_e2ld7")]
 z_index = 10
 position = Vector2(4117, 3637)
-ItemData = ExtResource("41_to3hp")
+ItemData = ExtResource("41_t6hml")
 
-[node name="ItemPickup19" parent="." unique_id=873769570 instance=ExtResource("18_qachy")]
+[node name="ItemPickup19" parent="." unique_id=873769570 instance=ExtResource("23_e2ld7")]
 position = Vector2(206, -103)
-ItemData = ExtResource("44_1hwdm")
+ItemData = ExtResource("42_cuttg")
 
-[node name="ItemPickup20" parent="." unique_id=143006984 instance=ExtResource("18_qachy")]
+[node name="ItemPickup20" parent="." unique_id=143006984 instance=ExtResource("23_e2ld7")]
 position = Vector2(-224, 1283)
-ItemData = ExtResource("44_1hwdm")
+ItemData = ExtResource("42_cuttg")
 
 [node name="hallway6_n" type="Area2D" parent="." unique_id=1617518138]
 visible = false
 position = Vector2(201, -29)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "hallway6_n"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hallway6_n" unique_id=427844768]
@@ -2366,7 +2367,7 @@ visible = false
 position = Vector2(348, 314)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "hallway6_s"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hallway6_s" unique_id=1147928113]
@@ -2378,7 +2379,7 @@ visible = false
 position = Vector2(2199, 155)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="toilet6" unique_id=1835421193]
 shape = SubResource("RectangleShape2D_6jy3u")
@@ -2388,7 +2389,7 @@ visible = false
 position = Vector2(-187, 1500)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room60"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room60" unique_id=1710019464]
@@ -2400,7 +2401,7 @@ visible = false
 position = Vector2(3656, 1537)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room62"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room62" unique_id=636842784]
@@ -2412,7 +2413,7 @@ visible = false
 position = Vector2(7050, 1565)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room61"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room61" unique_id=737694223]
@@ -2424,7 +2425,7 @@ visible = false
 position = Vector2(1433, 1092)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room65"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room65" unique_id=53819438]
@@ -2436,7 +2437,7 @@ visible = false
 position = Vector2(4228, 99)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room64"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room64" unique_id=1081670300]
@@ -2448,7 +2449,7 @@ visible = false
 position = Vector2(7032, 71)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room63"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room63" unique_id=946723234]
@@ -2460,7 +2461,7 @@ visible = false
 position = Vector2(223, 3553)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "hallway5_n"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hallway5_n" unique_id=1128239168]
@@ -2472,7 +2473,7 @@ visible = false
 position = Vector2(354, 3892)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "hallway5_s"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hallway5_s" unique_id=1041653609]
@@ -2485,7 +2486,7 @@ visible = false
 position = Vector2(2226, 3737)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "toilet5"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="toilet5" unique_id=1094434450]
@@ -2497,7 +2498,7 @@ visible = false
 position = Vector2(-156, 5068)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room50"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room50" unique_id=668439371]
@@ -2509,7 +2510,7 @@ visible = false
 position = Vector2(3684.515, 5130.415)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room51"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room51" unique_id=429692761]
@@ -2521,7 +2522,7 @@ visible = false
 position = Vector2(7078.16, 5130.415)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room52"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room52" unique_id=941658352]
@@ -2533,7 +2534,7 @@ visible = false
 position = Vector2(1477, 4675)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room53"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room53" unique_id=768250932]
@@ -2545,7 +2546,7 @@ visible = false
 position = Vector2(4262.63, 3683.95)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room55"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room55" unique_id=302980929]
@@ -2557,7 +2558,7 @@ visible = false
 position = Vector2(7079.35, 3652.385)
 collision_layer = 2
 collision_mask = 3
-script = ExtResource("33_lg388")
+script = ExtResource("43_ekynm")
 ZoneName = "room54"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="room54" unique_id=69736365]
@@ -2565,54 +2566,50 @@ position = Vector2(-16, -1.5)
 shape = SubResource("RectangleShape2D_ghua8")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=497682260]
-stream = ExtResource("34_knfee")
+stream = ExtResource("44_2kml1")
 volume_db = -9.579
 pitch_scale = 0.81
 autoplay = true
 
-[node name="ComputerAssemblyStation2" parent="." unique_id=823802711 instance=ExtResource("17_1jpnp")]
+[node name="ComputerAssemblyStation2" parent="." unique_id=823802711 instance=ExtResource("18_51w2c")]
 position = Vector2(-4, -78)
 
-[node name="ItemPickup30" parent="." unique_id=84902051 instance=ExtResource("18_qachy")]
-position = Vector2(-90, -13)
-ItemData = ExtResource("30_n72rg")
+[node name="ItemPickup23" parent="." unique_id=1939225094 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("25_om2qb")
 
-[node name="ItemPickup31" parent="." unique_id=1825639974 instance=ExtResource("18_qachy")]
-position = Vector2(-90, -13)
-ItemData = ExtResource("28_knfee")
+[node name="ItemPickup30" parent="." unique_id=214181671 instance=ExtResource("23_e2ld7")]
+position = Vector2(-136, 21)
+ItemData = ExtResource("38_nuqaq")
 
-[node name="ItemPickup32" parent="." unique_id=1703461755 instance=ExtResource("18_qachy")]
-position = Vector2(-84, -16)
-ItemData = ExtResource("29_n5hae")
+[node name="ItemPickup24" parent="." unique_id=226851351 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("24_oshmp")
 
-[node name="ItemPickup23" parent="." unique_id=153398122 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("21_c4efu")
+[node name="ItemPickup31" parent="." unique_id=1825468531 instance=ExtResource("23_e2ld7")]
+position = Vector2(-136, 21)
+ItemData = ExtResource("32_q4c4c")
 
-[node name="ItemPickup24" parent="." unique_id=657547908 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("20_h2dlj")
+[node name="ItemPickup25" parent="." unique_id=359699807 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("28_3fn6d")
 
-[node name="ItemPickup25" parent="." unique_id=1217278188 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("25_48vri")
+[node name="ItemPickup32" parent="." unique_id=1614679789 instance=ExtResource("23_e2ld7")]
+position = Vector2(-136, 16)
+ItemData = ExtResource("37_s2pdf")
 
-[node name="ItemPickup26" parent="." unique_id=793084336 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("22_qn3f3")
+[node name="ItemPickup26" parent="." unique_id=1837615761 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("26_ltg8y")
 
-[node name="ItemPickup29" parent="." unique_id=673640670 instance=ExtResource("18_qachy")]
-position = Vector2(36, -13)
-ItemData = ExtResource("27_lg388")
+[node name="ItemPickup29" parent="." unique_id=992787115 instance=ExtResource("23_e2ld7")]
+position = Vector2(-205, 75)
+ItemData = ExtResource("31_1gmxs")
 
-[node name="ItemPickup27" parent="." unique_id=1662404663 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("24_hhpva")
+[node name="ItemPickup27" parent="." unique_id=1053750962 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("27_6gthm")
 
-[node name="ItemPickup28" parent="." unique_id=478670647 instance=ExtResource("18_qachy")]
-position = Vector2(32, -18)
-ItemData = ExtResource("26_nfclw")
-
-[node name="ItemPickup33" parent="." unique_id=1175760511 instance=ExtResource("18_qachy")]
-position = Vector2(-246, 120)
-ItemData = ExtResource("41_to3hp")
+[node name="ItemPickup28" parent="." unique_id=426126816 instance=ExtResource("23_e2ld7")]
+position = Vector2(-209, 70)
+ItemData = ExtResource("29_kppkq")

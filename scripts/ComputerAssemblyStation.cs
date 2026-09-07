@@ -31,6 +31,7 @@ public partial class ComputerAssemblyStation : Area2D
 	public bool BodyComplete { get; private set; } = false;
 	public bool IsAssembled { get; private set; } = false;
 	private bool _romWasCorrect = false;
+	public bool RomWasCorrect => _romWasCorrect;
 
 	private Label _promptLabel;
 	private Sprite2D _screenSprite;
@@ -191,6 +192,8 @@ public partial class ComputerAssemblyStation : Area2D
 				DocumentJournal.Instance?.UnlockDocument(RewardItem);
 			else
 				Inventory.Instance.AddItem(RewardItem, RewardQuantity);
+
+			PickupNotificationUI.Instance?.ShowPickup(RewardItem.ItemName);
 		}
 
 		var dlg = _romWasCorrect ? GoodEndingDialogue : BadEndingDialogue;
@@ -198,52 +201,6 @@ public partial class ComputerAssemblyStation : Area2D
 			DialogueUI.Instance.StartDialogue(dlg, null);
 
 		return true;
-	}
-
-	public List<string> GetInsertedPartPaths()
-	{
-		var paths = new List<string>();
-		foreach (var item in _inserted)
-		{
-			if (item != null && !string.IsNullOrWhiteSpace(item.ResourcePath))
-				paths.Add(item.ResourcePath);
-		}
-
-		return paths;
-	}
-
-	public bool RomWasCorrect => _romWasCorrect;
-
-	public void ApplySaveState(IEnumerable<string> insertedPartPaths, bool bodyComplete, bool isAssembled, bool romWasCorrect)
-	{
-		_inserted.Clear();
-		if (insertedPartPaths != null)
-		{
-			foreach (var path in insertedPartPaths)
-			{
-				if (string.IsNullOrWhiteSpace(path))
-					continue;
-
-				var item = ResourceLoader.Load<Item>(path);
-				if (item != null)
-					_inserted.Add(item);
-			}
-		}
-
-		BodyComplete = bodyComplete;
-		IsAssembled = isAssembled;
-		_romWasCorrect = romWasCorrect;
-		UpdateScreenTexture();
-	}
-
-	private void UpdateScreenTexture()
-	{
-		if (_screenSprite == null || !IsAssembled)
-			return;
-
-		var texture = _romWasCorrect ? ScreenGoodTexture : ScreenBadTexture;
-		if (texture != null)
-			_screenSprite.Texture = texture;
 	}
 
 	// ---------------- Dialogue tiến trình lắp thân xác ----------------
@@ -283,5 +240,52 @@ public partial class ComputerAssemblyStation : Area2D
 		};
 
 		DialogueUI.Instance.StartDialogue(dynamicDialogue, null);
+	}
+
+	// ---------------- Save / Load — dùng bởi Save_utils.cs ----------------
+
+	// Trả về đường dẫn resource của các bộ phận thân xác ĐÃ lắp, để lưu vào SaveGameData.
+	public List<string> GetInsertedPartPaths()
+	{
+		var paths = new List<string>();
+		foreach (var item in _inserted)
+		{
+			if (item != null && !string.IsNullOrWhiteSpace(item.ResourcePath))
+				paths.Add(item.ResourcePath);
+		}
+		return paths;
+	}
+
+	// Khôi phục lại trạng thái trạm lắp ráp khi load save — được Save_utils.RestoreComputerStations() gọi.
+	public void ApplySaveState(List<string> insertedPartPaths, bool bodyComplete, bool isAssembled, bool romWasCorrect)
+	{
+		_inserted.Clear();
+		if (insertedPartPaths != null)
+		{
+			foreach (var path in insertedPartPaths)
+			{
+				if (string.IsNullOrWhiteSpace(path)) continue;
+				var item = ResourceLoader.Load<Item>(path);
+				if (item != null)
+					_inserted.Add(item);
+			}
+		}
+
+		BodyComplete = bodyComplete;
+		IsAssembled = isAssembled;
+		_romWasCorrect = romWasCorrect;
+
+		// Nếu đã lắp xong (IsAssembled) trong save cũ, cập nhật lại màn hình cho khớp
+		// kết quả đã lưu — không thì load save giữa chừng xong màn hình vẫn hiện mặc định.
+		if (IsAssembled && _screenSprite != null)
+		{
+			var tex = _romWasCorrect ? ScreenGoodTexture : ScreenBadTexture;
+			if (tex != null)
+				_screenSprite.Texture = tex;
+		}
+
+		// Đã từng thao tác với trạm này rồi thì đừng hiện lại IntroText từ đầu nữa.
+		if (_inserted.Count > 0 || BodyComplete)
+			_hasShownIntro = true;
 	}
 }

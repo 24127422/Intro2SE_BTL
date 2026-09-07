@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://3i2lu8fpsp8i" path="res://Image/icons/pc_parts/monitor.png" id="15_screen_good"]
 [ext_resource type="Texture2D" uid="uid://5pwx8ipqatnx" path="res://Image/icons/pc_parts/monitor_horror.png" id="16_screen_bad"]
 [ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="17_item_type"]
+[ext_resource type="Resource" uid="uid://cav1yxgyga408" path="res://Document/Giao thức truyền tải_Final.tres" id="18_ohux4"]
 
 [sub_resource type="Resource" id="Part_case"]
 script = ExtResource("2_part")
@@ -55,12 +56,13 @@ collision_mask = 3
 script = ExtResource("1_asm01")
 RequiredParts = Array[ExtResource("2_part")]([SubResource("Part_case"), SubResource("Part_mainboard"), SubResource("Part_psu"), SubResource("Part_cpu"), SubResource("Part_cooler"), SubResource("Part_ram"), SubResource("Part_gpu")])
 IntroText = "Một cái xác máy tính rỗng ruột nằm trên bàn. Có lẽ nếu lắp đủ từng bộ phận, nó — hay ông ấy — sẽ sống lại."
-ValidRoms = Array[ExtResource("17_item_type")]([ExtResource("11_rom_gia1"), ExtResource("12_rom_gia2")])
+ValidRoms = Array[ExtResource("17_item_type")]([ExtResource("11_rom_gia1"), ExtResource("12_rom_gia2"), ExtResource("10_rom_that")])
 CorrectRom = ExtResource("10_rom_that")
 GoodEndingDialogue = ExtResource("13_good")
 BadEndingDialogue = ExtResource("14_bad")
 ScreenGoodTexture = ExtResource("15_screen_good")
 ScreenBadTexture = ExtResource("16_screen_bad")
+RewardItem = ExtResource("18_ohux4")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=198191749]

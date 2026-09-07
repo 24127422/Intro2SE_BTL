@@ -12,7 +12,7 @@ config_version=5
 
 config/name="The last of us-ers"
 run/main_scene="uid://bni83xa6jd571"
-config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -31,6 +31,7 @@ RomSlotUi="*res://tscn/RomSlotUI.tscn"
 ZoneStatsTracker="*uid://dyqh78qasfip1"
 ZoneRegistry="*uid://dyyc66tbsrk6g"
 TransitionRegistry="*uid://dkuan70nxsftr"
+PickupNotificationUi="*res://tscn/PickupNotificationUI.tscn"
 
 [dotnet]
 

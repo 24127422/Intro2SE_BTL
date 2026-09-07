@@ -5,11 +5,9 @@
 
 [resource]
 script = ExtResource("2_wjscl")
-ItemName = "Hồ sơ bệnh án Ân-Nguyễn-09"
+ItemName = "New Volumn F"
 Icon = ExtResource("1_eeaxj")
-Description = "Báo cáo chẩn đoán, khoa Sản-Nhi (năm 2015). Bệnh nhân Nguyễn Phạm Thiên Ân bị suy tủy cấp do phơi nhiễm chất phóng xạ hoá chất không xác định. Nguồn lây nhiễm chưa được làm rõ.
-Ghi chú lề (viết tay, mực đã phai): \"...xảy ra ngay sau khi bố cháu hoàn tất ca trực tại phòng lab tầng 11...\""
-Thought = "Thiên Ân là con gái thầy Nguyễn. Tại sao em ấy lại nhiễm hoá chất độc hại ngay tại trường?
-Có phải có ai đó đã cố tình làm chuyện này?"
+Description = "Thử nghiệm số 13. Sau khi cấy nhật , bản thân như được khai phá tiềm năng, việc học thuộc trở nên dễ dàng hơn, tốc độ xử lý thông tin được tăng mức đáng kể. Tuy nhiên nếu hoạt động quá mức, cơ thể sẽ cảm thấy nóng lên và tê liệt đôi chút. Có đôi khi tay cũng mất cảm giác tạm thời."
+Thought = "Một dải liên kết 8 chân cắm, bề mặt có lớp men màu trắng ngà — giống hệt răng người. Ngửi thấy mùi canxi và ozone nồng nặc"
 IsDocument = true
 metadata/_custom_type_script = "uid://brw8kiqnoijs6"
