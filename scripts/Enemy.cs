@@ -11,7 +11,12 @@ public partial class Enemy : CharacterBody2D
 	[Export] public float AttackCooldown = 1.0f;
 
 	[Export] public PackedScene StunIndicatorScene;
+	[Export] public int RequiredExtinguisherHits = 5;
+	[Export] public float ExtinguisherHitResetTime = 4f;
 	[Export] public float StunDuration = 3f;
+	
+	private int _extinguisherHitCount = 0;
+	private float _extinguisherHitResetTimer = 0f;
 
 	[Export] public int PatrolDirectionSamples = 16;
 	[Export] public float PatrolProbeStep = 16f;
@@ -515,14 +520,23 @@ public partial class Enemy : CharacterBody2D
 	{
 		if (_state == State.Dead) return;
 
-		if (_state != State.Stunned)
+		if (_state == State.Stunned)
 		{
-			BeginStun();
-		}
-		else
-		{
+			// Đã đang stun rồi -> xịt thêm chỉ để gia hạn thời gian stun, không tính vào bộ đếm hit mới.
 			_stunTimeRemaining = StunDuration;
 			_activeStunIndicator?.Start(this, StunDuration);
+			return;
+		}
+
+		// Chưa bị stun -> mỗi lần xịt cộng dồn 1 hit, đủ RequiredExtinguisherHits lần mới thực sự stun.
+		_extinguisherHitCount++;
+		_extinguisherHitResetTimer = ExtinguisherHitResetTime;
+
+		if (_extinguisherHitCount >= RequiredExtinguisherHits)
+		{
+			_extinguisherHitCount = 0;
+			_extinguisherHitResetTimer = 0f;
+			BeginStun();
 		}
 	}
 
