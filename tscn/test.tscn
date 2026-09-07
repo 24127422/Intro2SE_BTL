@@ -2037,7 +2037,6 @@ position = Vector2(-51, -41)
 color = Color(0.38, 0.38, 0.38, 1)
 
 [node name="Area2D2" parent="." unique_id=1836191731 instance=ExtResource("9_lco2r")]
-visible = false
 position = Vector2(-27, 18)
 NpcIcon = ExtResource("10_pu6gk")
 DialogueStages = Array[ExtResource("11_v8vuo")]([ExtResource("13_fu8xo"), ExtResource("14_tah4c")])
