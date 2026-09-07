@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Item" format=3 uid="uid://bptks0xupxkbp"]
+
+[ext_resource type="Texture2D" uid="uid://c1uu5yjrqgotc" path="res://Image/pill.png" id="1_414u4"]
+[ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="1_drujr"]
+
+[resource]
+script = ExtResource("1_drujr")
+ItemName = "Thuốc an thần"
+Icon = ExtResource("1_414u4")
+Description = "Một viên thuốc bí ẩn giúp giảm ảo giác, nhưng không ai biết rõ tác dụng thực sự của nó."
+IsConsumable = true
+MaxStackSize = 10
+RestoreSanity = 50.0
+metadata/_custom_type_script = "uid://brw8kiqnoijs6"

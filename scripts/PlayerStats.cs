@@ -32,7 +32,7 @@ public partial class PlayerStats : Node
 	[Export] public float StaminaDrainRate = 2f;
 	[Export] public float StaminaRegenRate = 2f;
 
-	[Export] public float SprintDecreaseRate = 5f;
+	[Export] public float SprintDecreaseRate = 1.5f;
 	[Export] public ColorRect SanityOverlay;
 	[Export] public float SanityDistortionThreshold = 30f;
 

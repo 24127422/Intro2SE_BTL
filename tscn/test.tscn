@@ -43,6 +43,7 @@
 [ext_resource type="Resource" uid="uid://bxr54u4l3tgdc" path="res://Document/Vesper HOS Tài trợ y tế.tres" id="40_1hwdm"]
 [ext_resource type="Resource" uid="uid://dioa2jd0txf6q" path="res://Document/Nhật ký thử nghiệm.tres" id="40_sl2pq"]
 [ext_resource type="Resource" uid="uid://ctijmfqlpg5vh" path="res://Document/Nhật ký giấu trong ngăn bàn của Giáo sư Nguyễn.tres" id="41_to3hp"]
+[ext_resource type="Resource" uid="uid://bptks0xupxkbp" path="res://Items/pill.tres" id="44_1hwdm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gdqvj"]
 texture = ExtResource("2_mk0xd")
@@ -2026,7 +2027,9 @@ zoom = Vector2(2, 2)
 [node name="PlayerStats2" type="Node" parent="Player" unique_id=809874518 node_paths=PackedStringArray("MyStatsControl", "SanityOverlay")]
 script = ExtResource("7_qachy")
 MyStatsControl = NodePath("../../CanvasLayer/StatsControl")
-SprintDecreaseRate = 2.0
+HungerDecreaseRate = 0.25
+ThirstDecreaseRate = 0.25
+SanityDecreaseRate = 0.25
 SanityOverlay = NodePath("../../CanvasLayer/SanityUI")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=1228989711]
@@ -2341,6 +2344,14 @@ ItemData = ExtResource("40_1hwdm")
 z_index = 10
 position = Vector2(4117, 3637)
 ItemData = ExtResource("41_to3hp")
+
+[node name="ItemPickup19" parent="." unique_id=873769570 instance=ExtResource("18_qachy")]
+position = Vector2(206, -103)
+ItemData = ExtResource("44_1hwdm")
+
+[node name="ItemPickup20" parent="." unique_id=143006984 instance=ExtResource("18_qachy")]
+position = Vector2(-224, 1283)
+ItemData = ExtResource("44_1hwdm")
 
 [node name="hallway6_n" type="Area2D" parent="." unique_id=1617518138]
 visible = false
