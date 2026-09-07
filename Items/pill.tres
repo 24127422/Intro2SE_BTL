@@ -11,4 +11,7 @@ Description = "Một viên thuốc bí ẩn giúp giảm ảo giác, nhưng khô
 IsConsumable = true
 MaxStackSize = 10
 RestoreSanity = 50.0
+BuffTarget = 3
+BuffRateMultiplier = 0.333
+BuffDuration = 30.0
 metadata/_custom_type_script = "uid://brw8kiqnoijs6"
