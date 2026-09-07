@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="Item" format=3 uid="uid://cenjnybpafnur"]
 
 [ext_resource type="Texture2D" uid="uid://bq7i2a8ntn1wf" path="res://Image/icon.svg" id="1_315it"]
+[ext_resource type="Texture2D" uid="uid://cyly30a5eqqpu" path="res://Image/Document_image/Document.png" id="1_n5pw1"]
 [ext_resource type="Script" uid="uid://brw8kiqnoijs6" path="res://scripts/Item.cs" id="2_n5pw1"]
 
 [resource]
@@ -12,4 +13,5 @@ Ghi chú lề (viết tay, mực đã phai): \"...xảy ra ngay sau khi bố ch�
 Thought = "Thiên Ân là con gái thầy Nguyễn. Tại sao em ấy lại nhiễm hoá chất độc hại ngay tại trường?
 Có phải có ai đó đã cố tình làm chuyện này?"
 IsDocument = true
+DocumentImage = ExtResource("1_n5pw1")
 metadata/_custom_type_script = "uid://brw8kiqnoijs6"

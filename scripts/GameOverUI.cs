@@ -39,8 +39,8 @@ public partial class GameOverUI : CanvasLayer
 
 	private void OnGameStateChanged(int newState)
 	{
-		Visible = (GameManager.GameState)newState == GameManager.GameState.GameOver;
-	}
+        Visible = (GameManager.GameState)newState == GameManager.GameState.GameOver;
+    }
 
 	private void OnRetryPressed()
 	{
